@@ -1,19 +1,19 @@
 import React from "react";
 import styles from "./Badge.module.css";
 
-interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
+export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
   children: React.ReactNode;
-  variant?: "blue" | "lime" | "neutral";
+  variant?: "signal" | "intelligence" | "neutral" | "lime" | "blue";
   className?: string;
 }
 
 export default function Badge({
   children,
-  variant = "blue",
+  variant = "neutral",
   className = "",
   ...props
 }: BadgeProps) {
-  const variantClass = styles[variant] || styles.blue;
+  const variantClass = styles[variant] || styles.neutral;
   return (
     <span className={`${styles.badge} ${variantClass} ${className}`.trim()} {...props}>
       {children}

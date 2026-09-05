@@ -1,287 +1,890 @@
-.systemContainer {
+/* ─────────────────────────────────────────────────────────────
+   GROWTH SYSTEM (PHASE 4 — GROWTH INTELLIGENCE TRANSFORMATION)
+   Asymmetric Signature Intelligence Console
+   ───────────────────────────────────────────────────────────── */
+
+.sectionHeader {
+  max-width: 800px;
+  margin-bottom: clamp(36px, 5vw, 56px);
   display: flex;
   flex-direction: column;
-  gap: 28px;
-  width: 100%;
-}
-
-/* ─────────────────────────────────────────────
-   Lifecycle Ribbon
-   ───────────────────────────────────────────── */
-.lifecycleRibbon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   gap: 16px;
-  background-color: var(--navy-surface);
-  border: 1px solid var(--navy-border);
-  border-radius: var(--radius-pill);
-  padding: 10px 24px;
-  margin-bottom: 24px;
-  flex-wrap: wrap;
-  width: max-content;
-  max-width: 100%;
-  margin-left: auto;
-  margin-right: auto;
 }
 
-.lifecycleStep {
+.headerBadge {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-family: var(--font-display);
-  font-size: 0.76rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: var(--navy-text-muted);
-  transition: var(--transition-smooth);
+  background: rgba(183, 229, 107, 0.10);
+  border: 1px solid rgba(183, 229, 107, 0.28);
+  padding: 4px 14px;
+  border-radius: var(--radius-pill);
+  width: max-content;
 }
 
-.lifecycleDot {
+.pulseDot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background-color: var(--navy-border);
-  transition: var(--transition-smooth);
+  background-color: var(--color-adorca-signal);
+  box-shadow: 0 0 8px var(--color-adorca-signal);
+  animation: pulseBeacon 2s infinite ease-in-out;
 }
 
-.lifecycleStepActive {
-  color: var(--lime);
+@keyframes pulseBeacon {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.85);
+  }
 }
 
-.lifecycleStepActive .lifecycleDot {
-  background-color: var(--lime);
-  box-shadow: 0 0 8px var(--lime-glow);
+.headerBadgeText {
+  font-family: var(--font-mono);
+  font-size: var(--text-metadata);
+  font-weight: 600;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-adorca-signal);
 }
 
-.lifecycleArrow {
-  color: var(--navy-text-muted);
-  font-size: 0.8rem;
-  opacity: 0.5;
+.mainTitle {
+  font-size: var(--text-section-title);
+  font-weight: 800;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tighter);
+  color: var(--color-warm-paper);
 }
 
-/* ─────────────────────────────────────────────
-   Pipeline Stage Tabs Strip
-   ───────────────────────────────────────────── */
-.pipelineStrip {
+.highlightText {
+  color: var(--color-adorca-signal);
+  font-weight: 800;
+}
 
+.mainDesc {
+  font-size: var(--text-body-large);
+  line-height: var(--leading-normal);
+  color: #A3A6A4;
+  max-width: 680px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   ASYMMETRIC INTELLIGENCE GRID
+   Left: 1.35fr (Interactive Engines & Custom Dynamic Visual)
+   Right: 1fr (Full-Funnel Lifecycle Story Engine)
+   ───────────────────────────────────────────────────────────── */
+
+.intelligenceGrid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 12px;
-  width: 100%;
+  grid-template-columns: 1.35fr 1fr;
+  gap: clamp(32px, 4vw, 52px);
+  align-items: start;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.stepNode {
-  background-color: var(--navy-surface);
-  border: 1px solid var(--navy-border);
-  border-radius: var(--radius-md);
-  padding: 16px 14px;
-  text-align: left;
-  cursor: pointer;
-  transition: var(--transition-smooth);
+.intelligenceGrid.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   LEFT COLUMN: INTERACTIVE ENGINES DOSSIER
+   ───────────────────────────────────────────────────────────── */
+
+.engineSelectorsCol {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  position: relative;
+  gap: 20px;
 }
 
-.stepNode:hover {
-  background-color: var(--navy-card-hover);
-  border-color: rgba(255, 255, 255, 0.25);
-}
-
-.stepNodeActive {
-  background-color: var(--navy-card);
-  border-color: var(--lime);
-  box-shadow: 0 0 20px var(--lime-glow);
-}
-
-.nodeTop {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.stepNum {
-  font-family: var(--font-display);
-  font-size: 0.75rem;
-  font-weight: 800;
-  color: var(--lime);
-  background-color: rgba(152, 242, 42, 0.12);
-  padding: 2px 6px;
+/* 4 Engine Selector Tabs */
+.tabsRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  background: rgba(24, 28, 32, 0.65);
+  border: 1px solid rgba(244, 243, 239, 0.08);
+  padding: 6px;
   border-radius: var(--radius-sm);
 }
 
-.stepIcon {
-  color: var(--navy-text-secondary);
+.tabNode {
+  appearance: none;
+  background: transparent;
+  border: none;
+  padding: 10px 8px;
+  border-radius: var(--radius-xs);
+  cursor: pointer;
   display: flex;
+  flex-direction: column;
   align-items: center;
+  gap: 6px;
+  transition: all var(--duration-200) var(--ease-out);
 }
 
-.stepNodeActive .stepIcon {
-  color: var(--lime);
+.tabNodeLabel {
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #8C8F8D;
+  transition: color var(--duration-200) var(--ease-out);
+  white-space: nowrap;
+}
+
+.tabNodeIndicator {
+  width: 16px;
+  height: 2px;
+  background-color: transparent;
+  border-radius: var(--radius-pill);
+  transition: all var(--duration-200) var(--ease-out);
+}
+
+.tabNode:hover .tabNodeLabel {
+  color: var(--color-warm-paper);
+}
+
+.tabNodeActive {
+  background: #14181C;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.tabNodeActive .tabNodeLabel {
+  color: var(--color-adorca-signal);
+}
+
+.tabNodeActive .tabNodeIndicator {
+  width: 24px;
+  background-color: var(--color-adorca-signal);
+  box-shadow: 0 0 6px var(--color-adorca-signal);
+}
+
+/* Engine Dossier Console Box */
+.engineDossier {
+  background-color: #0E1114;
+  border: 1px solid rgba(244, 243, 239, 0.10);
+  border-radius: var(--radius-card);
+  padding: clamp(24px, 3.5vw, 36px);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.40);
+  position: relative;
+}
+
+/* Metric Hero Row */
+.metricHeroRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(244, 243, 239, 0.08);
+}
+
+.metricValGroup {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.metricBig {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 5.5vw, 4.5rem);
+  font-weight: 900;
+  color: var(--color-warm-paper);
+  line-height: 1;
+  letter-spacing: var(--tracking-tighter);
+}
+
+/* Signal Pulse Beacon */
+.pulseBeacon {
+  width: 14px;
+  height: 14px;
+  position: relative;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.beaconActive {
+  opacity: 1;
+}
+
+.beaconDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--color-adorca-signal);
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  box-shadow: 0 0 10px var(--color-adorca-signal);
+}
+
+.beaconPing {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--color-adorca-signal);
+  position: absolute;
+  top: 0;
+  left: 0;
+  animation: pingRing 1.8s infinite cubic-bezier(0, 0, 0.2, 1);
+}
+
+@keyframes pingRing {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
+  75%, 100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+.metricMetaGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.metricHeadline {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--color-warm-paper);
+}
+
+.metricCategory {
+  font-family: var(--font-mono);
+  font-size: var(--text-metadata);
+  color: var(--color-adorca-signal);
+  letter-spacing: var(--tracking-wider);
+}
+
+/* Dynamic Viz Wrapper */
+.dynamicVizWrapper {
+  width: 100%;
+}
+
+.graphTopRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.graphLabel {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #8C8F8D;
+  letter-spacing: var(--tracking-wider);
+}
+
+.graphDeltaBadge {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--color-adorca-signal);
+  background: rgba(183, 229, 107, 0.10);
+  border: 1px solid rgba(183, 229, 107, 0.25);
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+}
+
+/* 1. Organic Graph Draw */
+.graphCanvas {
+  background-color: #14181C;
+  border: 1px solid rgba(244, 243, 239, 0.08);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+}
+
+.chartSvg {
+  width: 100%;
+  height: 140px;
+  overflow: visible;
+}
+
+.trendCurve {
+  stroke-dasharray: 600;
+  stroke-dashoffset: 600;
+  animation: drawCurve 1.1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes drawCurve {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.trendCurveSettled {
+  filter: drop-shadow(0 0 8px rgba(183, 229, 107, 0.40));
+}
+
+.peakPoint {
+  animation: popPeak 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 1.2s forwards;
+  transform-origin: 440px 22px;
+  opacity: 0;
+}
+
+.peakRing {
+  animation: popPeak 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 1.3s forwards, pingRing 2.2s infinite 1.6s;
+  transform-origin: 440px 22px;
+  opacity: 0;
+}
+
+@keyframes popPeak {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.graphScale {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(244, 243, 239, 0.06);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: #6E716F;
+}
+
+/* 2. 50+ Markets Geographic Grid */
+.marketsCanvas {
+  background-color: #14181C;
+  border: 1px solid rgba(244, 243, 239, 0.08);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.geoGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.geoNodeCard {
+  background-color: rgba(24, 28, 32, 0.85);
+  border: 1px solid rgba(244, 243, 239, 0.08);
+  border-radius: var(--radius-xs);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  animation: fadeInNode 0.4s ease forwards;
+}
+
+@keyframes fadeInNode {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.geoNodeHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.geoNodeDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--color-adorca-signal);
+  box-shadow: 0 0 6px var(--color-adorca-signal);
+}
+
+.geoNodeTitle {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-warm-paper);
+}
+
+.geoNodeSub {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--color-adorca-signal);
+}
+
+.geoCoords {
+  font-size: 0.64rem;
+  color: #8C8F8D;
+}
+
+.geoClaimGrounded {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(183, 229, 107, 0.06);
+  border: 1px solid rgba(183, 229, 107, 0.16);
+  padding: 8px 12px;
+  border-radius: var(--radius-xs);
+  font-size: 0.72rem;
+  color: #C2C4C1;
+}
+
+.geoClaimGrounded svg {
+  color: var(--color-adorca-signal);
+  flex-shrink: 0;
+}
+
+/* 3. 12+ Years Timeline Progression */
+.timelineCanvas {
+  background-color: #14181C;
+  border: 1px solid rgba(244, 243, 239, 0.08);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+}
+
+.milestoneTrack {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-left: 20px;
+}
+
+.milestoneBar {
+  position: absolute;
+  top: 8px;
+  bottom: 12px;
+  left: 6px;
+  width: 2px;
+  background: linear-gradient(to bottom, rgba(244, 243, 239, 0.15), var(--color-adorca-signal));
+}
+
+.milestonesList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.milestoneItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  position: relative;
+  animation: fadeInNode 0.4s ease forwards;
+}
+
+.milestoneNode {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.milestoneDot {
+  position: absolute;
+  left: -20px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #0E1114;
+  border: 2px solid var(--color-adorca-signal);
+}
+
+.milestoneYear {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--color-adorca-signal);
+}
+
+.milestoneTitle {
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--color-warm-paper);
+}
+
+.milestoneNote {
+  font-size: 0.74rem;
+  color: #8C8F8D;
+  line-height: 1.35;
+}
+
+/* 4. 100% Attribution Multi-Bus Convergence Diagram */
+.attributionCanvas {
+  background-color: #14181C;
+  border: 1px solid rgba(244, 243, 239, 0.08);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+}
+
+.busDiagramWrapper {
+  position: relative;
+  width: 100%;
+  height: 180px;
+}
+
+.busSvg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.busTravelingSignal {
+  animation: travelingStream 3.2s linear infinite;
+}
+
+@keyframes travelingStream {
+  0% {
+    stroke-dashoffset: 120;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.channelBadgeList {
+  position: absolute;
+  top: 0;
+  left: 6px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  pointer-events: none;
+}
+
+.channelBadge {
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: var(--color-warm-paper);
+  background-color: #1E2328;
+  border: 1px solid rgba(244, 243, 239, 0.15);
+  padding: 2px 7px;
+  border-radius: var(--radius-xs);
+  letter-spacing: 0.04em;
+}
+
+.revenueTargetBox {
+  position: absolute;
+  right: 14px;
+  top: 73px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 84px;
+  height: 34px;
+  pointer-events: none;
+  text-align: center;
+}
+
+.revenueTargetLabel {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 800;
+  color: var(--color-adorca-signal);
+  letter-spacing: var(--tracking-wide);
+}
+
+.revenueTargetSub {
+  font-size: 0.55rem;
+  color: #A3A6A4;
+}
+
+/* Points Checklist */
+.pointsList {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(244, 243, 239, 0.08);
+}
+
+.pointItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: #C2C4C1;
+}
+
+.pointCheck {
+  color: var(--color-adorca-signal);
+  flex-shrink: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   RIGHT COLUMN: FULL-FUNNEL LIFECYCLE STORY ENGINE
+   ───────────────────────────────────────────────────────────── */
+
+.fullFunnelCol {
+  width: 100%;
+}
+
+.funnelConsoleCard {
+  background-color: #0E1114;
+  border: 1px solid rgba(244, 243, 239, 0.10);
+  border-radius: var(--radius-card);
+  padding: clamp(24px, 3.5vw, 36px);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.40);
+  position: sticky;
+  top: calc(var(--nav-height) + 24px);
+}
+
+.funnelConsoleHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(244, 243, 239, 0.08);
+}
+
+.consoleHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.terminalIndicator {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-adorca-signal);
+  box-shadow: 0 0 6px var(--color-adorca-signal);
+}
+
+.consoleTitle {
+  font-family: var(--font-mono);
+  font-size: var(--text-metadata);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wider);
+  color: var(--color-warm-paper);
+}
+
+.liveProtocolTag {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: #8C8F8D;
+  letter-spacing: var(--tracking-wider);
+}
+
+.funnelIntro {
+  font-size: 0.84rem;
+  line-height: var(--leading-normal);
+  color: #A3A6A4;
+}
+
+/* Stages Ladder */
+.stagesLadder {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ladderStep {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: 14px;
+  padding: 10px 8px;
+  border-radius: var(--radius-xs);
+  transition: all var(--duration-200) var(--ease-out);
+}
+
+.ladderStep:hover {
+  background-color: rgba(244, 243, 239, 0.03);
+}
+
+.ladderStepActive {
+  background-color: rgba(183, 229, 107, 0.08);
+  border: 1px solid rgba(183, 229, 107, 0.22);
+}
+
+.stepSpineCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding-top: 4px;
+}
+
+.stepMarkerDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #1A1F24;
+  border: 2px solid rgba(244, 243, 239, 0.25);
+  transition: all var(--duration-200) var(--ease-out);
+}
+
+.ladderStepActive .stepMarkerDot {
+  background-color: var(--color-adorca-signal);
+  border-color: var(--color-adorca-signal);
+  box-shadow: 0 0 8px var(--color-adorca-signal);
+  transform: scale(1.15);
+}
+
+.stepSpineLine {
+  width: 1.5px;
+  flex: 1;
+  background-color: rgba(244, 243, 239, 0.12);
+  margin-top: 4px;
+}
+
+.stepContent {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stepHeaderRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stepIndex {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--color-adorca-signal);
 }
 
 .stepName {
   font-family: var(--font-display);
-  font-size: 0.82rem;
+  font-size: 0.88rem;
+  font-weight: 800;
+  letter-spacing: var(--tracking-wider);
+  color: var(--color-warm-paper);
+}
+
+.ladderStepActive .stepName {
+  color: #FFFFFF;
+}
+
+.activePill {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
   font-weight: 700;
-  color: var(--navy-text);
-  line-height: 1.3;
+  color: #0E1114;
+  background-color: var(--color-adorca-signal);
+  padding: 1px 6px;
+  border-radius: var(--radius-pill);
+  letter-spacing: 0.06em;
 }
 
-.connectorArrow {
-  display: none;
+.stepDetail {
+  font-size: 0.74rem;
+  color: #8C8F8D;
+  line-height: 1.4;
 }
 
-/* ─────────────────────────────────────────────
-   Detailed Stage Panel
-   ───────────────────────────────────────────── */
-.detailCard {
-  background-color: var(--navy-surface);
-  border: 1px solid var(--navy-border);
-  border-radius: var(--radius-lg);
-  padding: 36px 32px;
-  box-shadow: var(--shadow-lg);
-  transition: var(--transition-smooth);
-}
-
-.detailGrid {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 40px;
-  align-items: center;
-}
-
-.detailMain {
+/* Console Footer & Action */
+.consoleFooter {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
   gap: 16px;
-}
-
-.detailMeta {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(244, 243, 239, 0.08);
   flex-wrap: wrap;
 }
 
-.stageTag {
-  font-family: var(--font-display);
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--lime);
-}
-
-.kpiBadge {
-  font-family: var(--font-display);
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: #FFFFFF;
-  background-color: rgba(22, 87, 255, 0.3);
-  border: 1px solid var(--blue);
-  padding: 3px 10px;
-  border-radius: var(--radius-pill);
-}
-
-.detailTitle {
-  font-size: clamp(1.4rem, 2vw + 0.5rem, 1.85rem);
-  font-weight: 700;
-  color: #FFFFFF;
-  line-height: 1.2;
-}
-
-.detailSummary {
-  font-size: 1rem;
-  line-height: 1.65;
-  color: var(--navy-text-secondary);
-}
-
-.actionRow {
-  margin-top: 8px;
-}
-
-/* Deliverables Box */
-.deliverablesBox {
-  background-color: var(--navy-card);
-  border: 1px solid var(--navy-border);
-  border-radius: var(--radius-md);
-  padding: 24px;
-}
-
-.deliverablesHeading {
-  font-family: var(--font-display);
-  font-size: 0.85rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--lime);
-  margin-bottom: 16px;
-}
-
-.deliverablesList {
-  list-style: none;
+.consoleFooterInfo {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 2px;
 }
 
-.deliverableItem {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.88rem;
-  color: var(--navy-text);
-  font-weight: 500;
+.footerNoteLabel {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--color-adorca-signal);
+  letter-spacing: var(--tracking-wider);
 }
 
-.checkIcon {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background-color: rgba(152, 242, 42, 0.15);
-  color: var(--lime);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+.footerNoteText {
+  font-size: 0.74rem;
+  color: #A3A6A4;
 }
 
-/* ─────────────────────────────────────────────
-   Responsive
-   ───────────────────────────────────────────── */
-@media (max-width: 1100px) {
-  .pipelineStrip {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
+/* ─────────────────────────────────────────────────────────────
+   RESPONSIVE
+   ───────────────────────────────────────────────────────────── */
 
-@media (max-width: 850px) {
-  .detailGrid {
+@media (max-width: 992px) {
+  .intelligenceGrid {
     grid-template-columns: 1fr;
-    gap: 28px;
   }
 
-  .pipelineStrip {
+  .funnelConsoleCard {
+    position: static;
+  }
+
+  .geoGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .tabsRow {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .detailCard {
-    padding: 24px 20px;
+  .metricHeroRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
   }
-}
 
-@media (max-width: 500px) {
-  .pipelineStrip {
+  .geoGrid {
     grid-template-columns: 1fr;
   }
+
+  .pointsList {
+    grid-template-columns: 1fr;
+  }
+
+  .consoleFooter {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }
 
+/* Reduced Motion Override */
 @media (prefers-reduced-motion: reduce) {
-  .stepNode,
-  .detailCard {
+  .intelligenceGrid,
+  .pulseDot,
+  .pulseBeacon,
+  .trendCurve,
+  .busTravelingSignal,
+  .geoNodeCard,
+  .milestoneItem {
+    animation: none !important;
     transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    stroke-dashoffset: 0 !important;
   }
 }

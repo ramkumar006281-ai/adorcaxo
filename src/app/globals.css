@@ -1,143 +1,146 @@
 :root {
   /* ─────────────────────────────────────────────────────────────
-     ADORCA 360 CENTRALIZED DESIGN SYSTEM (V2.5)
-     Brand Balance: 70% Off-White/Light, 20% Deep Navy, 10% Electric Blue & Lime Accents
+     ADORCA 360 CENTRALIZED DESIGN SYSTEM (PHASE 1 FOUNDATION)
+     Core Brand Positioning: Premium International Growth Studio
+     Visual Personality: Editorial + Data-driven + Cinematic + Intelligent
      ───────────────────────────────────────────────────────────── */
 
-  /* 1. COLOR PALETTE: BRAND PRIMARIES & ACCENTS */
-  --color-navy: #081033;
-  --color-navy-surface: #0B143F;
-  --color-navy-card: #101B4D;
-  --color-navy-card-hover: #162464;
-  --color-navy-border: rgba(255, 255, 255, 0.10);
-  --color-navy-border-hover: rgba(152, 242, 42, 0.35);
-  --color-navy-text: #FFFFFF;
-  --color-navy-text-secondary: #94A3B8;
-  --color-navy-text-muted: #64748B;
+  /* 1. MASTER COLOR SYSTEM */
+  --color-obsidian: #0B0D0F;
+  --color-warm-paper: #F4F3EF;
+  --color-soft-stone: #E7E5DF;
+  --color-primary-text: #111315;
+  --color-muted-text: #6E716F;
 
-  --color-blue: #1657FF;
-  --color-blue-hover: #0D47E5;
-  --color-blue-active: #0A38B8;
-  --color-blue-light: rgba(22, 87, 255, 0.08);
-  --color-blue-glow: rgba(22, 87, 255, 0.35);
+  /* Semantic Meanings */
+  /* LIME: Growth / active / verified / opportunity */
+  --color-adorca-signal: #B7E56B;
+  --color-adorca-signal-hover: #A5D854;
+  --color-adorca-signal-light: rgba(183, 229, 107, 0.14);
+  --color-adorca-signal-border: rgba(183, 229, 107, 0.35);
 
-  --color-lime: #98F22A;
-  --color-lime-hover: #86DB20;
-  --color-lime-active: #6FC014;
-  --color-lime-light: rgba(152, 242, 42, 0.12);
-  --color-lime-glow: rgba(152, 242, 42, 0.35);
+  /* BLUE: Intelligence / information / system state */
+  --color-intelligence-blue: #7BA7FF;
+  --color-intelligence-blue-hover: #6091FA;
+  --color-intelligence-blue-light: rgba(123, 167, 255, 0.14);
+  --color-intelligence-blue-border: rgba(123, 167, 255, 0.30);
 
-  --color-offwhite: #F7F8FA;
-  --color-white: #FFFFFF;
-  --color-ink: #101114;
-  --color-gray-50: #F8FAFC;
-  --color-gray-100: #EEF1F6;
-  --color-gray-200: #E2E8F0;
-  --color-gray-400: #94A3B8;
-  --color-gray-500: #6B7280;
-  --color-gray-600: #4A4D57;
-  --color-gray-700: #334155;
-  --color-gray-800: #1E293B;
-  --color-gray-900: #0F172A;
+  /* WARNINGS ONLY (Strictly no decorative purple/blue AI gradients) */
+  --color-warning-red: #E04838;
+  --color-warning-amber: #F59E0B;
 
-  --color-accent-coral: #FF6B57;
-  --color-accent-emerald: #10B981;
-  --color-accent-amber: #F59E0B;
+  /* Surfaces & Canvas Defaults (Warm Paper Default Canvas) */
+  --bg-page: var(--color-warm-paper);
+  --bg-surface: #FFFFFF;
+  --bg-card: #FFFFFF;
+  --bg-subtle: var(--color-soft-stone);
+  --bg-muted: #DEDBD3;
 
-  /* Semantic Theme Surfaces (Light Default) */
-  --bg-page: var(--color-offwhite);
-  --bg-card: var(--color-white);
-  --bg-subtle: var(--color-gray-100);
-  --text-primary: var(--color-ink);
-  --text-secondary: var(--color-gray-600);
-  --text-muted: var(--color-gray-500);
+  --text-primary: var(--color-primary-text);
+  --text-secondary: var(--color-muted-text);
+  --text-muted: var(--color-muted-text);
 
-  --border: rgba(16, 17, 20, 0.08);
-  --border-light: rgba(16, 17, 20, 0.04);
-  --border-hover: rgba(22, 87, 255, 0.28);
+  --border: rgba(17, 19, 21, 0.12);
+  --border-light: rgba(17, 19, 21, 0.06);
+  --border-strong: rgba(17, 19, 21, 0.22);
+  --border-hover: rgba(17, 19, 21, 0.35);
 
-  /* High-Visibility Growth Theme Tokens (Engineered for Light Mode Contrast: WCAG AAA 5.8:1 - 7.2:1) */
-  --growth-accent: #059669;
-  --growth-accent-hover: #047857;
-  --growth-text-gradient: linear-gradient(135deg, #064E3B 0%, #047857 40%, #059669 85%, #0D9488 100%);
-  --growth-badge-bg: rgba(5, 150, 105, 0.08);
-  --growth-badge-text: #065F46;
-  --growth-badge-border: rgba(5, 150, 105, 0.22);
-  --growth-badge-dot: #10B981;
-  --growth-btn-bg: linear-gradient(135deg, #7BE426 0%, #5EC714 100%);
-  --growth-btn-text: #041B08;
-  --growth-btn-border: rgba(34, 130, 20, 0.35);
-  --growth-btn-shadow: 0 4px 16px rgba(123, 228, 38, 0.35);
-  --growth-btn-hover-bg: linear-gradient(135deg, #8BF033 0%, #6BD41D 100%);
-  --growth-btn-hover-shadow: 0 8px 24px rgba(123, 228, 38, 0.45);
+  /* Dark Theme Surfaces (Obsidian Foundation) */
+  --navy: var(--color-obsidian);
+  --navy-surface: #121518;
+  --navy-card: #181C20;
+  --navy-card-hover: #22272E;
+  --navy-border: rgba(244, 243, 239, 0.12);
+  --navy-border-hover: rgba(183, 229, 107, 0.40);
+  --navy-text: var(--color-warm-paper);
+  --navy-text-secondary: #A3A6A4;
+  --navy-text-muted: #6E716F;
+
+  /* Backward-Compatibility Aliases */
+  --blue: var(--color-intelligence-blue);
+  --blue-hover: var(--color-intelligence-blue-hover);
+  --blue-light: var(--color-intelligence-blue-light);
+  --blue-glow: rgba(123, 167, 255, 0.25);
+  --lime: var(--color-adorca-signal);
+  --lime-hover: var(--color-adorca-signal-hover);
+  --lime-light: var(--color-adorca-signal-light);
+  --lime-glow: rgba(183, 229, 107, 0.30);
+  --accent-coral: var(--color-warning-red);
+
+  /* Signal & Growth Theme Tokens */
+  --growth-accent: var(--color-adorca-signal);
+  --growth-accent-hover: var(--color-adorca-signal-hover);
+  --growth-badge-bg: var(--color-adorca-signal-light);
+  --growth-badge-text: #2D4708;
+  --growth-badge-border: var(--color-adorca-signal-border);
+  --growth-badge-dot: var(--color-adorca-signal);
+  --growth-btn-bg: var(--color-adorca-signal);
+  --growth-btn-text: var(--color-obsidian);
+  --growth-btn-border: var(--color-adorca-signal-border);
+  --growth-btn-shadow: 0 4px 16px rgba(183, 229, 107, 0.25);
+  --growth-btn-hover-bg: var(--color-adorca-signal-hover);
+  --growth-btn-hover-shadow: 0 8px 24px rgba(183, 229, 107, 0.35);
+
   --growth-card-bg: #FFFFFF;
-  --growth-card-border: rgba(15, 23, 42, 0.08);
-  --growth-card-header-border: rgba(15, 23, 42, 0.06);
-  --growth-card-title: #0F172A;
-  --growth-card-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.08), 0 0 1px rgba(15, 23, 42, 0.12);
-  --growth-radar-ring-outer: rgba(15, 23, 42, 0.09);
-  --growth-radar-ring-inner: rgba(5, 150, 105, 0.22);
-  --growth-radar-beam: #059669;
-  --growth-radar-hub-bg: #0B1120;
-  --growth-radar-hub-ring: rgba(16, 185, 129, 0.35);
+  --growth-card-border: rgba(17, 19, 21, 0.10);
+  --growth-card-header-border: rgba(17, 19, 21, 0.08);
+  --growth-card-title: var(--color-primary-text);
+  --growth-card-shadow: 0 16px 40px -8px rgba(11, 13, 15, 0.06), 0 0 1px rgba(11, 13, 15, 0.12);
+
+  --growth-radar-ring-outer: rgba(17, 19, 21, 0.10);
+  --growth-radar-ring-inner: rgba(183, 229, 107, 0.30);
+  --growth-radar-beam: var(--color-adorca-signal);
+  --growth-radar-hub-bg: var(--color-obsidian);
+  --growth-radar-hub-ring: rgba(183, 229, 107, 0.40);
+
   --growth-chip-bg: #FFFFFF;
-  --growth-chip-border: rgba(15, 23, 42, 0.12);
-  --growth-chip-text: #1E293B;
-  --growth-chip-icon: #059669;
-  --growth-chip-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
-  --growth-chip-active-bg: rgba(5, 150, 105, 0.10);
-  --growth-chip-active-border: #059669;
-  --growth-chip-active-text: #065F46;
-  --growth-chip-active-glow: 0 0 16px rgba(16, 185, 129, 0.25);
-  --growth-kpi-bg: rgba(248, 250, 252, 0.95);
-  --growth-kpi-border: rgba(15, 23, 42, 0.08);
-  --growth-kpi-tag: #059669;
-  --growth-kpi-metric: #0F172A;
-  --growth-kpi-label: #1E293B;
-  --growth-kpi-desc: #64748B;
-  --growth-sparkline: #059669;
-  --growth-ambient-glow: radial-gradient(ellipse 65% 55% at 75% 35%, rgba(16, 185, 129, 0.09), transparent 70%);
-  --ai-badge-bg: rgba(255, 255, 255, 0.94);
-  --ai-badge-border: rgba(15, 23, 42, 0.08);
-  --ai-badge-text: #065F46;
-  --ai-badge-shadow: 0 4px 16px rgba(15, 23, 42, 0.08);
+  --growth-chip-border: rgba(17, 19, 21, 0.12);
+  --growth-chip-text: var(--color-primary-text);
+  --growth-chip-icon: var(--color-obsidian);
+  --growth-chip-shadow: 0 2px 6px rgba(11, 13, 15, 0.04);
+  --growth-chip-active-bg: rgba(183, 229, 107, 0.16);
+  --growth-chip-active-border: var(--color-adorca-signal);
+  --growth-chip-active-text: var(--color-obsidian);
+  --growth-chip-active-glow: 0 0 16px rgba(183, 229, 107, 0.25);
 
-  /* Component Compatibility Aliases */
-  --navy: var(--color-navy);
-  --navy-surface: var(--color-navy-surface);
-  --navy-card: var(--color-navy-card);
-  --navy-card-hover: var(--color-navy-card-hover);
-  --navy-border: var(--color-navy-border);
-  --navy-border-hover: var(--color-navy-border-hover);
-  --navy-text: var(--color-navy-text);
-  --navy-text-secondary: var(--color-navy-text-secondary);
-  --navy-text-muted: var(--color-navy-text-muted);
-  --blue: var(--color-blue);
-  --blue-hover: var(--color-blue-hover);
-  --blue-light: var(--color-blue-light);
-  --blue-glow: var(--color-blue-glow);
-  --lime: var(--color-lime);
-  --lime-hover: var(--color-lime-hover);
-  --lime-light: var(--color-lime-light);
-  --lime-glow: var(--color-lime-glow);
-  --accent-coral: var(--color-accent-coral);
+  --growth-kpi-bg: var(--color-soft-stone);
+  --growth-kpi-border: rgba(17, 19, 21, 0.08);
+  --growth-kpi-tag: #2D4708;
+  --growth-kpi-metric: var(--color-primary-text);
+  --growth-kpi-label: var(--color-primary-text);
+  --growth-kpi-desc: var(--color-muted-text);
+  --growth-sparkline: var(--color-adorca-signal);
 
-  /* 2. TYPOGRAPHY TOKENS */
+  /* 2. TYPOGRAPHY TOKENS (Editorial + Technical Hierarchy) */
   --font-display: var(--font-space-grotesk), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-body: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-mono: ui-monospace, SFMono-Regular, "Roboto Mono", Menlo, Monaco, Consolas, monospace;
 
-  /* Fluid Responsive Type Scale with clamp() */
-  --text-xs: clamp(0.7rem, 0.15vw + 0.65rem, 0.75rem);
-  --text-sm: clamp(0.8rem, 0.2vw + 0.75rem, 0.875rem);
-  --text-base: clamp(0.95rem, 0.25vw + 0.88rem, 1rem);
-  --text-lg: clamp(1.05rem, 0.35vw + 0.95rem, 1.125rem);
+  /* Precision Fluid Type Scale:
+     Hero Target: 80–120px
+     Major Heading Target: 52–76px
+     Subheading Target: 30–42px
+     Body Target: 17–19px
+     Metadata Target: 11–13px */
+  --text-hero: clamp(3.25rem, 6.5vw + 1rem, 7.25rem);
+  --text-major-heading: clamp(2.35rem, 4vw + 0.5rem, 4.5rem);
+  --text-subheading: clamp(1.5rem, 1.8vw + 0.5rem, 2.5rem);
+  --text-section-title: clamp(2.1rem, 3vw + 0.5rem, 3.75rem);
+  --text-body-large: clamp(1.0625rem, 0.25vw + 1rem, 1.1875rem);
+  --text-body: clamp(0.95rem, 0.2vw + 0.9rem, 1.0625rem);
+  --text-metadata: clamp(0.6875rem, 0.15vw + 0.65rem, 0.8125rem);
+
+  /* Compatibility font size scale */
+  --text-xs: var(--text-metadata);
+  --text-sm: clamp(0.8125rem, 0.15vw + 0.75rem, 0.875rem);
+  --text-base: var(--text-body);
+  --text-lg: var(--text-body-large);
   --text-xl: clamp(1.2rem, 0.5vw + 1.05rem, 1.35rem);
-  --text-2xl: clamp(1.4rem, 0.8vw + 1.15rem, 1.75rem);
-  --text-3xl: clamp(1.8rem, 1.5vw + 1.35rem, 2.25rem);
-  --text-4xl: clamp(2.2rem, 2.5vw + 1.5rem, 3rem);
-  --text-5xl: clamp(2.6rem, 4vw + 1.5rem, 4.25rem);
-  --text-display: clamp(2.8rem, 5vw + 1.5rem, 4.75rem);
+  --text-2xl: var(--text-subheading);
+  --text-3xl: clamp(1.85rem, 1.5vw + 1.25rem, 2.35rem);
+  --text-4xl: var(--text-section-title);
+  --text-5xl: var(--text-major-heading);
+  --text-display: var(--text-hero);
 
   --font-weight-regular: 400;
   --font-weight-medium: 500;
@@ -146,19 +149,19 @@
   --font-weight-extrabold: 800;
 
   --leading-none: 1;
-  --leading-tight: 1.15;
-  --leading-snug: 1.3;
-  --leading-normal: 1.6;
-  --leading-relaxed: 1.75;
+  --leading-tight: 1.08;
+  --leading-snug: 1.25;
+  --leading-normal: 1.62;
+  --leading-relaxed: 1.72;
 
-  --tracking-tighter: -0.04em;
-  --tracking-tight: -0.02em;
+  --tracking-tighter: -0.045em;
+  --tracking-tight: -0.025em;
   --tracking-normal: 0em;
   --tracking-wide: 0.04em;
   --tracking-wider: 0.08em;
-  --tracking-widest: 0.12em;
+  --tracking-widest: 0.14em;
 
-  /* 3. SPACING SYSTEM (Standard Scale: XS, SM, MD, LG, XL, 2XL) */
+  /* 3. SPACING SYSTEM (Intentional Editorial Rhythm) */
   --space-xs: 8px;
   --space-sm: 16px;
   --space-md: 24px;
@@ -180,19 +183,19 @@
   --space-24: 96px;
   --space-32: 128px;
 
-  /* Harmonized Section Spacing (Intentional vertical rhythm) */
-  --section-padding-y: clamp(32px, 3.5vw + 10px, 48px);
-  --section-header-margin-b: clamp(20px, 2.5vw + 8px, 32px);
-  --section-gap: clamp(16px, 2vw + 8px, 24px);
+  /* Harmonized Section Rhythm */
+  --section-padding-y: clamp(56px, 6.5vw + 12px, 100px);
+  --section-header-margin-b: clamp(28px, 3.5vw + 8px, 48px);
+  --section-gap: clamp(20px, 2.5vw + 8px, 36px);
 
-  /* 4. CONTAINERS & LAYOUT — ONE UNIFIED CONTAINER SYSTEM */
+  /* 4. CONTAINERS & LAYOUT */
   --container-max-width: 1240px;
-  --container-padding-x: clamp(16px, 2.5vw, 24px);
+  --container-padding-x: clamp(16px, 3vw, 32px);
   --container-narrow: 960px;
   --container-wide: 1400px;
   --nav-height: 76px;
 
-  /* Breakpoint Tokens (Reference & Media Queries) */
+  /* Responsive Breakpoints */
   --bp-xs: 320px;
   --bp-sm: 576px;
   --bp-md: 768px;
@@ -201,125 +204,139 @@
   --bp-2xl: 1440px;
   --bp-3xl: 1920px;
 
-  /* 5. BORDER RADIUS */
-  --radius-xs: 4px;
-  --radius-sm: 8px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
-  --radius-card: 24px;
+  /* 5. BORDER RADIUS (Disciplined Editorial Card Radii) */
+  --radius-xs: 3px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-card: 16px;
   --radius-pill: 9999px;
   --radius-full: 9999px;
 
-  /* 6. SHADOWS & ELEVATION */
-  --shadow-xs: 0 1px 3px rgba(8, 16, 51, 0.03);
-  --shadow-sm: 0 2px 8px rgba(8, 16, 51, 0.04);
-  --shadow-md: 0 10px 30px rgba(8, 16, 51, 0.06);
-  --shadow-lg: 0 20px 50px rgba(8, 16, 51, 0.09);
-  --shadow-xl: 0 25px 60px rgba(8, 16, 51, 0.14);
-  --shadow-glow-blue: 0 0 30px rgba(22, 87, 255, 0.25);
-  --shadow-glow-lime: 0 0 30px rgba(152, 242, 42, 0.25);
+  /* 6. SHADOWS & ELEVATION (Restrained Architectural Depth) */
+  --shadow-xs: 0 1px 2px rgba(11, 13, 15, 0.03);
+  --shadow-sm: 0 2px 6px rgba(11, 13, 15, 0.04);
+  --shadow-md: 0 8px 24px rgba(11, 13, 15, 0.06);
+  --shadow-lg: 0 18px 45px rgba(11, 13, 15, 0.08);
+  --shadow-xl: 0 24px 60px rgba(11, 13, 15, 0.12);
+  --shadow-glow-signal: 0 0 24px rgba(183, 229, 107, 0.25);
+  --shadow-glow-blue: 0 0 24px rgba(123, 167, 255, 0.20);
+  --shadow-glow-lime: var(--shadow-glow-signal);
 
-  /* 7. GRADIENTS */
-  --gradient-navy-radial: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(22, 87, 255, 0.22), transparent 70%);
-  --gradient-lime-radial: radial-gradient(circle at center, rgba(152, 242, 42, 0.15), transparent 60%);
-  --gradient-card-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
-  --gradient-text-light: linear-gradient(135deg, #FFFFFF 40%, rgba(255, 255, 255, 0.72) 100%);
+  /* 7. MOTION SYSTEM TOKENS (Phase 9 Specification) */
+  --motion-micro: 200ms;
+  --motion-standard: 500ms;
+  --motion-large: 850ms;
+  --motion-ambient: 4s;
+  --motion-ambient-slow: 8s;
 
-  /* 8. MOTION TIMING & TRANSITIONS */
   --duration-75: 75ms;
   --duration-150: 150ms;
-  --duration-200: 200ms;
+  --duration-200: var(--motion-micro);
   --duration-300: 300ms;
-  --duration-500: 500ms;
+  --duration-500: var(--motion-standard);
   --duration-700: 700ms;
+  --duration-850: var(--motion-large);
 
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  /* Preferred Easing: cubic-bezier(0.22, 1, 0.36, 1) */
+  --ease-motion: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 
-  --transition-fast: all var(--duration-150) var(--ease-out);
-  --transition-smooth: all var(--duration-300) var(--ease-out);
+  --transition-fast: all var(--duration-150) var(--ease-motion);
+  --transition-smooth: all var(--duration-300) var(--ease-motion);
   --transition-spring: all var(--duration-500) var(--ease-spring);
 }
 
-/* Dark Mode Overrides */
-[data-theme="dark"] {
-  --bg-page: #080C1E;
-  --bg-card: #0F172A;
-  --bg-subtle: #1E293B;
-  --text-primary: #F8FAFC;
-  --text-secondary: #94A3B8;
-  --text-muted: #64748B;
-  
-  --border: rgba(255, 255, 255, 0.08);
-  --border-light: rgba(255, 255, 255, 0.04);
-  --border-hover: rgba(59, 130, 246, 0.45);
+/* ─────────────────────────────────────────────────────────────
+   SECTION THEME ENGINES (Intentional Environmental Shifts)
+   ───────────────────────────────────────────────────────────── */
 
-  --blue: #3B82F6;
-  --blue-hover: #60A5FA;
-  --blue-light: rgba(59, 130, 246, 0.16);
-  --blue-glow: rgba(59, 130, 246, 0.4);
+/* Theme: Dark (Obsidian Environment for Hero, GrowthSystem, FinalCTA) */
+[data-theme="dark"],
+.theme-dark {
+  --bg-page: var(--color-obsidian);
+  --bg-surface: var(--navy-surface);
+  --bg-card: var(--navy-card);
+  --bg-subtle: #181C20;
+  --text-primary: var(--color-warm-paper);
+  --text-secondary: var(--navy-text-secondary);
+  --text-muted: var(--navy-text-muted);
 
-  --navy: #0B143F;
-  --navy-surface: #0F1B4C;
-  --navy-card: #132260;
-  --navy-border: rgba(255, 255, 255, 0.12);
-  --navy-text: #FFFFFF;
-  --navy-text-secondary: #CBD5E1;
-  --navy-text-muted: #94A3B8;
+  --border: rgba(244, 243, 239, 0.12);
+  --border-light: rgba(244, 243, 239, 0.06);
+  --border-hover: rgba(183, 229, 107, 0.40);
 
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
-  --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.45);
-  --shadow-lg: 0 20px 50px rgba(0, 0, 0, 0.60);
+  --growth-accent: var(--color-adorca-signal);
+  --growth-card-bg: #14181C;
+  --growth-card-border: rgba(244, 243, 239, 0.10);
+  --growth-card-title: var(--color-warm-paper);
+  --growth-card-shadow: 0 20px 50px rgba(0, 0, 0, 0.50);
 
-  /* High-Visibility Growth Theme Tokens (Dark Mode: Cybernetic Glow Contrast 11.4:1) */
-  --growth-accent: #98F22A;
-  --growth-accent-hover: #86DB20;
-  --growth-text-gradient: linear-gradient(135deg, #4ADE80 0%, #A3E635 50%, #98F22A 100%);
-  --growth-badge-bg: rgba(152, 242, 42, 0.12);
-  --growth-badge-text: #A3E635;
-  --growth-badge-border: rgba(152, 242, 42, 0.28);
-  --growth-badge-dot: #98F22A;
-  --growth-btn-bg: linear-gradient(135deg, #A3E635 0%, #84CC16 100%);
-  --growth-btn-text: #051205;
-  --growth-btn-border: rgba(152, 242, 42, 0.4);
-  --growth-btn-shadow: 0 4px 20px rgba(152, 242, 42, 0.35);
-  --growth-btn-hover-bg: linear-gradient(135deg, #B4FF4C 0%, #98F22A 100%);
-  --growth-btn-hover-shadow: 0 8px 28px rgba(152, 242, 42, 0.45);
-  --growth-card-bg: #0B1120;
-  --growth-card-border: rgba(255, 255, 255, 0.08);
-  --growth-card-header-border: rgba(255, 255, 255, 0.06);
-  --growth-card-title: #F1F5F9;
-  --growth-card-shadow: 0 20px 50px rgba(0, 0, 0, 0.60), 0 0 1px rgba(255, 255, 255, 0.1);
-  --growth-radar-ring-outer: rgba(255, 255, 255, 0.12);
-  --growth-radar-ring-inner: rgba(152, 242, 42, 0.25);
-  --growth-radar-beam: #98F22A;
-  --growth-radar-hub-bg: #080E1A;
-  --growth-radar-hub-ring: rgba(152, 242, 42, 0.45);
-  --growth-chip-bg: rgba(15, 23, 42, 0.85);
-  --growth-chip-border: rgba(255, 255, 255, 0.10);
-  --growth-chip-text: #E2E8F0;
-  --growth-chip-icon: #98F22A;
-  --growth-chip-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-  --growth-chip-active-bg: rgba(152, 242, 42, 0.16);
-  --growth-chip-active-border: #98F22A;
+  --growth-radar-ring-outer: rgba(244, 243, 239, 0.12);
+  --growth-radar-ring-inner: rgba(183, 229, 107, 0.30);
+  --growth-radar-beam: var(--color-adorca-signal);
+  --growth-radar-hub-bg: #0B0D0F;
+  --growth-radar-hub-ring: rgba(183, 229, 107, 0.45);
+
+  --growth-chip-bg: rgba(24, 28, 32, 0.85);
+  --growth-chip-border: rgba(244, 243, 239, 0.12);
+  --growth-chip-text: var(--color-warm-paper);
+  --growth-chip-icon: var(--color-adorca-signal);
+  --growth-chip-active-bg: rgba(183, 229, 107, 0.16);
+  --growth-chip-active-border: var(--color-adorca-signal);
   --growth-chip-active-text: #FFFFFF;
-  --growth-chip-active-glow: 0 0 20px rgba(152, 242, 42, 0.40);
-  --growth-kpi-bg: rgba(15, 23, 42, 0.75);
-  --growth-kpi-border: rgba(255, 255, 255, 0.08);
-  --growth-kpi-tag: #A3E635;
-  --growth-kpi-metric: #FFFFFF;
-  --growth-kpi-label: #F8FAFC;
-  --growth-kpi-desc: #94A3B8;
-  --growth-sparkline: #98F22A;
-  --growth-ambient-glow: radial-gradient(ellipse 65% 55% at 75% 35%, rgba(152, 242, 42, 0.08), transparent 70%);
-  --ai-badge-bg: rgba(11, 17, 32, 0.85);
-  --ai-badge-border: rgba(255, 255, 255, 0.10);
-  --ai-badge-text: #A3E635;
-  --ai-badge-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+
+  --growth-kpi-bg: rgba(24, 28, 32, 0.75);
+  --growth-kpi-border: rgba(244, 243, 239, 0.10);
+  --growth-kpi-tag: var(--color-adorca-signal);
+  --growth-kpi-metric: var(--color-warm-paper);
+  --growth-kpi-label: var(--color-warm-paper);
+  --growth-kpi-desc: #9E9F9D;
+  --growth-sparkline: var(--color-adorca-signal);
 }
 
-/* Base Reset */
+/* Theme: Warm Paper (Editorial Light Environment for Services, Case Studies, Approach) */
+.theme-warm {
+  --bg-page: var(--color-warm-paper);
+  --bg-surface: #FFFFFF;
+  --bg-card: #FFFFFF;
+  --bg-subtle: var(--color-soft-stone);
+  --text-primary: var(--color-primary-text);
+  --text-secondary: var(--color-muted-text);
+  --text-muted: var(--color-muted-text);
+  --border: rgba(17, 19, 21, 0.12);
+  --border-light: rgba(17, 19, 21, 0.06);
+  --border-hover: rgba(17, 19, 21, 0.30);
+  background-color: var(--color-warm-paper);
+  color: var(--color-primary-text);
+}
+
+.theme-warm h1,
+.theme-warm h2,
+.theme-warm h3,
+.theme-warm h4,
+.theme-warm .section-title {
+  color: var(--color-primary-text);
+}
+
+.theme-warm p,
+.theme-warm .section-desc {
+  color: var(--color-muted-text);
+}
+
+/* Theme: Transitional Dark */
+.theme-transitional {
+  background-color: var(--color-obsidian);
+  color: var(--color-warm-paper);
+  border-top: 1px solid rgba(244, 243, 239, 0.08);
+  border-bottom: 1px solid rgba(244, 243, 239, 0.08);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   BASE RESETS & GLOBAL STYLING
+   ───────────────────────────────────────────────────────────── */
 *, *::before, *::after {
   box-sizing: border-box;
   padding: 0;
@@ -330,59 +347,63 @@ html {
   font-size: 16px;
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
+  max-width: 100vw;
 }
 
 section[id] {
-  scroll-margin-top: calc(var(--nav-height) + 32px);
+  scroll-margin-top: calc(var(--nav-height) + 24px);
 }
 
 body {
   width: 100%;
+  max-width: 100vw;
   min-height: 100vh;
   overflow-x: hidden;
   background-color: var(--bg-page);
   color: var(--text-primary);
   font-family: var(--font-body);
-  line-height: 1.6;
+  line-height: var(--leading-normal);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease;
 }
 
-/* Headings with Clamp Scaling */
+/* Precision Headings */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
-  font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: -0.03em;
+  font-weight: var(--font-weight-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
   color: var(--text-primary);
 }
 
 h1 {
-  font-size: clamp(2.4rem, 5vw + 1rem, 4.2rem);
-  font-weight: 800;
-  letter-spacing: -0.04em;
+  font-size: var(--text-major-heading);
+  font-weight: var(--font-weight-extrabold);
+  letter-spacing: var(--tracking-tighter);
 }
 
 h2 {
-  font-size: clamp(2rem, 3.5vw + 0.5rem, 3rem);
-  font-weight: 700;
+  font-size: var(--text-section-title);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--tracking-tight);
 }
 
 h3 {
-  font-size: clamp(1.3rem, 2vw + 0.2rem, 1.75rem);
-  font-weight: 600;
+  font-size: var(--text-subheading);
+  font-weight: var(--font-weight-semibold);
 }
 
 h4 {
-  font-size: 1.15rem;
-  font-weight: 600;
+  font-size: 1.2rem;
+  font-weight: var(--font-weight-semibold);
 }
 
 p {
   color: var(--text-secondary);
-  font-size: clamp(1rem, 0.5vw + 0.9rem, 1.125rem);
-  line-height: 1.65;
+  font-size: var(--text-body);
+  line-height: var(--leading-normal);
 }
 
 a {
@@ -401,12 +422,18 @@ button, input, textarea, select {
 }
 
 /* Accessible focus outlines */
-button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
-  outline: 2px solid var(--blue);
+button:focus-visible, 
+a:focus-visible, 
+input:focus-visible, 
+textarea:focus-visible, 
+select:focus-visible {
+  outline: 2px solid var(--color-intelligence-blue);
   outline-offset: 3px;
 }
 
-/* Layout Utilities */
+/* ─────────────────────────────────────────────────────────────
+   LAYOUT & CONTAINER PRIMITIVES
+   ───────────────────────────────────────────────────────────── */
 .container {
   width: 100%;
   max-width: var(--container-max-width);
@@ -416,7 +443,6 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   padding-right: var(--container-padding-x);
 }
 
-/* Full-bleed page section with vertical rhythm only — for Hero, ProofStrip etc. */
 .pageSection {
   width: 100%;
   padding: var(--section-padding-y) 0;
@@ -429,19 +455,17 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   gap: 0;
 }
 
-@media (max-width: 768px) {
-  .pageCanvas {
-    padding: 0;
-    gap: 0;
-  }
+.pageSection {
+  width: 100%;
+  padding-top: var(--section-padding-y);
+  padding-bottom: var(--section-padding-y);
+  position: relative;
 }
 
-/* Unified Section Container (formerly floatingCardSection)
-   ─────────────────────────────────────────────────────────────
-   Eliminates artificial floating-island card borders and massive 200px+ gaps.
-   Every section seamlessly flows into the next with intentional breathing room,
-   sharing the exact same container max-width and horizontal gutters.
-   ───────────────────────────────────────────────────────────── */
+section[id] {
+  scroll-margin-top: calc(var(--nav-height) + 24px);
+}
+
 .floatingCardSection {
   width: 100%;
   max-width: var(--container-max-width);
@@ -454,14 +478,9 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   position: relative;
 }
 
-/* Dark Cinematic Section (GrowthSystem, FinalCTA)
-   ─────────────────────────────────────────────────────────────
-   Full-bleed deep navy backdrop spanning the viewport,
-   with content constrained strictly to the global container boundary.
-   ───────────────────────────────────────────────────────────── */
 .darkCardSection {
-  background-color: var(--navy);
-  color: var(--navy-text);
+  background-color: var(--color-obsidian);
+  color: var(--color-warm-paper);
   width: 100%;
   padding-top: var(--section-padding-y);
   padding-bottom: var(--section-padding-y);
@@ -477,20 +496,28 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   padding-right: var(--container-padding-x);
 }
 
+.darkCardSection > .container {
+  padding-left: 0;
+  padding-right: 0;
+  max-width: var(--container-max-width);
+}
+
 .darkCardSection h1,
 .darkCardSection h2,
 .darkCardSection h3,
 .darkCardSection h4 {
-  color: var(--navy-text);
+  color: var(--color-warm-paper);
 }
 
 .darkCardSection p {
   color: var(--navy-text-secondary);
 }
 
-/* Section Header Typography */
+/* ─────────────────────────────────────────────────────────────
+   GLOBAL SECTION HEADINGS
+   ───────────────────────────────────────────────────────────── */
 .section-header {
-  max-width: 680px;
+  max-width: 720px;
   margin-bottom: var(--section-header-margin-b);
 }
 
@@ -501,11 +528,11 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 }
 
 .section-subtitle {
-  color: var(--blue);
-  font-family: var(--font-display);
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
+  color: var(--color-muted-text);
+  font-family: var(--font-mono);
+  font-size: var(--text-metadata);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--tracking-wider);
   text-transform: uppercase;
   margin-bottom: 12px;
   display: inline-flex;
@@ -519,16 +546,13 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background-color: var(--lime);
-  box-shadow: 0 0 8px var(--lime);
+  background-color: var(--color-adorca-signal);
+  box-shadow: 0 0 8px var(--color-adorca-signal);
 }
 
-.darkCardSection .section-subtitle {
-  color: var(--lime);
-}
-
-.darkCardSection .section-subtitle::before {
-  background-color: var(--lime);
+.darkCardSection .section-subtitle,
+.theme-dark .section-subtitle {
+  color: #A3A6A4;
 }
 
 .section-title {
@@ -536,23 +560,33 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 }
 
 .section-desc {
-  font-size: 1.08rem;
-  line-height: 1.6;
+  font-size: var(--text-body-large);
+  line-height: var(--leading-normal);
+  color: var(--text-secondary);
 }
 
+/* ─────────────────────────────────────────────────────────────
+   BUTTONS (UNIFIED CONVERSION SYSTEM)
+   ───────────────────────────────────────────────────────────── */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 13px 28px;
-  font-weight: 600;
-  font-size: 0.95rem;
+  gap: 10px;
+  padding: 13px 26px;
+  font-weight: var(--font-weight-semibold);
+  font-size: 0.9375rem;
   border-radius: var(--radius-pill);
   cursor: pointer;
   transition: var(--transition-smooth);
   font-family: var(--font-display);
-  gap: 10px;
+  text-decoration: none;
   white-space: nowrap;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-adorca-signal);
+  outline-offset: 3px;
 }
 
 .btn svg {
@@ -564,82 +598,115 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   transform: translateX(3px);
 }
 
-.btn-primary {
-  background-color: var(--blue);
-  color: #ffffff;
-  border: 1px solid transparent;
-  box-shadow: 0 4px 14px rgba(22, 87, 255, 0.25);
+/* Primary Signal Conversion (Adorca Signal Lime) */
+.btn-primary,
+.btn-signal,
+.btn-growth,
+.btn-lime {
+  background-color: var(--color-adorca-signal);
+  color: var(--color-obsidian);
+  font-weight: var(--font-weight-bold);
+  border: 1px solid var(--color-adorca-signal-border);
+  box-shadow: 0 4px 14px rgba(183, 229, 107, 0.25);
 }
 
-.btn-primary:hover {
-  background-color: var(--blue-hover);
+.btn-primary:hover,
+.btn-signal:hover,
+.btn-growth:hover,
+.btn-lime:hover {
+  background-color: var(--color-adorca-signal-hover);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(22, 87, 255, 0.35);
+  box-shadow: 0 8px 22px rgba(183, 229, 107, 0.35);
 }
 
-.btn-lime,
-.btn-growth {
-  background: var(--growth-btn-bg);
-  color: var(--growth-btn-text);
-  font-weight: 700;
-  border: 1px solid var(--growth-btn-border);
-  box-shadow: var(--growth-btn-shadow);
+/* Dark Obsidian Button (for Light Theme Surfaces) */
+.btn-obsidian {
+  background-color: var(--color-obsidian);
+  color: var(--color-warm-paper);
+  border: 1px solid rgba(244, 243, 239, 0.15);
+  box-shadow: 0 4px 14px rgba(11, 13, 15, 0.12);
 }
 
-.btn-lime:hover,
-.btn-growth:hover {
-  background: var(--growth-btn-hover-bg);
+.btn-obsidian:hover {
+  background-color: #1a1e22;
   transform: translateY(-2px);
-  box-shadow: var(--growth-btn-hover-shadow);
+  box-shadow: 0 8px 20px rgba(11, 13, 15, 0.20);
 }
 
+/* Secondary Button */
 .btn-secondary {
   border: 1px solid var(--border);
   color: var(--text-primary);
-  background-color: var(--bg-card);
+  background-color: var(--bg-surface);
 }
 
 .btn-secondary:hover {
   background-color: var(--bg-subtle);
-  border-color: var(--text-primary);
+  border-color: var(--border-strong);
   transform: translateY(-2px);
 }
 
-.darkCardSection .btn-secondary {
+.darkCardSection .btn-secondary,
+.theme-dark .btn-secondary {
   border-color: var(--navy-border);
   color: var(--navy-text);
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgba(244, 243, 239, 0.05);
 }
 
-.darkCardSection .btn-secondary:hover {
-  background-color: rgba(255, 255, 255, 0.10);
-  border-color: var(--lime);
+.darkCardSection .btn-secondary:hover,
+.theme-dark .btn-secondary:hover {
+  background-color: rgba(244, 243, 239, 0.10);
+  border-color: var(--color-adorca-signal);
 }
 
-/* Badges */
+/* ─────────────────────────────────────────────────────────────
+   METADATA BADGES
+   ───────────────────────────────────────────────────────────── */
 .badge {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 5px 14px;
-  background-color: var(--blue-light);
-  color: var(--blue);
-  font-weight: 600;
-  font-size: 0.8rem;
+  padding: 4px 12px;
+  background-color: var(--color-soft-stone);
+  color: var(--color-primary-text);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--text-metadata);
   border-radius: var(--radius-pill);
-  border: 1px solid rgba(22, 87, 255, 0.15);
-  font-family: var(--font-display);
+  border: 1px solid var(--border);
+  font-family: var(--font-mono);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
 }
 
-.darkCardSection .badge {
-  background-color: rgba(152, 242, 42, 0.12);
-  color: var(--lime);
-  border-color: rgba(152, 242, 42, 0.25);
+.badge-signal {
+  background-color: var(--color-adorca-signal-light);
+  color: #2D4708;
+  border-color: var(--color-adorca-signal-border);
 }
 
-/* ─────────────────────────────────────────────
-   Animations & Motion System
-   ───────────────────────────────────────────── */
+.badge-intelligence {
+  background-color: var(--color-intelligence-blue-light);
+  color: #1B459E;
+  border-color: var(--color-intelligence-blue-border);
+}
+
+.darkCardSection .badge,
+.theme-dark .badge {
+  background-color: rgba(244, 243, 239, 0.08);
+  color: var(--color-warm-paper);
+  border-color: rgba(244, 243, 239, 0.12);
+}
+
+.darkCardSection .badge-signal,
+.theme-dark .badge-signal {
+  background-color: rgba(183, 229, 107, 0.14);
+  color: var(--color-adorca-signal);
+  border-color: rgba(183, 229, 107, 0.35);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   MOTION TOKENS & ACCESSIBILITY
+   ───────────────────────────────────────────────────────────── */
 @keyframes orbit-pulse {
   0%, 100% {
     opacity: 0.3;
@@ -653,14 +720,13 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 
 @keyframes float-subtle {
   0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-6px); }
+  50% { transform: translateY(-5px); }
 }
 
 .animate-float {
-  animation: float-subtle 5s ease-in-out infinite;
+  animation: float-subtle 6s ease-in-out infinite;
 }
 
-/* Scroll reveal utility */
 .reveal-hidden {
   opacity: 0;
   transform: translateY(20px);
@@ -672,9 +738,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   transform: translateY(0);
 }
 
-/* ─────────────────────────────────────────────
-   Reduced Motion Fallback
-   ───────────────────────────────────────────── */
+/* Reduced Motion Override */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -691,11 +755,4 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   .animate-float {
     animation: none !important;
   }
-
-  .pageEnter {
-    animation: none !important;
-    opacity: 1 !important;
-    transform: none !important;
-  }
 }
-

@@ -1,392 +1,570 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useIntersection } from "./utils";
 import styles from "./GrowthOpportunityTool.module.css";
 
-interface PlanParams {
-  website: string;
-  industry: string;
+interface DiagnosticParams {
   market: string;
   objective: string;
+  region: string;
+  constraint: string;
+  website: string;
   name: string;
   email: string;
   notes: string;
 }
 
-interface FormErrors {
-  website?: string;
-  name?: string;
-  email?: string;
+interface DiagnosticResponse {
+  success: boolean;
+  message: string;
+  brief: {
+    market: string;
+    objective: string;
+    region: string;
+    constraint: string;
+    website: string;
+    name: string;
+    email: string;
+  };
+  diagnostic: {
+    diagnosticId: string;
+    timestamp: string;
+    domain: string;
+    healthScore: number;
+    criticalFinding: {
+      category: string;
+      bottleneck: string;
+      severity: "HIGH" | "CRITICAL" | "ELEVATED";
+      impactArea: string;
+    };
+    technicalIntervention: {
+      protocol: string;
+      architectureAction: string;
+      deliverables: string[];
+    };
+    projectedMilestone: {
+      compoundingHorizon: string;
+      targetKPI: string;
+      expectedGain: string;
+    };
+    executionPhases: {
+      phase: string;
+      title: string;
+      timeline: string;
+    }[];
+  };
 }
 
-const INDUSTRIES = [
-  "E-Commerce & Retail",
-  "B2B SaaS & Fintech",
-  "Mobile Apps & Gaming",
-  "Professional & Corporate Services",
-  "Healthcare & Life Sciences",
-  "Other Direct-to-Consumer",
-];
-
 const MARKETS = [
-  "Global Multi-Region (50+ Markets)",
-  "North America (US & Canada)",
-  "Western Europe (UK, DE, FR, ES, IT)",
-  "Latin America (BR, MX, AR, CO)",
-  "Asia-Pacific (AU, SG, JP, KR)",
-  "Middle East & GCC",
+  { id: "ecom", title: "E-Commerce & Retail", descriptor: "Cross-Border Catalog & SKUs" },
+  { id: "saas", title: "B2B SaaS & Enterprise", descriptor: "Pipeline Velocity & High ACV" },
+  { id: "app", title: "Mobile Apps & Gaming", descriptor: "Global Store Ranking & Retention" },
+  { id: "fintech", title: "Fintech & Regulated", descriptor: "High Compliance & Trust Equity" },
+  { id: "health", title: "Healthcare & Life Sciences", descriptor: "High-Intent Search Verification" },
+  { id: "d2c", title: "Global D2C Brands", descriptor: "Omnichannel Direct Scale" },
 ];
 
 const OBJECTIVES = [
-  { id: "seo", label: "Organic Search & SEO Scale", focus: "Technical architecture, hreflang & semantic clusters" },
-  { id: "cpa", label: "Lower Cost-Per-Acquisition (CPA)", focus: "Programmatic bidding & landing funnel experimentation" },
-  { id: "global", label: "Cross-Border Market Expansion", focus: "Native linguistic keyword extraction & localized campaigns" },
-  { id: "aso", label: "App Store Ranking & Downloads", focus: "ASO keyword velocity, review pipelines & retention loops" },
+  { id: "seo", title: "Organic Search Scale", metric: "+140% Organic Growth", descriptor: "Technical crawl architecture & semantic cluster equity" },
+  { id: "cpa", title: "Lower CPA & Media Efficiency", metric: "-42% CPA Reduction", descriptor: "Algorithmic bidding rules & server-side conversion APIs" },
+  { id: "global", title: "Cross-Border Expansion", metric: "50+ Search Markets", descriptor: "Native linguistic intent & sovereign regional routing" },
+  { id: "aso", title: "App Store Top 5 Ranking", metric: "Top 5 Category Rank", descriptor: "ASO keyword velocity & multivariate listing CRO" },
+  { id: "attribution", title: "100% Attribution Ownership", metric: "Zero Data Loss", descriptor: "First-party warehouse pipelines & deterministic modeling" },
+];
+
+const REGIONS = [
+  { id: "global", title: "Global Multi-Region (50+ Markets)", coverage: "Worldwide ccTLD" },
+  { id: "na", title: "North America (US & Canada)", coverage: "Tier 1 High Competition" },
+  { id: "eu", title: "Western Europe & UK", coverage: "Multilingual GDPR Core" },
+  { id: "apac", title: "Asia-Pacific (AU, SG, JP)", coverage: "Rapid Mobile Growth" },
+  { id: "latam", title: "Latin America (BR, MX, LATAM)", coverage: "Emerging Organic Markets" },
+];
+
+const CONSTRAINTS = [
+  { id: "cpa_bleed", title: "High Customer Acquisition Costs (CPA)", detail: "Broad-match ad waste & attribution leakage" },
+  { id: "crawl_debt", title: "Crawl Inefficiencies & Indexing Debt", detail: "Rendering latency & orphaned navigational URLs" },
+  { id: "hreflang_conflicts", title: "Multilingual Canonical Conflicts", detail: "Cross-domain regional cannibalization loops" },
+  { id: "attribution_loss", title: "Attribution Gaps & Data Disconnect", detail: "Fragmented analytics & blind spot marketing spend" },
+  { id: "funnel_friction", title: "Conversion Funnel Drop-off (CRO)", detail: "Suboptimal Core Web Vitals & post-click friction" },
 ];
 
 export default function GrowthOpportunityTool() {
   const [revealRef, isVisible] = useIntersection({ threshold: 0.08 });
 
-  const [step, setStep] = useState<1 | 2>(1);
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-  const [serverError, setServerError] = useState<string>("");
-
-  const [params, setParams] = useState<PlanParams>({
+  const [params, setParams] = useState<DiagnosticParams>({
+    market: MARKETS[0].title,
+    objective: OBJECTIVES[0].title,
+    region: REGIONS[0].title,
+    constraint: CONSTRAINTS[0].title,
     website: "",
-    industry: INDUSTRIES[0],
-    market: MARKETS[0],
-    objective: OBJECTIVES[0].id,
     name: "",
     email: "",
     notes: "",
   });
 
-  const [errors, setErrors] = useState<FormErrors>({});
+  const [validationErrors, setValidationErrors] = useState<{
+    website?: string;
+    name?: string;
+    email?: string;
+  }>({});
 
-  const selectedObjective = OBJECTIVES.find((o) => o.id === params.objective) || OBJECTIVES[0];
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [diagnosticResult, setDiagnosticResult] = useState<DiagnosticResponse["diagnostic"] | null>(null);
 
-  const handleParamChange = (field: keyof PlanParams, value: string) => {
-    setParams((prev) => ({ ...prev, [field]: value }));
-    if (errors[field as keyof FormErrors]) {
-      setErrors((prev) => ({ ...prev, [field]: undefined }));
-    }
-  };
-
-  const validateStep1 = (): boolean => {
-    const tempErrors: FormErrors = {};
+  const validateInputs = (): boolean => {
+    const errors: typeof validationErrors = {};
     if (!params.website.trim()) {
-      tempErrors.website = "Please provide your website or domain URL.";
+      errors.website = "Target domain or website URL is required.";
     }
-    setErrors(tempErrors);
-    return Object.keys(tempErrors).length === 0;
-  };
-
-  const validateStep2 = (): boolean => {
-    const tempErrors: FormErrors = {};
     if (!params.name.trim()) {
-      tempErrors.name = "Full Name is required.";
+      errors.name = "Executive contact name is required.";
     }
     if (!params.email.trim()) {
-      tempErrors.email = "Work Email is required.";
+      errors.email = "Business email address is required.";
     } else if (!/\S+@\S+\.\S+/.test(params.email)) {
-      tempErrors.email = "Please enter a valid email address.";
+      errors.email = "Please provide a valid corporate email.";
     }
-    setErrors(tempErrors);
-    return Object.keys(tempErrors).length === 0;
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
   };
 
-  const handleNextStep = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (validateStep1()) {
-      setStep(2);
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleGenerate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (status === "loading") return;
 
-    if (validateStep2()) {
-      setStatus("loading");
-      setServerError("");
+    if (!validateInputs()) {
+      return;
+    }
 
-      try {
-        const res = await fetch("/api/opportunity", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(params),
-        });
+    setStatus("loading");
+    setErrorMessage("");
 
-        if (!res.ok) {
-          const errData = await res.json().catch(() => ({}));
-          throw new Error(errData.error || "Unable to submit growth diagnostic brief. Please try again.");
-        }
+    try {
+      const res = await fetch("/api/opportunity", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(params),
+      });
 
-        setStatus("success");
-      } catch (err: unknown) {
-        setStatus("error");
-        setServerError(err instanceof Error ? err.message : "A network error occurred. Please try again.");
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData.error || "Failed to generate growth diagnostic. Please verify inputs.");
       }
+
+      const data: DiagnosticResponse = await res.json();
+      setDiagnosticResult(data.diagnostic);
+      setStatus("success");
+    } catch (err: unknown) {
+      setStatus("error");
+      setErrorMessage(err instanceof Error ? err.message : "Network error generating diagnostic.");
     }
   };
 
-  return (
-    <section id="opportunity-tool" className="floatingCardSection" ref={revealRef}>
-      {/* Section Header */}
-      <div className="section-header center">
-        <span className="section-subtitle">Growth Diagnostics</span>
-        <h2 className="section-title">What&apos;s Your Growth Opportunity?</h2>
-        <p className="section-desc">
-          Configure your target market and performance objectives. Our senior strategists will review your parameters and prepare a tailored growth roadmap.
-        </p>
-      </div>
+  const handleReset = () => {
+    setStatus("idle");
+    setDiagnosticResult(null);
+  };
 
-      <div className={`${styles.toolContainer} ${isVisible ? styles.visible : ""}`}>
-        {status !== "success" ? (
-          <div className={styles.toolGrid}>
-            {/* Left: Interactive Form */}
-            <div className={styles.formCol}>
-              <div className={styles.stepIndicator}>
-                <span className={`${styles.stepBadge} ${step === 1 ? styles.stepBadgeActive : ""}`}>
-                  Step 1: Campaign Parameters
-                </span>
-                <span className={styles.stepDivider}>&rarr;</span>
-                <span className={`${styles.stepBadge} ${step === 2 ? styles.stepBadgeActive : ""}`}>
-                  Step 2: Consultation Details
-                </span>
+  return (
+    <section
+      id="opportunity-tool"
+      className="darkCardSection theme-dark"
+      ref={revealRef}
+      aria-label="Growth Diagnostics Strategic Instrument"
+    >
+      <div className={styles.container}>
+        {/* Editorial Section Header */}
+        <div className={styles.sectionHeader}>
+          <div className={styles.systemBadge}>
+            <span className={styles.beaconDot} aria-hidden="true" />
+            <span className={styles.badgeText}>Strategic Instrument // 04 Vectors</span>
+          </div>
+          <h2 className={styles.sectionTitle}>
+            Growth <br />
+            <span className={styles.accentWord}>Diagnostics.</span>
+          </h2>
+          <p className={styles.sectionDesc}>
+            Configure your operating vectors to benchmark crawl architecture, international intent depth, and cross-channel attribution. Never fabricated. Grounded directly in verified engineering telemetry.
+          </p>
+        </div>
+
+        {/* Strategic Instrument Canvas */}
+        <div className={`${styles.instrumentShell} ${isVisible ? styles.visible : ""}`}>
+          {status === "success" && diagnosticResult ? (
+            /* Diagnostic Dossier Result Terminal */
+            <div className={styles.resultDossier}>
+              {/* Dossier Top Bar */}
+              <div className={styles.dossierTopBar}>
+                <div className={styles.dossierMetaGroup}>
+                  <span className={styles.dossierBadge}>DIAGNOSTIC COMPLETE</span>
+                  <span className={styles.dossierId}>{diagnosticResult.diagnosticId}</span>
+                </div>
+                <div className={styles.dossierDomain}>
+                  <span className={styles.metaLabel}>TARGET DOMAIN:</span>
+                  <span className={styles.metaValue}>{diagnosticResult.domain}</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleReset}
+                  className={styles.resetButton}
+                  aria-label="Re-run Growth Diagnostic"
+                >
+                  Configure New Vector ↺
+                </button>
               </div>
 
-              {status === "error" && (
-                <div className={styles.serverErrorBox} role="alert" aria-live="polite">
-                  <div className={styles.errorTextRow}>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                      <circle cx="12" cy="12" r="10" />
-                      <line x1="12" y1="8" x2="12" y2="12" />
-                      <line x1="12" y1="16" x2="12.01" y2="16" />
-                    </svg>
-                    <div>
-                      <strong className={styles.errorTitle}>Unable to submit brief.</strong>
-                      <p className={styles.errorMessage}>{serverError || "Please check your connection and try again."}</p>
+              {/* Dossier Main Content */}
+              <div className={styles.dossierBody}>
+                {/* Health Index & Severity Banner */}
+                <div className={styles.findingCard}>
+                  <div className={styles.findingHeader}>
+                    <div className={styles.healthScoreBox}>
+                      <span className={styles.healthScoreVal}>{diagnosticResult.healthScore}</span>
+                      <span className={styles.healthScoreLabel}>/ 100 HEALTH INDEX</span>
+                    </div>
+                    <div className={styles.findingDetails}>
+                      <div className={styles.severityRow}>
+                        <span className={styles.severityTag}>{diagnosticResult.criticalFinding.severity} CONSTRAINT</span>
+                        <span className={styles.categoryTag}>{diagnosticResult.criticalFinding.category}</span>
+                      </div>
+                      <h3 className={styles.bottleneckHeadline}>{diagnosticResult.criticalFinding.bottleneck}</h3>
+                      <p className={styles.impactArea}>
+                        <strong>Primary Impact:</strong> {diagnosticResult.criticalFinding.impactArea}
+                      </p>
                     </div>
                   </div>
+                </div>
+
+                {/* Technical Intervention Protocol */}
+                <div className={styles.protocolCard}>
+                  <div className={styles.protocolHeader}>
+                    <span className={styles.stepNum}>PROTOCOL // 01</span>
+                    <h4 className={styles.protocolTitle}>{diagnosticResult.technicalIntervention.protocol}</h4>
+                  </div>
+                  <p className={styles.protocolAction}>{diagnosticResult.technicalIntervention.architectureAction}</p>
+
+                  <div className={styles.deliverablesList}>
+                    <span className={styles.deliverableTitle}>Mandatory Architecture Deliverables:</span>
+                    <ul>
+                      {diagnosticResult.technicalIntervention.deliverables.map((item, idx) => (
+                        <li key={idx}>
+                          <span className={styles.checkIcon}>✓</span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                {/* Projected Compounding Milestone */}
+                <div className={styles.milestoneGrid}>
+                  <div className={styles.milestoneBox}>
+                    <span className={styles.milestoneLabel}>Target KPI Milestone</span>
+                    <span className={styles.milestoneValue}>{diagnosticResult.projectedMilestone.targetKPI}</span>
+                    <span className={styles.milestoneSub}>{diagnosticResult.projectedMilestone.expectedGain}</span>
+                  </div>
+                  <div className={styles.milestoneBox}>
+                    <span className={styles.milestoneLabel}>Compounding Horizon</span>
+                    <span className={styles.milestoneValue}>{diagnosticResult.projectedMilestone.compoundingHorizon}</span>
+                    <span className={styles.milestoneSub}>Sprint-based technical verification</span>
+                  </div>
+                </div>
+
+                {/* Sprints Roadmap */}
+                <div className={styles.sprintsContainer}>
+                  <span className={styles.sprintHeading}>3-Sprint Execution Schedule:</span>
+                  <div className={styles.sprintRow}>
+                    {diagnosticResult.executionPhases.map((phase) => (
+                      <div key={phase.phase} className={styles.sprintCol}>
+                        <span className={styles.sprintTag}>PHASE {phase.phase}</span>
+                        <span className={styles.sprintTitle}>{phase.title}</span>
+                        <span className={styles.sprintTime}>{phase.timeline}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* CTA Action Deck */}
+                <div className={styles.dossierActions}>
+                  <Link href="#contact" className="btn btn-primary">
+                    Book Executive Debrief with Senior Strategist →
+                  </Link>
                   <button
                     type="button"
-                    className={styles.retryBtn}
-                    onClick={(e) => handleSubmit(e)}
+                    onClick={() => window.print()}
+                    className="btn btn-secondary"
                   >
-                    Retry
+                    Export Strategic Dossier (PDF)
                   </button>
-                </div>
-              )}
-
-              {step === 1 ? (
-                <form className={styles.form} onSubmit={handleNextStep} noValidate>
-                  {/* Website URL */}
-                  <div className={styles.formGroup}>
-                    <label htmlFor="tool-website" className={styles.label}>
-                      Website / App URL <span className={styles.required}>*</span>
-                    </label>
-                    <input
-                      type="text"
-                      id="tool-website"
-                      className={`${styles.input} ${errors.website ? styles.inputError : ""}`}
-                      placeholder="e.g. yourcompany.com"
-                      value={params.website}
-                      onChange={(e) => handleParamChange("website", e.target.value)}
-                    />
-                    {errors.website && <span className={styles.errorText}>{errors.website}</span>}
-                  </div>
-
-                  {/* Industry & Market Row */}
-                  <div className={styles.formRow}>
-                    <div className={styles.formGroup}>
-                      <label htmlFor="tool-industry" className={styles.label}>Industry Vertical</label>
-                      <select
-                        id="tool-industry"
-                        className={styles.select}
-                        value={params.industry}
-                        onChange={(e) => handleParamChange("industry", e.target.value)}
-                      >
-                        {INDUSTRIES.map((ind) => (
-                          <option key={ind} value={ind}>{ind}</option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div className={styles.formGroup}>
-                      <label htmlFor="tool-market" className={styles.label}>Primary Target Region</label>
-                      <select
-                        id="tool-market"
-                        className={styles.select}
-                        value={params.market}
-                        onChange={(e) => handleParamChange("market", e.target.value)}
-                      >
-                        {MARKETS.map((m) => (
-                          <option key={m} value={m}>{m}</option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-
-                  {/* Objective Radios */}
-                  <div className={styles.formGroup}>
-                    <label className={styles.label} id="growth-goal-label">Primary Growth Goal</label>
-                    <div className={styles.objectiveGrid} role="radiogroup" aria-labelledby="growth-goal-label">
-                      {OBJECTIVES.map((obj) => (
-                        <button
-                          key={obj.id}
-                          type="button"
-                          role="radio"
-                          aria-checked={params.objective === obj.id}
-                          className={`${styles.objectiveCard} ${params.objective === obj.id ? styles.objectiveCardActive : ""}`}
-                          onClick={() => handleParamChange("objective", obj.id)}
-                        >
-                          <span className={styles.objRadio} aria-hidden="true">
-                            {params.objective === obj.id && <span className={styles.objRadioDot} />}
-                          </span>
-                          <span className={styles.objText}>
-                            <span className={styles.objLabel}>{obj.label}</span>
-                            <span className={styles.objSub}>{obj.focus}</span>
-                          </span>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <button type="submit" className="btn btn-primary" style={{ width: "100%", marginTop: "4px" }}>
-                    Configure Strategy Preview &rarr;
-                  </button>
-                </form>
-              ) : (
-                /* Step 2: Contact Details */
-                <form className={styles.form} onSubmit={handleSubmit} noValidate>
-                  <div className={styles.formRow}>
-                    <div className={styles.formGroup}>
-                      <label htmlFor="tool-name" className={styles.label}>
-                        Full Name <span className={styles.required}>*</span>
-                      </label>
-                      <input
-                        type="text"
-                        id="tool-name"
-                        className={`${styles.input} ${errors.name ? styles.inputError : ""}`}
-                        placeholder="e.g. Alex Morgan"
-                        value={params.name}
-                        onChange={(e) => handleParamChange("name", e.target.value)}
-                      />
-                      {errors.name && <span className={styles.errorText}>{errors.name}</span>}
-                    </div>
-
-                    <div className={styles.formGroup}>
-                      <label htmlFor="tool-email" className={styles.label}>
-                        Work Email <span className={styles.required}>*</span>
-                      </label>
-                      <input
-                        type="email"
-                        id="tool-email"
-                        className={`${styles.input} ${errors.email ? styles.inputError : ""}`}
-                        placeholder="e.g. alex@company.com"
-                        value={params.email}
-                        onChange={(e) => handleParamChange("email", e.target.value)}
-                      />
-                      {errors.email && <span className={styles.errorText}>{errors.email}</span>}
-                    </div>
-                  </div>
-
-                  <div className={styles.formGroup}>
-                    <label htmlFor="tool-notes" className={styles.label}>Specific Growth Targets or Timeline (Optional)</label>
-                    <textarea
-                      id="tool-notes"
-                      className={styles.textarea}
-                      placeholder="Tell us about your current monthly traffic, active ad spend, or target timeline..."
-                      rows={3}
-                      value={params.notes}
-                      onChange={(e) => handleParamChange("notes", e.target.value)}
-                    />
-                  </div>
-
-                  <div className={styles.buttonRow}>
-                    <button type="button" className="btn btn-secondary" onClick={() => setStep(1)}>
-                      &larr; Back to Parameters
-                    </button>
-                    <button type="submit" className="btn btn-primary" disabled={status === "loading"}>
-                      {status === "loading" ? "Submitting Brief..." : "Submit for Strategy Audit"}
-                    </button>
-                  </div>
-                </form>
-              )}
-            </div>
-
-            {/* Right: Live Strategy Preview Blueprint */}
-            <div className={styles.previewCol}>
-              <div className={styles.previewCard}>
-                <div className={styles.previewHeader}>
-                  <span className={styles.previewBadge}>Tailored Growth Blueprint</span>
-                  <span className={styles.previewMarket}>{params.market}</span>
-                </div>
-
-                <div className={styles.blueprintDomain}>
-                  <span className={styles.domainLabel}>Target Domain:</span>
-                  <span className={styles.domainVal}>{params.website || "yourwebsite.com"}</span>
-                </div>
-
-                <div className={styles.strategyBlock}>
-                  <h4 className={styles.strategyTitle}>Strategic Focus Area</h4>
-                  <p className={styles.strategyHighlight}>{selectedObjective.label}</p>
-                  <p className={styles.strategyDesc}>{selectedObjective.focus}</p>
-                </div>
-
-                {/* Recommended Channels */}
-                <div className={styles.channelsBox}>
-                  <span className={styles.channelsHeading}>Recommended Growth Channels</span>
-                  <div className={styles.channelsList}>
-                    <div className={styles.channelItem}>
-                      <span className={styles.chDot} />
-                      <span>Technical Architecture &amp; Hreflang Audit</span>
-                    </div>
-                    <div className={styles.channelItem}>
-                      <span className={styles.chDot} />
-                      <span>Native Multilingual Intent Clustering</span>
-                    </div>
-                    <div className={styles.channelItem}>
-                      <span className={styles.chDot} />
-                      <span>First-Party Server-Side Attribution Tracking</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className={styles.guaranteeNote}>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                  </svg>
-                  <span>100% Data &amp; Dashboard Ownership Guaranteed</span>
                 </div>
               </div>
             </div>
-          </div>
-        ) : (
-          /* Success Confirmation State */
-          <div className={styles.successState}>
-            <div className={styles.successIcon}>
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <polyline points="20 6 9 17 4 12" />
-              </svg>
-            </div>
-            <h3 className={styles.successTitle}>Growth Brief Received!</h3>
-            <p className={styles.successDesc}>
-              Thank you, <strong>{params.name}</strong>. We have registered your parameters for <strong>{params.website}</strong> ({params.industry} &bull; {params.market}). Our strategy director is reviewing your domain architecture and will reach out to <strong>{params.email}</strong> within one business day with your tailored growth plan.
-            </p>
-            <button
-              className="btn btn-secondary"
-              onClick={() => {
-                setStatus("idle");
-                setStep(1);
-              }}
-            >
-              Configure Another Blueprint
-            </button>
-          </div>
-        )}
+          ) : (
+            /* Strategic Instrument Configuration Form */
+            <form onSubmit={handleGenerate} className={styles.instrumentForm}>
+              {/* Instrument Top Status Header */}
+              <div className={styles.instrumentBar}>
+                <div className={styles.indicatorNodes}>
+                  <span className={styles.nodeActive} />
+                  <span className={styles.barLabel}>TELEMETRY ACTIVE // 4-VECTOR SYSTEM BENCHMARK</span>
+                </div>
+                <div className={styles.instrumentState}>
+                  {status === "loading" ? "ANALYZING SYSTEM DATA..." : "READY FOR CONFIGURATION"}
+                </div>
+              </div>
+
+              {errorMessage && (
+                <div className={styles.errorAlert} role="alert">
+                  <span className={styles.errorIcon}>⚠</span>
+                  <span>{errorMessage}</span>
+                </div>
+              )}
+
+              {/* Vector 01: YOUR MARKET */}
+              <div className={styles.vectorBlock}>
+                <div className={styles.vectorHeader}>
+                  <span className={styles.vectorIndex}>01</span>
+                  <div className={styles.vectorTitleWrap}>
+                    <h3 className={styles.vectorTitle}>YOUR MARKET</h3>
+                    <p className={styles.vectorSubtitle}>Select the primary commercial landscape and SKU complexity.</p>
+                  </div>
+                </div>
+                <div className={styles.optionsGrid} role="radiogroup" aria-label="01 Your Market">
+                  {MARKETS.map((m) => {
+                    const isSelected = params.market === m.title;
+                    return (
+                      <button
+                        type="button"
+                        key={m.id}
+                        role="radio"
+                        aria-checked={isSelected}
+                        className={`${styles.vectorOption} ${isSelected ? styles.optionSelected : ""}`}
+                        onClick={() => setParams((prev) => ({ ...prev, market: m.title }))}
+                      >
+                        <div className={styles.optionTop}>
+                          <span className={styles.optionRadio} />
+                          <span className={styles.optionTitle}>{m.title}</span>
+                        </div>
+                        <span className={styles.optionDesc}>{m.descriptor}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Vector 02: YOUR OBJECTIVE */}
+              <div className={styles.vectorBlock}>
+                <div className={styles.vectorHeader}>
+                  <span className={styles.vectorIndex}>02</span>
+                  <div className={styles.vectorTitleWrap}>
+                    <h3 className={styles.vectorTitle}>YOUR OBJECTIVE</h3>
+                    <p className={styles.vectorSubtitle}>Select the core compounding growth milestone to engineer.</p>
+                  </div>
+                </div>
+                <div className={styles.optionsGrid} role="radiogroup" aria-label="02 Your Objective">
+                  {OBJECTIVES.map((o) => {
+                    const isSelected = params.objective === o.title;
+                    return (
+                      <button
+                        type="button"
+                        key={o.id}
+                        role="radio"
+                        aria-checked={isSelected}
+                        className={`${styles.vectorOption} ${isSelected ? styles.optionSelected : ""}`}
+                        onClick={() => setParams((prev) => ({ ...prev, objective: o.title }))}
+                      >
+                        <div className={styles.optionTop}>
+                          <span className={styles.optionRadio} />
+                          <span className={styles.optionTitle}>{o.title}</span>
+                        </div>
+                        <span className={styles.optionMetric}>{o.metric}</span>
+                        <span className={styles.optionDesc}>{o.descriptor}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Vector 03: YOUR REGION */}
+              <div className={styles.vectorBlock}>
+                <div className={styles.vectorHeader}>
+                  <span className={styles.vectorIndex}>03</span>
+                  <div className={styles.vectorTitleWrap}>
+                    <h3 className={styles.vectorTitle}>YOUR REGION</h3>
+                    <p className={styles.vectorSubtitle}>Target territorial search scope &amp; linguistic routing depth.</p>
+                  </div>
+                </div>
+                <div className={styles.optionsGrid} role="radiogroup" aria-label="03 Your Region">
+                  {REGIONS.map((r) => {
+                    const isSelected = params.region === r.title;
+                    return (
+                      <button
+                        type="button"
+                        key={r.id}
+                        role="radio"
+                        aria-checked={isSelected}
+                        className={`${styles.vectorOption} ${isSelected ? styles.optionSelected : ""}`}
+                        onClick={() => setParams((prev) => ({ ...prev, region: r.title }))}
+                      >
+                        <div className={styles.optionTop}>
+                          <span className={styles.optionRadio} />
+                          <span className={styles.optionTitle}>{r.title}</span>
+                        </div>
+                        <span className={styles.optionDesc}>{r.coverage}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Vector 04: YOUR GROWTH CONSTRAINT */}
+              <div className={styles.vectorBlock}>
+                <div className={styles.vectorHeader}>
+                  <span className={styles.vectorIndex}>04</span>
+                  <div className={styles.vectorTitleWrap}>
+                    <h3 className={styles.vectorTitle}>YOUR GROWTH CONSTRAINT</h3>
+                    <p className={styles.vectorSubtitle}>The primary bottleneck choking scalability or inflating spend.</p>
+                  </div>
+                </div>
+                <div className={styles.optionsGrid} role="radiogroup" aria-label="04 Your Growth Constraint">
+                  {CONSTRAINTS.map((c) => {
+                    const isSelected = params.constraint === c.title;
+                    return (
+                      <button
+                        type="button"
+                        key={c.id}
+                        role="radio"
+                        aria-checked={isSelected}
+                        className={`${styles.vectorOption} ${isSelected ? styles.optionSelected : ""}`}
+                        onClick={() => setParams((prev) => ({ ...prev, constraint: c.title }))}
+                      >
+                        <div className={styles.optionTop}>
+                          <span className={styles.optionRadio} />
+                          <span className={styles.optionTitle}>{c.title}</span>
+                        </div>
+                        <span className={styles.optionDesc}>{c.detail}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Domain & Executive Contact Inputs */}
+              <div className={styles.targetSection}>
+                <div className={styles.targetSectionHeader}>
+                  <span className={styles.vectorIndex}>VERIFY</span>
+                  <div>
+                    <h3 className={styles.vectorTitle}>TARGET DOMAIN &amp; EXECUTIVE ROUTING</h3>
+                    <p className={styles.vectorSubtitle}>Enter the domain to evaluate and the email address for delivery.</p>
+                  </div>
+                </div>
+
+                <div className={styles.inputGrid}>
+                  {/* Website */}
+                  <div className={styles.fieldGroup}>
+                    <label htmlFor="diag-website" className={styles.fieldLabel}>
+                      Target Website / Domain <span className={styles.requiredMark}>*</span>
+                    </label>
+                    <input
+                      id="diag-website"
+                      type="text"
+                      className={`${styles.textInput} ${validationErrors.website ? styles.inputError : ""}`}
+                      placeholder="e.g. yourcompany.com"
+                      value={params.website}
+                      onChange={(e) => {
+                        setParams((prev) => ({ ...prev, website: e.target.value }));
+                        if (validationErrors.website) {
+                          setValidationErrors((prev) => ({ ...prev, website: undefined }));
+                        }
+                      }}
+                      required
+                    />
+                    {validationErrors.website && (
+                      <span className={styles.errorSpan}>{validationErrors.website}</span>
+                    )}
+                  </div>
+
+                  {/* Executive Name */}
+                  <div className={styles.fieldGroup}>
+                    <label htmlFor="diag-name" className={styles.fieldLabel}>
+                      Executive Contact Name <span className={styles.requiredMark}>*</span>
+                    </label>
+                    <input
+                      id="diag-name"
+                      type="text"
+                      className={`${styles.textInput} ${validationErrors.name ? styles.inputError : ""}`}
+                      placeholder="e.g. Jordan Vance"
+                      value={params.name}
+                      onChange={(e) => {
+                        setParams((prev) => ({ ...prev, name: e.target.value }));
+                        if (validationErrors.name) {
+                          setValidationErrors((prev) => ({ ...prev, name: undefined }));
+                        }
+                      }}
+                      required
+                    />
+                    {validationErrors.name && (
+                      <span className={styles.errorSpan}>{validationErrors.name}</span>
+                    )}
+                  </div>
+
+                  {/* Work Email */}
+                  <div className={styles.fieldGroup}>
+                    <label htmlFor="diag-email" className={styles.fieldLabel}>
+                      Corporate Work Email <span className={styles.requiredMark}>*</span>
+                    </label>
+                    <input
+                      id="diag-email"
+                      type="email"
+                      className={`${styles.textInput} ${validationErrors.email ? styles.inputError : ""}`}
+                      placeholder="e.g. j.vance@company.com"
+                      value={params.email}
+                      onChange={(e) => {
+                        setParams((prev) => ({ ...prev, email: e.target.value }));
+                        if (validationErrors.email) {
+                          setValidationErrors((prev) => ({ ...prev, email: undefined }));
+                        }
+                      }}
+                      required
+                    />
+                    {validationErrors.email && (
+                      <span className={styles.errorSpan}>{validationErrors.email}</span>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Execution Action Deck */}
+              <div className={styles.submitDeck}>
+                <div className={styles.summaryBrief}>
+                  <span className={styles.briefLabel}>CONFIGURED TELEMETRY:</span>
+                  <p className={styles.briefContent}>
+                    <strong>{params.market}</strong> • {params.objective} • {params.region} •{" "}
+                    <em>{params.constraint}</em>
+                  </p>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={status === "loading"}
+                  className={styles.generateButton}
+                >
+                  {status === "loading" ? (
+                    <>
+                      <span className={styles.spinnerDot} />
+                      ANALYZING SYSTEM TELEMETRY...
+                    </>
+                  ) : (
+                    "GENERATE GROWTH DIAGNOSTIC →"
+                  )}
+                </button>
+              </div>
+            </form>
+          )}
+        </div>
       </div>
     </section>
   );

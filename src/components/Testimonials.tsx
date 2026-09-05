@@ -77,8 +77,9 @@ export default function Testimonials() {
   };
 
   return (
-    <section id="testimonials" className="floatingCardSection" ref={revealRef} aria-label="Verified Client Testimonials">
-      <div className={styles.container}>
+    <section id="testimonials" className="pageSection theme-warm" ref={revealRef} aria-label="Verified Client Testimonials">
+      <div className="container">
+        <div className={styles.container}>
         {/* Section Header */}
         <div className="section-header">
           <span className="section-subtitle">Client Endorsements &amp; Trust</span>
@@ -178,6 +179,7 @@ export default function Testimonials() {
             })}
           </div>
         </div>
+      </div>
       </div>
     </section>
   );

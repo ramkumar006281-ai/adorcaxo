@@ -168,10 +168,10 @@ export default function ProofStrip() {
         {/* Direct Partner Networks Bar */}
         <div className={styles.partnerRow}>
           <span className={styles.partnerIntro}>Direct Network Integrations:</span>
-          <div className={styles.logoMarquee}>
-            <div className={styles.logoTrack}>
+          <div className={styles.marqueeTrack}>
+            <div className={styles.marqueeContent}>
               {[...PARTNER_ITEMS, ...PARTNER_ITEMS, ...PARTNER_ITEMS, ...PARTNER_ITEMS].map((p, i) => (
-                <div key={`${p.name}-${i}`} className={styles.logoItem} title={p.name}>
+                <div key={`${p.name}-${i}`} className={styles.partnerLogoItem} title={p.name}>
                   <p.Component />
                 </div>
               ))}

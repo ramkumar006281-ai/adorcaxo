@@ -1,335 +1,155 @@
 .container {
   width: 100%;
+  max-width: var(--container-max-width);
+  margin-left: auto;
+  margin-right: auto;
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 36px;
 }
 
-.header {
-  max-width: 840px;
+.sectionHeader {
+  max-width: 800px;
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.mainHeading {
-  font-size: clamp(2.4rem, 4vw + 0.5rem, 3.8rem);
+.orbitBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(183, 229, 107, 0.08);
+  border: 1px solid rgba(183, 229, 107, 0.25);
+  border-radius: var(--radius-pill);
+  padding: 6px 14px;
+  width: fit-content;
+}
+
+.pulseBeacon {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-adorca-signal);
+  box-shadow: 0 0 8px var(--color-adorca-signal);
+  animation: beaconPulse 2s infinite ease-in-out;
+}
+
+@keyframes beaconPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(0.8); }
+}
+
+.badgeText {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--color-adorca-signal);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.sectionTitle {
+  font-size: var(--text-section-title);
   font-weight: 800;
-  line-height: 1.08;
-  letter-spacing: -0.035em;
-  color: var(--text-primary);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tighter);
+  color: var(--color-warm-paper);
 }
 
-.accentText {
-  color: var(--blue);
-  background: linear-gradient(135deg, var(--blue) 0%, #3B82F6 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.accentWord {
+  color: var(--color-adorca-signal);
+  display: inline;
 }
 
-.leadNarrative {
-  font-size: 1.125rem;
-  line-height: 1.65;
-  color: var(--text-secondary);
+.sectionDesc {
+  font-size: var(--text-body-large);
+  line-height: var(--leading-normal);
+  color: #A3A6A4;
+  max-width: 720px;
 }
 
 /* ─────────────────────────────────────────────
-   Workspace 2-Column Grid
+   System Grid (2-Column Asymmetric Intelligence)
    ───────────────────────────────────────────── */
-.workspaceGrid {
+.systemGrid {
   display: grid;
-  grid-template-columns: 1.1fr 1fr;
-  gap: 36px;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 32px;
   align-items: start;
   opacity: 0;
-  transform: translateY(24px);
+  transform: translateY(20px);
   transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.workspaceGrid.visible {
+.systemGrid.visible {
   opacity: 1;
   transform: translateY(0);
 }
 
 /* ─────────────────────────────────────────────
-   Left Column: Pillars Navigation & Detail Panel
+   Orbit Canvas & SVG Instrument
    ───────────────────────────────────────────── */
-.pillarsCol {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.pillarNav {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-}
-
-.pillarTab {
-  appearance: none;
-  background: var(--bg-subtle);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 16px 18px;
-  text-align: left;
-  cursor: pointer;
-  /* Scope to layout props only — prevents text/bg color animation lag */
-  transition:
-    transform var(--duration-300) var(--ease-out),
-    border-color var(--duration-300) var(--ease-out),
-    box-shadow var(--duration-300) var(--ease-out);
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  font-family: inherit;
-}
-
-.pillarTab:hover {
-  background: var(--bg-card);
-  border-color: var(--border-hover);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-sm);
-}
-
-.pillarTabActive {
-  background: var(--bg-card);
-  border-color: var(--blue);
-  box-shadow: 0 4px 20px rgba(22, 87, 255, 0.12);
-  transform: translateY(-2px);
-}
-
-/* Prevent hover state from overriding active indicator */
-.pillarTabActive:hover {
-  background: var(--bg-card);
-  border-color: var(--blue);
-  box-shadow: 0 4px 20px rgba(22, 87, 255, 0.12);
-  transform: translateY(-2px);
-}
-
-.tabHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}
-
-.tabNum {
-  font-family: var(--font-display);
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: var(--blue);
-}
-
-.tabTitle {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  flex: 1;
-}
-
-.tabStatBadge {
-  font-size: 0.75rem;
-  font-weight: 700;
-  background: var(--blue-light);
-  color: var(--blue);
-  padding: 2px 8px;
-  border-radius: var(--radius-pill);
-}
-
-.tabSubtitle {
-  font-size: 0.8rem;
-  line-height: 1.4;
-  color: var(--text-muted);
-}
-
-/* ─────────────────────────────────────────────
-   Active Pillar Detail Card
-   ───────────────────────────────────────────── */
-.activePillarDetail {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
+.orbitCanvasContainer {
+  background: #0D1013;
+  border: 1px solid rgba(244, 243, 239, 0.12);
   border-radius: var(--radius-card);
-  padding: 28px 24px;
-  box-shadow: var(--shadow-md);
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.detailHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 16px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid var(--border-light);
-}
-
-.detailTitleGroup {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.detailBadge {
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--blue);
-}
-
-.detailTitle {
-  font-size: 1.35rem;
-  font-weight: 800;
-  color: var(--text-primary);
-  letter-spacing: -0.02em;
-}
-
-.detailMetricBox {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  text-align: right;
-}
-
-.detailMetricVal {
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: var(--blue);
-  line-height: 1;
-}
-
-.detailMetricLabel {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--text-muted);
-}
-
-.detailSummary {
-  font-size: 0.95rem;
-  line-height: 1.6;
-  color: var(--text-secondary);
-}
-
-.highlightsGrid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 10px;
-}
-
-.highlightItem {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-}
-
-.checkIcon {
-  color: var(--blue);
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-
-.highlightText {
-  font-size: 0.875rem;
-  line-height: 1.45;
-  color: var(--text-secondary);
-}
-
-.actionRow {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-top: 6px;
-}
-
-/* ─────────────────────────────────────────────
-   Right Column: Growth Orbit Global Visual Card
-   ───────────────────────────────────────────── */
-.visualCol {
-  width: 100%;
-}
-
-.orbitCard {
-  background: var(--navy);
-  border: 1px solid var(--navy-border);
-  border-radius: var(--radius-card);
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  box-shadow: var(--shadow-lg);
-  position: relative;
   overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
 }
 
-.orbitHeader {
+.orbitControlBar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  padding: 12px 20px;
+  background: #080A0C;
+  border-bottom: 1px solid rgba(244, 243, 239, 0.08);
 }
 
-.windowControls {
-  display: flex;
-  gap: 6px;
-}
-
-.windowDot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.orbitBadge {
+.terminalSignals {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: var(--navy-text);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
 }
 
-.orbitStatusDot {
-  width: 7px;
-  height: 7px;
+.terminalDot {
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  background: var(--lime);
-  box-shadow: 0 0 10px var(--lime-glow);
-  animation: pulse 2s infinite ease-in-out;
+  background: var(--color-adorca-signal);
+  box-shadow: 0 0 6px var(--color-adorca-signal);
 }
 
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(0.85); }
+.terminalLabel {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #8C908E;
+  letter-spacing: 0.06em;
 }
 
 .verifiedTag {
-  font-size: 0.72rem;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
   font-weight: 700;
-  color: var(--lime);
-  background: rgba(152, 242, 42, 0.12);
-  border: 1px solid rgba(152, 242, 42, 0.25);
-  padding: 3px 8px;
-  border-radius: var(--radius-pill);
+  color: var(--color-adorca-signal);
+  background: rgba(183, 229, 107, 0.1);
+  border: 1px solid rgba(183, 229, 107, 0.25);
+  padding: 2px 8px;
+  border-radius: 2px;
 }
 
-/* ─────────────────────────────────────────────
-   Orbit Canvas & SVG Visual
-   ───────────────────────────────────────────── */
-.orbitCanvas {
-  position: relative;
+.orbitVisualWrap {
   width: 100%;
-  aspect-ratio: 500 / 440;
+  aspect-ratio: 1 / 1;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 16px;
+  position: relative;
 }
 
 .orbitSvg {
@@ -338,200 +158,512 @@
   overflow: visible;
 }
 
-.orbitPath {
+/* Thin Orbital Precision Lines */
+.orbitalRing {
   fill: none;
-  stroke: var(--blue);
+  stroke: rgba(244, 243, 239, 0.12);
   stroke-width: 1;
-  stroke-opacity: 0.25;
   transition: all 0.4s ease;
 }
 
-.pathActive {
-  stroke: var(--lime);
-  stroke-width: 1.8;
-  stroke-opacity: 0.85;
-  filter: drop-shadow(0 0 6px rgba(152, 242, 42, 0.4));
-  animation: orbitRotate 30s linear infinite;
-  transform-origin: 250px 220px;
-}
-
-@keyframes orbitRotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.networkBeam {
-  stroke: var(--blue);
-  stroke-width: 1;
-  stroke-opacity: 0.15;
-  stroke-dasharray: 2 4;
-  transition: all 0.4s ease;
-}
-
-.beamActive {
-  stroke: var(--lime);
+.ringActive {
+  stroke: var(--color-adorca-signal);
   stroke-width: 1.5;
   stroke-opacity: 0.8;
+  filter: drop-shadow(0 0 6px rgba(183, 229, 107, 0.3));
+}
+
+.axisLine {
+  stroke: rgba(244, 243, 239, 0.05);
+  stroke-width: 0.75;
+  stroke-dasharray: 2 4;
+}
+
+/* Dynamic Radiating Signal Beam */
+.signalBeam {
+  stroke: var(--color-adorca-signal);
+  stroke-width: 1.25;
+  stroke-opacity: 0.4;
+  stroke-dasharray: 3 3;
+  transition: all 0.3s ease;
+}
+
+.signalPulse {
+  stroke-opacity: 1;
+  stroke-width: 2;
   stroke-dasharray: none;
+  filter: drop-shadow(0 0 8px var(--color-adorca-signal));
+  animation: beamFlash 0.6s ease-out;
 }
 
-.orbitNodeGroup {
-  transition: transform 0.3s ease;
+@keyframes beamFlash {
+  0% { stroke-opacity: 1; }
+  100% { stroke-opacity: 0.4; }
 }
 
-.nodeBackdrop {
-  fill: rgba(22, 87, 255, 0.15);
-  stroke: rgba(22, 87, 255, 0.3);
-  stroke-width: 1;
-  transition: all 0.3s ease;
+/* Nodes & Interactivity */
+.nodeGroup {
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.2s ease;
 }
 
-.nodeCore {
-  fill: var(--blue);
-  transition: all 0.3s ease;
+.nodeGroup:hover {
+  transform: scale(1.08);
+  transform-origin: center;
 }
 
-.nodeLabel {
-  font-size: 11px;
-  font-weight: 600;
-  fill: var(--navy-text-secondary);
-  letter-spacing: 0.02em;
+.nodeBody {
+  fill: #14181D;
+  stroke: rgba(244, 243, 239, 0.3);
+  stroke-width: 1.25;
+  transition: all 0.25s ease;
+}
+
+.nodeCoreDot {
+  fill: #8C908E;
+  transition: all 0.25s ease;
+}
+
+.nodeGroup:hover .nodeBody {
+  stroke: var(--color-adorca-signal);
+  fill: #192026;
+}
+
+.nodeGroup:hover .nodeCoreDot {
+  fill: var(--color-adorca-signal);
+}
+
+.nodeActive .nodeBody {
+  stroke: var(--color-adorca-signal);
+  stroke-width: 2;
+  fill: #1B2329;
+  filter: drop-shadow(0 0 8px rgba(183, 229, 107, 0.5));
+}
+
+.nodeActive .nodeCoreDot {
+  fill: var(--color-adorca-signal);
+}
+
+.nodePulseRing {
+  animation: nodeGlowPulse 2s infinite ease-in-out;
   pointer-events: none;
 }
 
-.nodeGroupActive .nodeBackdrop {
-  fill: rgba(152, 242, 42, 0.2);
-  stroke: var(--lime);
+@keyframes nodeGlowPulse {
+  0%, 100% { opacity: 0.8; transform: scale(1); }
+  50% { opacity: 0.3; transform: scale(1.15); }
+}
+
+.nodeSvgLabel {
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  fill: #A3A6A4;
+  transition: fill 0.2s ease;
+}
+
+.nodeGroup:hover .nodeSvgLabel,
+.nodeActive .nodeSvgLabel {
+  fill: var(--color-warm-paper);
+}
+
+.nodeActive .nodeSvgLabel {
+  fill: var(--color-adorca-signal);
+}
+
+/* Central Nucleus */
+.centerNucleus {
+  pointer-events: none;
+}
+
+.coreBorder {
+  fill: #0B0D0F;
+  stroke: var(--color-adorca-signal);
   stroke-width: 1.5;
-  filter: drop-shadow(0 0 8px rgba(152, 242, 42, 0.5));
+  filter: drop-shadow(0 0 12px rgba(183, 229, 107, 0.35));
 }
 
-.nodeGroupActive .nodeCore {
-  fill: var(--lime);
+.coreInnerRing {
+  fill: none;
+  stroke: rgba(183, 229, 107, 0.3);
+  stroke-width: 1;
 }
 
-.nodeGroupActive .nodeLabel {
-  fill: #FFFFFF;
+.coreBrandText {
+  font-family: var(--font-display, inherit);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  fill: var(--color-warm-paper);
+}
+
+.coreNumText {
+  font-family: var(--font-display, inherit);
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  fill: var(--color-adorca-signal);
+}
+
+/* Geographic Indicators Strip */
+.geoStrip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+  padding: 10px 16px;
+  background: #080A0C;
+  border-top: 1px solid rgba(244, 243, 239, 0.06);
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
+  gap: 8px;
+}
+
+.geoItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.geoCode {
+  color: var(--color-adorca-signal);
   font-weight: 700;
 }
 
-.centerHubBadge {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  pointer-events: none;
-}
-
-.hubTitle {
-  font-family: var(--font-display);
-  font-size: 0.75rem;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  color: #FFFFFF;
-}
-
-.hubSub {
-  font-size: 0.65rem;
-  font-weight: 600;
-  color: var(--lime);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+.geoCoords {
+  color: #6E716F;
 }
 
 /* ─────────────────────────────────────────────
-   Live Telemetry Readout Card
+   Right Column: Telemetry & Discipline Console
    ───────────────────────────────────────────── */
-.telemetryCard {
-  background: var(--navy-card);
-  border: 1px solid var(--navy-border);
-  border-radius: var(--radius-md);
-  padding: 16px;
+.telemetryConsole {
+  background: #0E1114;
+  border: 1px solid rgba(244, 243, 239, 0.12);
+  border-radius: var(--radius-card);
+  padding: clamp(20px, 4vw, 32px);
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 24px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
 }
 
-.telemetryHeader {
+.consoleHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(244, 243, 239, 0.08);
+  padding-bottom: 12px;
 }
 
-.telemetryTag {
-  font-size: 0.75rem;
+.consoleStatus {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.consoleBeacon {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-adorca-signal);
+  box-shadow: 0 0 6px var(--color-adorca-signal);
+}
+
+.consoleProtocolLabel {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
   font-weight: 700;
-  text-transform: uppercase;
+  color: #8C908E;
+  letter-spacing: 0.08em;
+}
+
+.disciplineId {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: var(--color-adorca-signal);
   letter-spacing: 0.06em;
-  color: var(--navy-text-secondary);
 }
 
-.telemetryStatus {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: var(--lime);
+.disciplineBanner {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.telemetryGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+.disciplineTitleRow {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.disciplineTitle {
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--color-warm-paper);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.disciplineCategory {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #8C908E;
+}
+
+.metricAnchorBox {
+  background: #14181D;
+  border: 1px solid rgba(244, 243, 239, 0.08);
+  border-radius: var(--radius-sm);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
   gap: 12px;
 }
 
-.telemetryItem {
+.metricValGroup {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 2px;
 }
 
-.telemetryLabel {
+.metricVal {
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--color-adorca-signal);
+  line-height: 1;
+}
+
+.metricLabel {
+  font-family: var(--font-mono, monospace);
   font-size: 0.7rem;
-  font-weight: 600;
-  color: var(--navy-text-muted);
+  color: #A3A6A4;
+  letter-spacing: 0.04em;
 }
 
-.telemetryVal {
-  font-size: 0.82rem;
+.geoTag {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.geoTagLabel {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.65rem;
+  color: #6E716F;
+  letter-spacing: 0.06em;
+}
+
+.geoTagValue {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.75rem;
+  color: var(--color-warm-paper);
   font-weight: 700;
-  color: var(--navy-text);
-  line-height: 1.3;
+}
+
+.protocolBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.protocolBlockTitle {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--color-adorca-signal);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.protocolText {
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: #C2C5C3;
+}
+
+.deliverablesBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.deliverablesBlockTitle {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--color-adorca-signal);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.deliverablesList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.deliverableItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: #A3A6A4;
+}
+
+.checkMarker {
+  color: var(--color-adorca-signal);
+  font-weight: bold;
+}
+
+/* 7-Discipline Quick Selector Bar */
+.quickSelectorWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.quickSelectorLabel {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
+  color: #6E716F;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+}
+
+.quickPills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pillBtn {
+  appearance: none;
+  background: #13171B;
+  border: 1px solid rgba(244, 243, 239, 0.1);
+  color: #A3A6A4;
+  border-radius: var(--radius-pill);
+  padding: 5px 12px;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.74rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pillBtn:hover {
+  background: #181E24;
+  border-color: rgba(244, 243, 239, 0.25);
+  color: var(--color-warm-paper);
+}
+
+.pillSelected {
+  background: var(--color-adorca-signal);
+  border-color: var(--color-adorca-signal);
+  color: var(--color-obsidian);
+  box-shadow: 0 0 12px rgba(183, 229, 107, 0.3);
+}
+
+.pillSelected:hover {
+  background: var(--color-adorca-signal);
+  border-color: var(--color-adorca-signal);
+  color: var(--color-obsidian);
+}
+
+/* Strategic Partner Commitment */
+.ownershipCard {
+  background: #090B0D;
+  border: 1px solid rgba(244, 243, 239, 0.08);
+  border-radius: var(--radius-sm);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ownershipTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ownershipBadge {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
+  color: var(--color-adorca-signal);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.ownershipTag {
+  font-size: 0.72rem;
+  color: #8C908E;
+}
+
+.ownershipDesc {
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: #A3A6A4;
+}
+
+.actionRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-top: 4px;
 }
 
 /* ─────────────────────────────────────────────
    Responsive Breakpoints
    ───────────────────────────────────────────── */
 @media (max-width: 1024px) {
-  .workspaceGrid {
+  .systemGrid {
     grid-template-columns: 1fr;
-    gap: 32px;
+  }
+  .orbitCanvasContainer {
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 
 @media (max-width: 640px) {
-  .pillarNav {
-    grid-template-columns: 1fr;
+  .metricAnchorBox {
+    flex-direction: column;
+    align-items: flex-start;
   }
-
-  .telemetryGrid {
-    grid-template-columns: 1fr;
+  .geoStrip {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .actionRow {
+    flex-direction: column;
+  }
+  .disciplineTitle {
+    font-size: 1.4rem;
   }
 }
 
+/* Reduced Motion Override */
 @media (prefers-reduced-motion: reduce) {
-  .pathActive {
+  .pulseBeacon,
+  .nodePulseRing,
+  .signalPulse,
+  .terminalDot {
     animation: none !important;
   }
-  .orbitStatusDot {
-    animation: none !important;
-  }
-  .workspaceGrid {
+  .systemGrid {
+    transform: none !important;
+    opacity: 1 !important;
     transition: none !important;
   }
 }

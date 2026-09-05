@@ -90,18 +90,17 @@
 }
 
 .title {
-  font-size: clamp(2.4rem, 4.5vw + 0.5rem, 3.8rem);
+  font-size: var(--text-section-title);
   font-weight: 800;
-  line-height: 1.08;
-  letter-spacing: -0.035em;
-  color: #FFFFFF;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tighter);
+  color: var(--color-warm-paper);
 }
 
 .highlightText {
-  color: var(--lime);
-  background: linear-gradient(135deg, var(--lime) 0%, #B4FF4C 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--color-adorca-signal);
+  display: inline;
+  font-weight: 800;
 }
 
 .desc {

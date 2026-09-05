@@ -10,24 +10,33 @@
   display: grid;
   grid-template-columns: 1.25fr 1fr;
   gap: 28px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.articlesGrid.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* ─────────────────────────────────────────────
    Featured Article Card
    ───────────────────────────────────────────── */
 .featuredCard {
-  background-color: var(--bg-subtle);
+  background-color: var(--bg-surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-card);
   padding: 36px 32px;
   display: flex;
   flex-direction: column;
   gap: 16px;
   transition: var(--transition-smooth);
+  box-shadow: var(--shadow-xs);
 }
 
 .featuredCard:hover {
-  border-color: var(--border-hover);
+  border-color: var(--border-strong);
   box-shadow: var(--shadow-md);
   transform: translateY(-2px);
 }
@@ -40,11 +49,13 @@
 }
 
 .tagBadge {
-  font-family: var(--font-display);
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: var(--blue);
-  background-color: var(--blue-light);
+  font-family: var(--font-mono);
+  font-size: var(--text-metadata);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-primary-text);
+  background-color: var(--color-soft-stone);
   padding: 3px 10px;
   border-radius: var(--radius-pill);
 }

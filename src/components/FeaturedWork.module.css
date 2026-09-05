@@ -1,344 +1,508 @@
-.workContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-}
+/* ─────────────────────────────────────────────────────────────
+   FEATURED WORK (PHASE 6 — CASE STUDIES EVIDENCE NARRATIVE)
+   ───────────────────────────────────────────────────────────── */
 
-/* ─────────────────────────────────────────────
-   Primary Large Featured Case Study
-   ───────────────────────────────────────────── */
-.featuredCase {
-  background-color: var(--bg-subtle);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 40px;
-  display: grid;
-  grid-template-columns: 1.3fr 1fr;
-  gap: 40px;
-  align-items: center;
-  transition: var(--transition-smooth);
-}
-
-.featuredCase:hover {
-  border-color: var(--border-hover);
-  box-shadow: var(--shadow-md);
-}
-
-.featuredLeft {
+.sectionHeader {
+  max-width: 800px;
+  margin-bottom: clamp(36px, 5vw, 48px);
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.caseTagRow {
-  display: flex;
+.headerBadge {
+  display: inline-flex;
   align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
+  gap: 8px;
+  background-color: var(--color-soft-stone);
+  border: 1px solid var(--border);
+  padding: 4px 14px;
+  border-radius: var(--radius-pill);
+  width: max-content;
 }
 
-.tagBadge {
-  font-family: var(--font-display);
-  font-size: 0.75rem;
+.badgeDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #2D4708;
+  box-shadow: 0 0 6px var(--color-adorca-signal);
+}
+
+.badgeText {
+  font-family: var(--font-mono);
+  font-size: var(--text-metadata);
   font-weight: 700;
-  color: #FFFFFF;
-  background-color: var(--blue);
-  padding: 3px 10px;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+  color: var(--color-primary-text);
+}
+
+.sectionTitle {
+  font-size: var(--text-section-title);
+  font-weight: 800;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tighter);
+  color: var(--color-primary-text);
+}
+
+.titleSub {
+  color: var(--color-muted-text);
+  font-weight: 700;
+}
+
+.sectionDesc {
+  font-size: var(--text-body-large);
+  line-height: var(--leading-normal);
+  color: var(--color-muted-text);
+  max-width: 720px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   CASE STUDY TABS
+   ───────────────────────────────────────────────────────────── */
+
+.caseNavRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: clamp(32px, 4vw, 48px);
+}
+
+.caseTab {
+  appearance: none;
+  background: transparent;
+  border: none;
+  border-right: 1px solid var(--border);
+  padding: clamp(16px, 2.5vw, 22px) clamp(16px, 2vw, 24px);
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: all var(--duration-200) var(--ease-out);
+}
+
+.caseTab:last-child {
+  border-right: none;
+}
+
+.caseTab:hover {
+  background-color: rgba(17, 19, 21, 0.02);
+}
+
+.caseTabActive {
+  background-color: #FFFFFF;
+  box-shadow: inset 0 -3px 0 var(--color-primary-text);
+}
+
+.tabTopRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tabNum {
+  font-family: var(--font-mono);
+  font-size: var(--text-metadata);
+  font-weight: 700;
+  color: var(--color-muted-text);
+  letter-spacing: var(--tracking-wider);
+}
+
+.caseTabActive .tabNum {
+  color: var(--color-primary-text);
+}
+
+.tabKpi {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 900;
+  color: #2D4708;
+  background-color: var(--color-adorca-signal-light);
+  border: 1px solid var(--color-adorca-signal-border);
+  padding: 1px 8px;
   border-radius: var(--radius-pill);
 }
 
-.categoryPill {
-  font-family: var(--font-display);
-  font-size: 0.78rem;
+.tabCategory {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
   font-weight: 600;
-  color: var(--text-muted);
+  color: var(--color-muted-text);
+  letter-spacing: 0.02em;
 }
 
-.featuredHeadline {
-  font-size: clamp(1.4rem, 2vw + 0.5rem, 1.85rem);
-  font-weight: 800;
-  color: var(--text-primary);
-  line-height: 1.25;
-  letter-spacing: -0.02em;
-}
+/* ─────────────────────────────────────────────────────────────
+   EVIDENCE NARRATIVE DOSSIER
+   ───────────────────────────────────────────────────────────── */
 
-.featuredSummary {
-  font-size: 1rem;
-  line-height: 1.6;
-  color: var(--text-secondary);
-}
-
-.strategyPillars {
+.evidenceDossier {
+  background-color: #FFFFFF;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: clamp(24px, 4vw, 44px);
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-top: 4px;
+  gap: 32px;
+  box-shadow: var(--shadow-sm);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.strategyItem {
+.evidenceDossier.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Dossier Header */
+.dossierHeader {
   display: flex;
-  align-items: flex-start;
-  gap: 12px;
+  flex-direction: column;
+  gap: 10px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
 }
 
-.stratNum {
-  font-family: var(--font-display);
-  font-size: 0.75rem;
+.dossierMeta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.dossierCaseNum {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
   font-weight: 800;
-  color: var(--blue);
-  background-color: var(--blue-light);
-  padding: 2px 6px;
-  border-radius: var(--radius-sm);
-  margin-top: 2px;
+  color: var(--color-primary-text);
+  background-color: var(--color-soft-stone);
+  padding: 3px 10px;
+  border-radius: var(--radius-xs);
+  letter-spacing: 0.05em;
 }
 
-.stratTitle {
-  font-size: 0.95rem;
+.dossierCategory {
+  font-family: var(--font-mono);
+  font-size: var(--text-metadata);
   font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 2px;
+  color: var(--color-muted-text);
+  letter-spacing: var(--tracking-wider);
 }
 
-.stratDesc {
-  font-size: 0.82rem;
-  color: var(--text-muted);
-  line-height: 1.4;
+.dossierScope {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: #2D4708;
+  font-weight: 600;
 }
 
-/* Featured Right KPI Box */
-.featuredRight {
-  width: 100%;
+.dossierTitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.2vw, 1.85rem);
+  font-weight: 800;
+  color: var(--color-primary-text);
+  letter-spacing: var(--tracking-tight);
+  line-height: 1.25;
 }
 
-.kpiHeroCard {
-  background-color: var(--navy);
-  color: var(--navy-text);
-  border: 1px solid var(--navy-border);
-  border-radius: var(--radius-md);
-  padding: 32px 28px;
-  box-shadow: var(--shadow-lg);
+/* ─────────────────────────────────────────────────────────────
+   ASYMMETRIC DOSSIER GRID: EVIDENCE FLOW (1.3fr) + IMPACT (1fr)
+   ───────────────────────────────────────────────────────────── */
+
+.dossierGrid {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: clamp(32px, 4vw, 56px);
+  align-items: start;
+}
+
+/* Left: Evidence Flow Nodes */
+.evidenceFlowCol {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.flowNode {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 16px;
+  position: relative;
+}
+
+.flowIndicatorCol {
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
-  gap: 6px;
+  padding-top: 4px;
 }
 
-.kpiHeroLabel {
+.flowDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #FFFFFF;
+  border: 2px solid rgba(17, 19, 21, 0.35);
+  flex-shrink: 0;
+}
+
+.flowDotHighlight {
+  background-color: #2D4708;
+  border-color: #2D4708;
+  box-shadow: 0 0 8px var(--color-adorca-signal);
+  transform: scale(1.2);
+}
+
+.flowLine {
+  width: 1.5px;
+  flex: 1;
+  background-color: var(--border);
+  min-height: 36px;
+  margin: 4px 0;
+}
+
+.flowContent {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-bottom: 24px;
+}
+
+.flowTag {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: var(--tracking-wider);
+  color: var(--color-muted-text);
+}
+
+.flowTagHighlight {
+  color: #2D4708;
+}
+
+.flowValBig {
   font-family: var(--font-display);
-  font-size: 0.75rem;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--color-primary-text);
+  line-height: 1.2;
+}
+
+.flowSub {
+  font-size: 0.8rem;
+  color: var(--color-muted-text);
+}
+
+.flowHeading {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--lime);
+  color: var(--color-primary-text);
+  line-height: 1.3;
 }
 
-.kpiHeroVal {
+.flowBodyText {
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--color-primary-text);
+}
+
+.flowValHighlight {
   font-family: var(--font-display);
-  font-size: 3.5rem;
+  font-size: 1.65rem;
   font-weight: 900;
-  color: #FFFFFF;
-  line-height: 1.05;
-  letter-spacing: -0.03em;
+  color: #2D4708;
+  letter-spacing: -0.02em;
 }
 
-.kpiHeroSub {
-  font-size: 0.95rem;
-  color: var(--navy-text-secondary);
-  font-weight: 500;
+.flowSubHighlight {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-primary-text);
 }
 
-.chartWrapper {
+/* ─────────────────────────────────────────────────────────────
+   RIGHT: IMPACT ANCHOR CARD + TRAJECTORY GRAPH
+   ───────────────────────────────────────────────────────────── */
+
+.impactAnchorCol {
   width: 100%;
-  margin: 16px 0;
 }
 
-.trendSvg {
+.impactAnchorCard {
+  background-color: var(--color-warm-paper);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Proof Anchor: 12K -> 28.8K */
+.deltaAnchorBox {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.deltaFlowRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.deltaMetric {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.deltaLabel {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: var(--tracking-wider);
+  color: var(--color-muted-text);
+}
+
+.deltaVal {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--color-muted-text);
+}
+
+.deltaValHighlight {
+  font-family: var(--font-display);
+  font-size: 1.65rem;
+  font-weight: 900;
+  color: var(--color-primary-text);
+}
+
+.deltaArrow {
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #2D4708;
+  line-height: 1;
+}
+
+.kpiPinnacle {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  background-color: var(--color-adorca-signal-light);
+  border: 1px solid var(--color-adorca-signal-border);
+  padding: 10px 16px;
+  border-radius: var(--radius-xs);
+}
+
+.kpiPinnacleNum {
+  font-family: var(--font-display);
+  font-size: 2.25rem;
+  font-weight: 900;
+  color: #2D4708;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.kpiPinnacleLabel {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #2D4708;
+  letter-spacing: var(--tracking-wider);
+}
+
+/* Graph Container */
+.graphContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.evidenceSvg {
   width: 100%;
-  height: 80px;
+  height: 100px;
+  overflow: visible;
 }
 
-.trendSvg path {
-  stroke-dasharray: 400;
-  stroke-dashoffset: 400;
-  animation: drawFeaturedTrend 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.animatedDrawPath {
+  stroke-dasharray: 450;
+  stroke-dashoffset: 450;
+  animation: drawEvidencePath 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-@keyframes drawFeaturedTrend {
+@keyframes drawEvidencePath {
   to {
     stroke-dashoffset: 0;
   }
 }
 
-.compareRow {
+.graphLegenda {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  width: 100%;
-  padding-top: 14px;
-  border-top: 1px solid var(--navy-border);
-}
-
-.compareBlock {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.compareLabel {
-  font-size: 0.75rem;
-  color: var(--navy-text-muted);
-  font-weight: 500;
-}
-
-.compareVal {
-  font-family: var(--font-display);
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--navy-text-secondary);
-}
-
-.compareValHighlight {
-  font-family: var(--font-display);
-  font-size: 0.95rem;
-  font-weight: 800;
-  color: var(--lime);
-}
-
-.compareArrow {
-  font-size: 1.1rem;
-  color: var(--navy-text-muted);
-}
-
-/* ─────────────────────────────────────────────
-   Secondary Case Study Grid
-   ───────────────────────────────────────────── */
-.secondaryGrid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-}
-
-.secondaryCard {
-  background-color: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 32px 28px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  transition: var(--transition-smooth);
-}
-
-.secondaryCard:hover {
-  border-color: var(--border-hover);
-  box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
-}
-
-.secondaryHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.secondaryCategory {
-  font-family: var(--font-display);
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-
-.secondaryKpi {
-  font-family: var(--font-display);
-  font-size: 0.85rem;
-  font-weight: 800;
-  color: var(--blue);
-  background-color: var(--blue-light);
-  padding: 3px 10px;
-  border-radius: var(--radius-pill);
-}
-
-.secondaryTitle {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  line-height: 1.3;
-}
-
-.secondaryDesc {
-  font-size: 0.92rem;
-  color: var(--text-secondary);
-  line-height: 1.55;
-  flex: 1;
-}
-
-.secondaryMeta {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  padding-top: 14px;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--color-muted-text);
+  padding-top: 6px;
   border-top: 1px solid var(--border-light);
 }
 
-.metaStat {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.metaVal {
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  font-weight: 800;
-  color: var(--text-primary);
-}
-
-.metaLabel {
-  font-size: 0.75rem;
-  color: var(--text-muted);
-}
-
-.cardReadLink {
-  font-family: var(--font-display);
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: var(--blue);
+.dossierAction {
   margin-top: 4px;
-  display: inline-flex;
-  align-items: center;
 }
 
-.cardReadLink:hover {
-  color: var(--blue-hover);
-  text-decoration: underline;
-}
+/* ─────────────────────────────────────────────────────────────
+   RESPONSIVE
+   ───────────────────────────────────────────────────────────── */
 
-/* ─────────────────────────────────────────────
-   Responsive
-   ───────────────────────────────────────────── */
 @media (max-width: 992px) {
-  .featuredCase {
+  .caseNavRow {
     grid-template-columns: 1fr;
-    padding: 28px 24px;
-    gap: 32px;
   }
 
-  .secondaryGrid {
+  .caseTab {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .dossierGrid {
     grid-template-columns: 1fr;
+    gap: 36px;
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .featuredCase,
-  .secondaryCard {
-    transition: none !important;
+@media (max-width: 576px) {
+  .deltaFlowRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
   }
 
-  .trendSvg path {
+  .deltaArrow {
+    display: none;
+  }
+}
+
+/* Reduced Motion Override */
+@media (prefers-reduced-motion: reduce) {
+  .animatedDrawPath {
     animation: none !important;
     stroke-dashoffset: 0 !important;
+  }
+
+  .evidenceDossier {
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

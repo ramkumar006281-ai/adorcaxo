@@ -8,7 +8,7 @@ export default function FinalCTA() {
   const [revealRef, isVisible] = useIntersection({ threshold: 0.08 });
 
   return (
-    <section id="contact" className="darkCardSection" ref={revealRef} aria-label="Final Call to Action">
+    <section id="contact" className="darkCardSection theme-dark" ref={revealRef} aria-label="Final Call to Action">
       {/* Signature Ambient Growth Orbit Background */}
       <div className={styles.ambientOrbit} aria-hidden="true">
         <svg
@@ -19,9 +19,9 @@ export default function FinalCTA() {
         >
           <defs>
             <radialGradient id="ctaGlow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#1657FF" stopOpacity="0.35" />
-              <stop offset="60%" stopColor="#98F22A" stopOpacity="0.12" />
-              <stop offset="100%" stopColor="#081033" stopOpacity="0" />
+              <stop offset="0%" stopColor="#B7E56B" stopOpacity="0.16" />
+              <stop offset="70%" stopColor="#0B0D0F" stopOpacity="0.02" />
+              <stop offset="100%" stopColor="#0B0D0F" stopOpacity="0" />
             </radialGradient>
           </defs>
 

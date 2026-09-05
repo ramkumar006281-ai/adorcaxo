@@ -1,238 +1,459 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useIntersection } from "./utils";
 import styles from "./GrowthSystem.module.css";
 
-interface SystemStage {
-  id: string;
-  step: string;
-  phase: string;
-  name: string;
+type IntelligenceTab = "organic" | "markets" | "experience" | "attribution";
+
+interface EngineData {
+  id: IntelligenceTab;
+  tabLabel: string;
+  metricNumber: number;
+  metricPrefix?: string;
+  metricSuffix: string;
+  metricHeadline: string;
   category: string;
   summary: string;
-  deliverables: string[];
-  kpi: string;
-  icon: React.ReactNode;
+  telemetryPoints: string[];
+  activePipelineStage: "VISIBILITY" | "INTENT" | "ACQUISITION" | "CONVERSION" | "REVENUE";
 }
 
-const LIFECYCLE_STEPS = ["DISCOVER", "ATTRACT", "CONVERT", "RETAIN", "SCALE"];
-
-const STAGES: SystemStage[] = [
+const ENGINES: EngineData[] = [
   {
-    id: "seo",
-    step: "01",
-    phase: "DISCOVER",
-    name: "Search Infrastructure & Technical SEO",
-    category: "High-Intent Discovery",
-    summary: "Build an unshakeable organic footprint with technical crawl optimization, semantic indexation, and multilingual hreflang architecture.",
-    deliverables: ["Technical Architecture Audit", "International Hreflang Configuration", "Core Web Vitals Performance", "Keyword Intent Clustering"],
-    kpi: "Rank #1 for transactional queries",
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <circle cx="11" cy="11" r="8" />
-        <line x1="21" y1="21" x2="16.65" y2="16.65" />
-      </svg>
-    ),
+    id: "organic",
+    tabLabel: "+140% Organic",
+    metricNumber: 140,
+    metricPrefix: "+",
+    metricSuffix: "%",
+    metricHeadline: "Organic Search Visibility",
+    category: "Technical Crawl & Indexing Dominance",
+    summary:
+      "Engineered organic expansion built on forensic crawl architecture, entity schema graphs, and international server-side hreflang tagging that outranks entrenched competitors.",
+    telemetryPoints: [
+      "Forensic log crawl optimization",
+      "Semantic keyword entity clustering",
+      "Core Web Vitals sub-second latency",
+      "Compounding algorithmic equity",
+    ],
+    activePipelineStage: "VISIBILITY",
   },
   {
-    id: "content",
-    step: "02",
-    phase: "ATTRACT",
-    name: "Localized Semantic Content & Authority",
-    category: "Relevance & Authority",
-    summary: "Produce authoritative localized content hubs crafted by native linguistic analysts to outrank local incumbents in target geographies.",
-    deliverables: ["Native Linguistic Localization", "Search Intent Topic Clusters", "Authority Link Architecture", "Competitive Keyword Gap Capture"],
-    kpi: "50+ regional catalogs ranked",
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-        <polyline points="14 2 14 8 20 8" />
-        <line x1="16" y1="13" x2="8" y2="13" />
-        <line x1="16" y1="17" x2="8" y2="17" />
-      </svg>
-    ),
+    id: "markets",
+    tabLabel: "50+ Markets",
+    metricNumber: 50,
+    metricSuffix: "+",
+    metricHeadline: "Global Search Markets",
+    category: "Multilingual Regional Intent Mapping",
+    summary:
+      "Native ccTLD routing and localized query intent across 50+ international territories—grounded in pure digital infrastructure with zero fabricated physical office claims.",
+    telemetryPoints: [
+      "North America, DACH, EMEA, LATAM & APAC",
+      "ccTLD and server-side taxonomy",
+      "Multilingual search idiom localization",
+      "Cross-border shopping intent capture",
+    ],
+    activePipelineStage: "INTENT",
   },
   {
-    id: "social",
-    step: "03",
-    phase: "ATTRACT",
-    name: "Social Influence & Amplification",
-    category: "Brand Trust & Demand",
-    summary: "Orchestrate creator partnerships and social community channels that generate validated referral demand and organic backlinks.",
-    deliverables: ["Vetted Creator Network Outreach", "Multi-Platform Brand Presence", "Social Demand Stimulation", "Community Retention Funnels"],
-    kpi: "Compounding referral velocity",
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-        <circle cx="9" cy="7" r="4" />
-        <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-      </svg>
-    ),
+    id: "experience",
+    tabLabel: "12+ Years",
+    metricNumber: 12,
+    metricSuffix: "+ Yrs",
+    metricHeadline: "Algorithmic Search Resilience",
+    category: "Continuous Track Record (Est. 2012)",
+    summary:
+      "Navigated over 40 major Google Core updates from Panda and Penguin to modern AI Overviews, turning platform volatility into compounding client advantage.",
+    telemetryPoints: [
+      "40+ Google Core updates navigated",
+      "Zero reliance on black-hat shortcuts",
+      "Decade-long client retention loops",
+      "Continuous enterprise methodology",
+    ],
+    activePipelineStage: "ACQUISITION",
   },
   {
-    id: "paid",
-    step: "04",
-    phase: "CONVERT",
-    name: "Programmatic Advertising & Media",
-    category: "Real-Time Acquisition",
-    summary: "Deploy algorithmic real-time bidding across premier inventory networks to capture high-intent buyers without budget leakage.",
-    deliverables: ["Real-Time Bidding Automation", "High-ROAS Network Allocation", "Audience Intent Retargeting", "Ad Creative Matrix Testing"],
-    kpi: "-42% Cost-Per-Acquisition",
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <rect x="2" y="2" width="20" height="8" rx="2" />
-        <rect x="2" y="14" width="20" height="8" rx="2" />
-        <line x1="6" y1="6" x2="6.01" y2="6" />
-        <line x1="6" y1="18" x2="6.01" y2="18" />
-      </svg>
-    ),
-  },
-  {
-    id: "data",
-    step: "05",
-    phase: "RETAIN",
-    name: "Multi-Touch Attribution & First-Party Data",
-    category: "Attribution Transparency",
-    summary: "Implement server-side first-party tracking pipelines providing unvarnished visibility into cross-channel conversion paths.",
-    deliverables: ["Server-Side Tracking Pipelines", "Cross-Device Conversion Mapping", "Looker Studio Custom Dashboards", "100% Client Data Ownership"],
-    kpi: "Zero vanity metrics",
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <line x1="18" y1="20" x2="18" y2="10" />
-        <line x1="12" y1="20" x2="12" y2="4" />
-        <line x1="6" y1="20" x2="6" y2="14" />
-      </svg>
-    ),
-  },
-  {
-    id: "conversion",
-    step: "06",
-    phase: "SCALE",
-    name: "Conversion Tech & App Scaling",
-    category: "Revenue Acceleration",
-    summary: "Transform inbound traffic into paying customers through high-velocity Next.js landing platforms, ASO, and retention loops.",
-    deliverables: ["High-Velocity Edge Landing Pages", "App Store Optimization (ASO)", "A/B Funnel Experimentation", "Customer Retention Loops"],
-    kpi: "2.4x Funnel Conversion Lift",
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
-        <polyline points="17 6 23 6 23 12" />
-      </svg>
-    ),
+    id: "attribution",
+    tabLabel: "100% Attribution",
+    metricNumber: 100,
+    metricSuffix: "%",
+    metricHeadline: "First-Party Data Ownership",
+    category: "Unified Multi-Channel Convergence",
+    summary:
+      "Direct server-side data pipelines connect every search, paid, social, direct, and app interaction into a unified revenue attribution model with 100% client administrative ownership.",
+    telemetryPoints: [
+      "Server-side first-party GA4 pipelines",
+      "Zero third-party cookie vulnerability",
+      "100% client-owned ad & data accounts",
+      "Multi-touch conversion path mapping",
+    ],
+    activePipelineStage: "REVENUE",
   },
 ];
 
+const PIPELINE_FLOW = [
+  { id: "VISIBILITY", step: "01", label: "VISIBILITY", detail: "Technical Crawl & Hreflang Indexation" },
+  { id: "INTENT", step: "02", label: "INTENT", detail: "Semantic Entity Clustering & Search Queries" },
+  { id: "ACQUISITION", step: "03", label: "ACQUISITION", detail: "Programmatic Media & Organic Synergy" },
+  { id: "CONVERSION", step: "04", label: "CONVERSION", detail: "High-Velocity Edge Next.js Funnels" },
+  { id: "REVENUE", step: "05", label: "REVENUE", detail: "Server-Side Multi-Touch Attribution" },
+];
+
+const GEOGRAPHIC_NODES = [
+  { id: "na", name: "North America", sub: "US • CA", coords: "x: 22%, y: 32%", active: true },
+  { id: "emea", name: "Western Europe", sub: "UK • FR • ES", coords: "x: 52%, y: 28%", active: true },
+  { id: "dach", name: "DACH Region", sub: "DE • AT • CH", coords: "x: 58%, y: 24%", active: true },
+  { id: "latam", name: "LATAM Growth", sub: "BR • MX • CL", coords: "x: 32%, y: 68%", active: true },
+  { id: "apac", name: "Asia-Pacific", sub: "JP • SG • AU", coords: "x: 82%, y: 55%", active: true },
+];
+
+const TIMELINE_MILESTONES = [
+  { year: "2012", title: "Foundation", note: "Early Panda & Penguin Update Resilience" },
+  { year: "2016", title: "Entity SEO", note: "Mobile-First Indexing & Semantic Knowledge Graphs" },
+  { year: "2020", title: "Scale Engine", note: "Core Web Vitals & Real-Time Bidding Automation" },
+  { year: "2024", title: "AI Search", note: "Helpful Content System & AI Overview Navigation" },
+  { year: "2026+", title: "GEO / Edge", note: "Autonomous Generative Optimization & Edge Funnels" },
+];
+
 export default function GrowthSystem() {
-  const [revealRef, isVisible] = useIntersection({ threshold: 0.08 });
-  const [activeStage, setActiveStage] = useState<SystemStage>(STAGES[0]);
+  const [revealRef, isVisible] = useIntersection({ threshold: 0.12 });
+  const [activeTab, setActiveTab] = useState<IntelligenceTab>("organic");
+  const [countValue, setCountValue] = useState<number>(0);
+  const [isSettled, setIsSettled] = useState<boolean>(false);
+  const animationRef = useRef<number | null>(null);
+
+  const currentEngine = ENGINES.find((e) => e.id === activeTab) || ENGINES[0];
+
+  // Count-up animation with signal pulse on settle
+  useEffect(() => {
+    if (!isVisible) return;
+
+    const target = currentEngine.metricNumber;
+    const duration = 1200; // ms
+    const startTime = performance.now();
+
+    const animateCounter = (now: number) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      if (elapsed <= 16) {
+        setIsSettled(false);
+        setCountValue(0);
+      }
+
+      // Ease-out cubic
+      const easeOut = 1 - Math.pow(1 - progress, 3);
+      const current = Math.round(easeOut * target);
+      setCountValue(current);
+
+      if (progress < 1) {
+        animationRef.current = requestAnimationFrame(animateCounter);
+      } else {
+        setCountValue(target);
+        setIsSettled(true);
+      }
+    };
+
+    animationRef.current = requestAnimationFrame(animateCounter);
+
+    return () => {
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+    };
+  }, [activeTab, isVisible, currentEngine.metricNumber]);
 
   return (
-    <section id="growth-system" className="darkCardSection" ref={revealRef}>
-      {/* Header */}
-      <div className="section-header center">
-        <span className="section-subtitle">Connected Growth Infrastructure</span>
-        <h2 className="section-title">One Growth System. Every Channel Connected.</h2>
-        <p className="section-desc">
-          Rather than treating SEO, paid media, and web development as isolated silos, we engineer a continuous acquisition system that turns search demand into measurable revenue.
-        </p>
-      </div>
-
-      {/* Lifecycle Flow Ribbon */}
-      <div className={styles.lifecycleRibbon} aria-label="Customer Lifecycle Progression">
-        {LIFECYCLE_STEPS.map((step, idx) => {
-          const isPhaseActive = activeStage.phase === step;
-          return (
-            <div key={step} className={`${styles.lifecycleStep} ${isPhaseActive ? styles.lifecycleStepActive : ""}`}>
-              <span className={styles.lifecycleDot} />
-              <span className={styles.lifecycleText}>{step}</span>
-              {idx < LIFECYCLE_STEPS.length - 1 && <span className={styles.lifecycleArrow}>&rarr;</span>}
-            </div>
-          );
-        })}
-      </div>
-
-      <div className={styles.systemContainer}>
-        {/* Interactive Step Selector Strip */}
-        <div className={styles.pipelineStrip} role="tablist" aria-label="Growth System Pipeline Stages">
-          {STAGES.map((st, idx) => {
-            const isActive = st.id === activeStage.id;
-            return (
-              <button
-                key={st.id}
-                type="button"
-                role="tab"
-                aria-selected={isActive}
-                aria-controls={`stage-panel-${st.id}`}
-                id={`stage-tab-${st.id}`}
-                className={`${styles.stepNode} ${isActive ? styles.stepNodeActive : ""}`}
-                onClick={() => setActiveStage(st)}
-                onKeyDown={(e) => {
-                  if (e.key === "ArrowRight") {
-                    e.preventDefault();
-                    const nextIdx = (idx + 1) % STAGES.length;
-                    setActiveStage(STAGES[nextIdx]);
-                    document.getElementById(`stage-tab-${STAGES[nextIdx].id}`)?.focus();
-                  } else if (e.key === "ArrowLeft") {
-                    e.preventDefault();
-                    const prevIdx = (idx - 1 + STAGES.length) % STAGES.length;
-                    setActiveStage(STAGES[prevIdx]);
-                    document.getElementById(`stage-tab-${STAGES[prevIdx].id}`)?.focus();
-                  }
-                }}
-              >
-                <div className={styles.nodeTop}>
-                  <span className={styles.stepNum}>{st.step}</span>
-                  <span className={styles.stepIcon}>{st.icon}</span>
-                </div>
-                <span className={styles.stepName}>{st.name}</span>
-                {idx < STAGES.length - 1 && <span className={styles.connectorArrow} aria-hidden="true">&rarr;</span>}
-              </button>
-            );
-          })}
+    <section id="growth-system" className="darkCardSection theme-dark" ref={revealRef} aria-label="Growth Intelligence System">
+      <div className="container">
+        {/* Section Header */}
+        <div className={styles.sectionHeader}>
+          <div className={styles.headerBadge}>
+            <span className={styles.pulseDot} aria-hidden="true" />
+            <span className={styles.headerBadgeText}>Algorithmic Performance Architecture</span>
+          </div>
+          <h2 className={styles.mainTitle}>
+            One Growth System. <br />
+            <span className={styles.highlightText}>Every Channel Connected.</span>
+          </h2>
+          <p className={styles.mainDesc}>
+            Rather than treating SEO, paid media, and web development as disconnected silos, we engineer an integrated growth operating system that systematically transforms search visibility into compounding enterprise revenue.
+          </p>
         </div>
 
-        {/* Detailed Active Stage Panel */}
-        <div
-          id={`stage-panel-${activeStage.id}`}
-          role="tabpanel"
-          aria-labelledby={`stage-tab-${activeStage.id}`}
-          className={`${styles.detailCard} ${isVisible ? styles.visible : ""}`}
-        >
-          <div className={styles.detailGrid}>
-            {/* Left: Strategic Context */}
-            <div className={styles.detailMain}>
-              <div className={styles.detailMeta}>
-                <span className={styles.stageTag}>Stage {activeStage.step} &bull; {activeStage.category}</span>
-                <span className={styles.kpiBadge}>{activeStage.kpi}</span>
-              </div>
-              <h3 className={styles.detailTitle}>{activeStage.name}</h3>
-              <p className={styles.detailSummary}>{activeStage.summary}</p>
-
-              <div className={styles.actionRow}>
-                <Link href="/#opportunity-tool" className="btn btn-lime">
-                  Deploy in Growth Plan
-                </Link>
-              </div>
+        {/* Asymmetric Intelligence Console Grid */}
+        <div className={`${styles.intelligenceGrid} ${isVisible ? styles.visible : ""}`}>
+          {/* Left Column: Interactive Metric Selectors & Deep Telemetry */}
+          <div className={styles.engineSelectorsCol}>
+            {/* 4 Engine Selector Nodes */}
+            <div className={styles.tabsRow} role="tablist" aria-label="Core Intelligence Metrics">
+              {ENGINES.map((eng) => {
+                const isActive = eng.id === activeTab;
+                return (
+                  <button
+                    key={eng.id}
+                    type="button"
+                    role="tab"
+                    id={`tab-${eng.id}`}
+                    aria-selected={isActive}
+                    aria-controls={`panel-${eng.id}`}
+                    className={`${styles.tabNode} ${isActive ? styles.tabNodeActive : ""}`}
+                    onClick={() => setActiveTab(eng.id)}
+                  >
+                    <span className={styles.tabNodeLabel}>{eng.tabLabel}</span>
+                    <span className={styles.tabNodeIndicator} />
+                  </button>
+                );
+              })}
             </div>
 
-            {/* Right: Key Deliverables List */}
-            <div className={styles.deliverablesBox}>
-              <h4 className={styles.deliverablesHeading}>Engineered Deliverables</h4>
-              <ul className={styles.deliverablesList}>
-                {activeStage.deliverables.map((item, i) => (
-                  <li key={i} className={styles.deliverableItem}>
-                    <div className={styles.checkIcon} aria-hidden="true">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+            {/* Active Engine Telemetry Console */}
+            <div
+              id={`panel-${currentEngine.id}`}
+              role="tabpanel"
+              aria-labelledby={`tab-${currentEngine.id}`}
+              className={styles.engineDossier}
+            >
+              {/* Massive Metric Hero Display */}
+              <div className={styles.metricHeroRow}>
+                <div className={styles.metricValGroup}>
+                  <span className={styles.metricBig}>
+                    {currentEngine.metricPrefix}
+                    {countValue}
+                    {currentEngine.metricSuffix}
+                  </span>
+                  {/* Signal Pulse Beacon when settled */}
+                  <div className={`${styles.pulseBeacon} ${isSettled ? styles.beaconActive : ""}`} aria-hidden="true">
+                    <span className={styles.beaconPing} />
+                    <span className={styles.beaconDot} />
+                  </div>
+                </div>
+                <div className={styles.metricMetaGroup}>
+                  <span className={styles.metricHeadline}>{currentEngine.metricHeadline}</span>
+                  <span className={styles.metricCategory}>{currentEngine.category}</span>
+                </div>
+              </div>
+
+              {/* Dynamic Interactive Visual Panel Based on Active Tab */}
+              <div className={styles.dynamicVizWrapper}>
+                {/* 1. If Organic Growth (+140%): SVG Graph Draw */}
+                {activeTab === "organic" && (
+                  <div className={styles.graphCanvas} aria-label="Organic Visibility Trajectory Graph">
+                    <div className={styles.graphTopRow}>
+                      <span className={styles.graphLabel}>INDEXED SEARCH VISIBILITY (12-MONTH TRAJECTORY)</span>
+                      <span className={styles.graphDeltaBadge}>+140% PEAK</span>
+                    </div>
+                    <svg viewBox="0 0 460 140" className={styles.chartSvg} fill="none">
+                      <defs>
+                        <linearGradient id="growthAreaGrad" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stopColor="var(--color-adorca-signal)" stopOpacity="0.25" />
+                          <stop offset="100%" stopColor="var(--color-adorca-signal)" stopOpacity="0" />
+                        </linearGradient>
+                      </defs>
+                      {/* Grid Lines */}
+                      <line x1="10" y1="120" x2="450" y2="120" stroke="rgba(244, 243, 239, 0.08)" strokeDasharray="3 3" />
+                      <line x1="10" y1="75" x2="450" y2="75" stroke="rgba(244, 243, 239, 0.08)" strokeDasharray="3 3" />
+                      <line x1="10" y1="30" x2="450" y2="30" stroke="rgba(244, 243, 239, 0.08)" strokeDasharray="3 3" />
+                      {/* Shaded Area */}
+                      <path
+                        d="M 20 115 Q 120 110, 200 85 T 340 45 T 440 22 L 440 120 L 20 120 Z"
+                        fill="url(#growthAreaGrad)"
+                        className={styles.areaFill}
+                      />
+                      {/* Animated Draw Curve */}
+                      <path
+                        d="M 20 115 Q 120 110, 200 85 T 340 45 T 440 22"
+                        stroke="var(--color-adorca-signal)"
+                        strokeWidth="3"
+                        strokeLinecap="round"
+                        className={`${styles.trendCurve} ${isSettled ? styles.trendCurveSettled : ""}`}
+                      />
+                      {/* Peak Coordinates Beacon */}
+                      <circle cx="440" cy="22" r="5" fill="var(--color-adorca-signal)" className={styles.peakPoint} />
+                      <circle cx="440" cy="22" r="11" stroke="var(--color-adorca-signal)" strokeWidth="1.5" className={styles.peakRing} />
+                    </svg>
+                    <div className={styles.graphScale}>
+                      <span>BASELINE (Q1)</span>
+                      <span>ALGORITHMIC INDEXATION (Q2)</span>
+                      <span>COMPOUNDING DOMINANCE (Q4)</span>
+                    </div>
+                  </div>
+                )}
+
+                {/* 2. If 50+ Markets: Geographic Nodes Activation */}
+                {activeTab === "markets" && (
+                  <div className={styles.marketsCanvas} aria-label="50+ Markets Geographic Activation">
+                    <div className={styles.graphTopRow}>
+                      <span className={styles.graphLabel}>GLOBAL CRAWL TAXONOMY & REGIONAL CLUSTERS</span>
+                      <span className={styles.graphDeltaBadge}>50+ MARKETS ACTIVE</span>
+                    </div>
+                    <div className={styles.geoGrid}>
+                      {GEOGRAPHIC_NODES.map((node, i) => (
+                        <div key={node.id} className={styles.geoNodeCard} style={{ animationDelay: `${i * 0.1}s` }}>
+                          <div className={styles.geoNodeHeader}>
+                            <span className={styles.geoNodeDot} />
+                            <span className={styles.geoNodeTitle}>{node.name}</span>
+                          </div>
+                          <span className={styles.geoNodeSub}>{node.sub}</span>
+                          <span className={styles.geoCoords}>ccTLD &bull; Server-Side Hreflang</span>
+                        </div>
+                      ))}
+                    </div>
+                    <div className={styles.geoClaimGrounded}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                         <polyline points="20 6 9 17 4 12" />
                       </svg>
+                      <span>100% verified digital search infrastructure — zero fabricated physical office claims.</span>
                     </div>
-                    <span>{item}</span>
-                  </li>
+                  </div>
+                )}
+
+                {/* 3. If 12+ Years: Algorithmic Timeline Progression */}
+                {activeTab === "experience" && (
+                  <div className={styles.timelineCanvas} aria-label="12+ Years Algorithmic Timeline">
+                    <div className={styles.graphTopRow}>
+                      <span className={styles.graphLabel}>ALGORITHMIC RESILIENCE TIMELINE (EST. 2012)</span>
+                      <span className={styles.graphDeltaBadge}>40+ CORE UPDATES</span>
+                    </div>
+                    <div className={styles.milestoneTrack}>
+                      <div className={styles.milestoneBar} />
+                      <div className={styles.milestonesList}>
+                        {TIMELINE_MILESTONES.map((item, idx) => (
+                          <div key={item.year} className={styles.milestoneItem} style={{ animationDelay: `${idx * 0.12}s` }}>
+                            <div className={styles.milestoneNode}>
+                              <span className={styles.milestoneDot} />
+                              <span className={styles.milestoneYear}>{item.year}</span>
+                            </div>
+                            <span className={styles.milestoneTitle}>{item.title}</span>
+                            <p className={styles.milestoneNote}>{item.note}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* 4. If 100% Attribution: Multi-Bus Convergence Diagram */}
+                {activeTab === "attribution" && (
+                  <div className={styles.attributionCanvas} aria-label="Multi-Channel Attribution Bus Diagram">
+                    <div className={styles.graphTopRow}>
+                      <span className={styles.graphLabel}>SERVER-SIDE FIRST-PARTY REVENUE ATTRIBUTION</span>
+                      <span className={styles.graphDeltaBadge}>100% CLIENT OWNERSHIP</span>
+                    </div>
+                    {/* Multi-Channel Inbound Lines Converging into Single Revenue Stream */}
+                    <div className={styles.busDiagramWrapper}>
+                      <svg viewBox="0 0 460 180" className={styles.busSvg} fill="none">
+                        {/* Channel Source Nodes (SEO, PAID, SOCIAL, DIRECT, APP) */}
+                        {/* Inbound Lines to Central Hub at (300, 90) */}
+                        {/* 1. SEO */}
+                        <path d="M 70 25 L 200 25 Q 260 25, 290 80 L 300 90" stroke="rgba(244, 243, 239, 0.25)" strokeWidth="1.5" />
+                        {/* 2. PAID */}
+                        <path d="M 70 58 L 200 58 Q 250 58, 290 85 L 300 90" stroke="rgba(244, 243, 239, 0.25)" strokeWidth="1.5" />
+                        {/* 3. SOCIAL */}
+                        <path d="M 70 90 L 300 90" stroke="rgba(244, 243, 239, 0.35)" strokeWidth="1.5" />
+                        {/* 4. DIRECT */}
+                        <path d="M 70 122 L 200 122 Q 250 122, 290 95 L 300 90" stroke="rgba(244, 243, 239, 0.25)" strokeWidth="1.5" />
+                        {/* 5. APP */}
+                        <path d="M 70 155 L 200 155 Q 260 155, 290 100 L 300 90" stroke="rgba(244, 243, 239, 0.25)" strokeWidth="1.5" />
+
+                        {/* Animated Signal Flows converging */}
+                        <path d="M 70 25 L 200 25 Q 260 25, 290 80 L 300 90" stroke="var(--color-adorca-signal)" strokeWidth="2" strokeDasharray="14 100" className={styles.busTravelingSignal} />
+                        <path d="M 70 90 L 300 90" stroke="var(--color-adorca-signal)" strokeWidth="2" strokeDasharray="14 100" className={styles.busTravelingSignal} />
+                        <path d="M 70 155 L 200 155 Q 260 155, 290 100 L 300 90" stroke="var(--color-adorca-signal)" strokeWidth="2" strokeDasharray="14 100" className={styles.busTravelingSignal} />
+
+                        {/* Outbound High-Yield Revenue Line to Target */}
+                        <line x1="300" y1="90" x2="410" y2="90" stroke="var(--color-adorca-signal)" strokeWidth="4" strokeLinecap="round" />
+                        <circle cx="300" cy="90" r="10" fill="#0E1114" stroke="var(--color-adorca-signal)" strokeWidth="2.5" />
+                        <circle cx="300" cy="90" r="4" fill="var(--color-adorca-signal)" />
+
+                        {/* Terminal Revenue Target Box */}
+                        <rect x="360" y="70" width="90" height="40" rx="6" fill="#14181C" stroke="var(--color-adorca-signal)" strokeWidth="1.5" />
+                      </svg>
+
+                      {/* HTML Overlay Badges for Inputs and Revenue Target */}
+                      <div className={styles.channelBadgeList}>
+                        <span className={styles.channelBadge} style={{ top: "14px" }}>SEO</span>
+                        <span className={styles.channelBadge} style={{ top: "48px" }}>PAID</span>
+                        <span className={styles.channelBadge} style={{ top: "80px" }}>SOCIAL</span>
+                        <span className={styles.channelBadge} style={{ top: "112px" }}>DIRECT</span>
+                        <span className={styles.channelBadge} style={{ top: "144px" }}>APP</span>
+                      </div>
+
+                      <div className={styles.revenueTargetBox}>
+                        <span className={styles.revenueTargetLabel}>VERIFIED REVENUE</span>
+                        <span className={styles.revenueTargetSub}>100% Client Attribution</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Telemetry Points Checklist */}
+              <div className={styles.pointsList}>
+                {currentEngine.telemetryPoints.map((pt, idx) => (
+                  <div key={idx} className={styles.pointItem}>
+                    <svg className={styles.pointCheck} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                    <span>{pt}</span>
+                  </div>
                 ))}
-              </ul>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Full-Funnel Trajectory Console (Visibility -> Intent -> Acquisition -> Conversion -> Revenue) */}
+          <div className={styles.fullFunnelCol}>
+            <div className={styles.funnelConsoleCard}>
+              <div className={styles.funnelConsoleHeader}>
+                <div className={styles.consoleHeaderLeft}>
+                  <span className={styles.terminalIndicator} />
+                  <span className={styles.consoleTitle}>LIFECYCLE STORY ENGINE</span>
+                </div>
+                <span className={styles.liveProtocolTag}>PROTOCOL // V4.2</span>
+              </div>
+
+              <p className={styles.funnelIntro}>
+                Adorca unites the full acquisition progression so no high-intent demand leaks across channel handoffs.
+              </p>
+
+              {/* Vertical 5-Stage Story Sequence */}
+              <div className={styles.stagesLadder} role="list" aria-label="Customer Lifecycle Progression">
+                {PIPELINE_FLOW.map((step, idx) => {
+                  const isHighlighted = currentEngine.activePipelineStage === step.id;
+                  return (
+                    <div
+                      key={step.id}
+                      className={`${styles.ladderStep} ${isHighlighted ? styles.ladderStepActive : ""}`}
+                      role="listitem"
+                    >
+                      <div className={styles.stepSpineCol} aria-hidden="true">
+                        <span className={styles.stepMarkerDot} />
+                        {idx < PIPELINE_FLOW.length - 1 && <span className={styles.stepSpineLine} />}
+                      </div>
+
+                      <div className={styles.stepContent}>
+                        <div className={styles.stepHeaderRow}>
+                          <span className={styles.stepIndex}>{step.step}</span>
+                          <span className={styles.stepName}>{step.label}</span>
+                          {isHighlighted && <span className={styles.activePill}>ACTIVE ENGINE</span>}
+                        </div>
+                        <span className={styles.stepDetail}>{step.detail}</span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Action Prompt */}
+              <div className={styles.consoleFooter}>
+                <div className={styles.consoleFooterInfo}>
+                  <span className={styles.footerNoteLabel}>DIAGNOSTIC STATUS</span>
+                  <span className={styles.footerNoteText}>Ready for architectural deployment</span>
+                </div>
+                <Link href="/#opportunity-tool" className="btn btn-lime">
+                  Deploy Growth Plan &rarr;
+                </Link>
+              </div>
             </div>
           </div>
         </div>

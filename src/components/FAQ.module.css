@@ -5,13 +5,16 @@
   gap: 36px;
 }
 
+/* ─────────────────────────────────────────────
+   Editorial Hairline Accordion (No Box Cards)
+   ───────────────────────────────────────────── */
 .accordionWrapper {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  max-width: 880px;
+  max-width: 920px;
   width: 100%;
   margin: 0 auto;
+  border-top: 1px solid var(--border);
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
@@ -22,30 +25,24 @@
   transform: translateY(0);
 }
 
-/* ─────────────────────────────────────────────
-   FAQ Card State: Closed
-   ───────────────────────────────────────────── */
 .faqCard {
-  background-color: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
   overflow: hidden;
-  transition: var(--transition-smooth);
-  box-shadow: var(--shadow-sm);
+  transition: background-color var(--duration-200) var(--ease-out);
+  box-shadow: none;
 }
 
 .faqCard:hover {
-  border-color: var(--border-hover);
-  box-shadow: var(--shadow-md);
+  background-color: rgba(17, 19, 21, 0.015);
 }
 
-/* ─────────────────────────────────────────────
-   FAQ Card State: Open
-   ───────────────────────────────────────────── */
 .faqCardOpen {
-  border-color: var(--blue);
-  background-color: var(--bg-card);
-  box-shadow: 0 10px 30px rgba(22, 87, 255, 0.1);
+  background: transparent;
+  border-bottom: 1px solid var(--border);
+  box-shadow: none;
 }
 
 /* ─────────────────────────────────────────────
@@ -53,8 +50,8 @@
    ───────────────────────────────────────────── */
 .questionBtn {
   width: 100%;
-  min-height: 60px;
-  padding: 22px 26px;
+  min-height: 56px;
+  padding: clamp(20px, 2.5vw, 28px) 8px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -67,23 +64,12 @@
   outline: none;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
-  transition: background-color 0.2s ease;
+  transition: color var(--duration-200) var(--ease-out);
 }
 
-/* Touch & Hover State */
-.questionBtn:hover {
-  background-color: var(--bg-subtle);
-}
-
-.questionBtn:active {
-  background-color: rgba(22, 87, 255, 0.04);
-}
-
-/* Keyboard Focus State */
 .questionBtn:focus-visible {
-  outline: 2px solid var(--blue);
+  outline: 2px solid var(--color-intelligence-blue);
   outline-offset: -2px;
-  background-color: var(--bg-subtle);
 }
 
 .questionLeft {
@@ -94,59 +80,46 @@
 }
 
 .indexNum {
-  font-family: var(--font-display);
-  font-size: 0.85rem;
-  font-weight: 800;
-  color: var(--blue);
-  background: var(--blue-light);
-  padding: 3px 8px;
-  border-radius: var(--radius-pill);
+  font-family: var(--font-mono);
+  font-size: var(--text-metadata);
+  font-weight: 600;
+  color: var(--color-muted-text);
+  letter-spacing: var(--tracking-wide);
   flex-shrink: 0;
+}
+
+.faqCardOpen .indexNum {
+  color: var(--color-primary-text);
 }
 
 .questionText {
   font-family: var(--font-display);
-  font-size: 1.05rem;
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
   font-weight: 700;
-  line-height: 1.4;
-  letter-spacing: -0.015em;
-  color: var(--text-primary);
-  transition: color 0.2s ease;
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-primary-text);
 }
 
-.faqCardOpen .questionText {
-  color: var(--blue);
-}
-
-/* ─────────────────────────────────────────────
-   Chevron Icon Animation
-   ───────────────────────────────────────────── */
+/* Chevron wrapper class used in FAQ.tsx */
 .chevronWrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: var(--bg-subtle);
-  color: var(--text-muted);
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease, color 0.3s ease;
   flex-shrink: 0;
+  color: var(--color-muted-text);
+  transition: transform var(--duration-300) var(--ease-out), color var(--duration-200) var(--ease-out);
 }
 
-.faqCardOpen .chevronWrapper {
-  background: var(--blue-light);
-  color: var(--blue);
+.chevronOpen {
   transform: rotate(180deg);
+  color: var(--color-primary-text);
 }
 
 /* ─────────────────────────────────────────────
-   Accordion Body Animation: Grid Transition
+   Answer Container — Grid row animation
    ───────────────────────────────────────────── */
 .answerContainer {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: grid-template-rows var(--duration-300) var(--ease-out);
 }
 
 .answerOpen {
@@ -159,54 +132,37 @@
 
 .answerInner {
   display: flex;
-  gap: 16px;
-  padding: 0 26px 26px 26px;
+  gap: 14px;
+  padding: 0 8px clamp(20px, 2.5vw, 28px) 8px;
 }
 
 .answerIndicator {
-  width: 3px;
+  width: 2px;
+  min-height: 100%;
+  background: var(--color-adorca-signal);
   border-radius: var(--radius-pill);
-  background: var(--blue);
   flex-shrink: 0;
   opacity: 0.6;
 }
 
 .answerText {
-  font-size: 0.98rem;
+  font-size: 0.95rem;
+  line-height: var(--leading-normal);
   color: var(--text-secondary);
-  line-height: 1.7;
-  margin: 0;
+  max-width: 760px;
 }
 
-/* ─────────────────────────────────────────────
-   Responsive & Accessibility
-   ───────────────────────────────────────────── */
-@media (max-width: 768px) {
-  .questionBtn {
-    padding: 18px 20px;
-    gap: 14px;
-  }
-
-  .questionText {
-    font-size: 0.98rem;
-  }
-
-  .answerInner {
-    padding: 0 20px 20px 20px;
-    gap: 12px;
-  }
-
-  .answerText {
-    font-size: 0.92rem;
-  }
-}
-
-/* Reduced Motion State */
+/* Reduced Motion Override */
 @media (prefers-reduced-motion: reduce) {
   .accordionWrapper,
-  .chevronWrapper,
   .answerContainer,
-  .faqCard {
+  .chevronWrapper {
     transition: none !important;
+    animation: none !important;
+  }
+  
+  .accordionWrapper {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

@@ -21,8 +21,9 @@ export default function FAQ() {
   };
 
   return (
-    <section id="faq" className="floatingCardSection" ref={revealRef} aria-label="Frequently Asked Questions">
-      <div className={styles.container}>
+    <section id="faq" className="pageSection theme-warm" ref={revealRef} aria-label="Frequently Asked Questions">
+      <div className="container">
+        <div className={styles.container}>
         {/* Section Header */}
         <div className="section-header center">
           <span className="section-subtitle">Frequently Asked Questions</span>
@@ -79,6 +80,7 @@ export default function FAQ() {
             );
           })}
         </div>
+      </div>
       </div>
     </section>
   );

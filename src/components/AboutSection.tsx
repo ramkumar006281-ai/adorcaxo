@@ -1,396 +1,434 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useIntersection } from "./utils";
 import styles from "./AboutSection.module.css";
 
-interface PillarData {
-  id: "markets" | "experience" | "capabilities" | "operating-model";
-  number: string;
-  title: string;
-  subtitle: string;
-  summary: string;
-  stat: string;
-  statLabel: string;
-  highlights: string[];
-  telemetry: {
-    orbitLayer: string;
-    protocol: string;
-    nodesCount: number;
-    status: string;
-  };
+interface OrbitNode {
+  id: "seo" | "media" | "data" | "content" | "cro" | "app" | "markets";
+  name: string;
+  category: string;
+  metric: string;
+  metricLabel: string;
+  orbitRadius: number; // orbital ring distance
+  angleOffset: number; // initial angle in degrees
+  geographicIndex: string;
+  protocol: string;
+  deliverables: string[];
 }
 
-const PILLARS: PillarData[] = [
+const ORBIT_NODES: OrbitNode[] = [
+  {
+    id: "seo",
+    name: "SEO",
+    category: "Technical Crawl & Semantic Intent",
+    metric: "+140%",
+    metricLabel: "Organic Search Equity",
+    orbitRadius: 175,
+    angleOffset: 25,
+    geographicIndex: "GLOBAL CRAWL PROTOCOL",
+    protocol: "Edge SSR rendering, server-side hreflang injection, entity schema graphs, and logarithmic topic clustering.",
+    deliverables: ["Edge Crawl Optimization", "Multilingual Entity Graph", "Core Web Vitals Sub-1.2s"],
+  },
+  {
+    id: "media",
+    name: "MEDIA",
+    category: "Algorithmic Bidding & Yield",
+    metric: "-42%",
+    metricLabel: "Cost-Per-Acquisition",
+    orbitRadius: 175,
+    angleOffset: 145,
+    geographicIndex: "TIER-1 AD NETWORKS",
+    protocol: "Server-side Conversion API (CAPI) telemetry, programmatic negative search pruning, and dynamic auction bid tiering.",
+    deliverables: ["Server-Side CAPI Pipeline", "Algorithmic Real-Time Bid Rules", "Cross-Platform Attribution"],
+  },
+  {
+    id: "data",
+    name: "DATA",
+    category: "First-Party Attribution & Pipeline",
+    metric: "100%",
+    metricLabel: "Client Asset Ownership",
+    orbitRadius: 115,
+    angleOffset: 80,
+    geographicIndex: "CENTRAL DATA WAREHOUSE",
+    protocol: "Direct BigQuery/Snowflake ingestion pipelines, cookieless event streaming, and deterministic multi-touch modeling.",
+    deliverables: ["First-Party Warehouse Stream", "Deterministic Attribution Model", "Looker Telemetry Dashboards"],
+  },
+  {
+    id: "content",
+    name: "CONTENT",
+    category: "Native Intent & Entity Architecture",
+    metric: "40+",
+    metricLabel: "Core Update Resilience",
+    orbitRadius: 115,
+    angleOffset: 210,
+    geographicIndex: "LINGUISTIC EXTRACTION",
+    protocol: "Native commercial idiom mapping, search intent matching, and information-gain entity models that survive AI Overviews.",
+    deliverables: ["Intent-Matched Topic Hubs", "Entity Architecture Taxonomy", "Information-Gain Framework"],
+  },
+  {
+    id: "cro",
+    name: "CRO",
+    category: "Multivariate Journey CRO",
+    metric: "+38%",
+    metricLabel: "Post-Click Funnel Lift",
+    orbitRadius: 115,
+    angleOffset: 310,
+    geographicIndex: "ON-SITE CONVERSION CORE",
+    protocol: "Sub-second edge landing pages, statistical multivariate testing, and intent-matched post-click checkout optimization.",
+    deliverables: ["Edge Landing Architecture", "Statistical Multivariate CRO", "Funnel Leakage Elimination"],
+  },
+  {
+    id: "app",
+    name: "APP",
+    category: "App Store Rank Velocity & ASO",
+    metric: "Top 5",
+    metricLabel: "Store Category Dominance",
+    orbitRadius: 175,
+    angleOffset: 270,
+    geographicIndex: "14 APP STORE LOCALES",
+    protocol: "ASO keyword velocity clustering, localized title/subtitle optimization, and retention event telemetry loops.",
+    deliverables: ["ASO Keyword Velocity Engine", "Multivariate Screenshot CRO", "Retention Telemetry Loop"],
+  },
   {
     id: "markets",
-    number: "01",
-    title: "Global Search Markets",
-    subtitle: "Multilingual Regional Intent & Indexing",
-    summary:
-      "We analyze localized search idioms, cultural shopping intent, and regional indexing architecture across 50+ international territories without relying on fabricated physical office claims.",
-    stat: "50+",
-    statLabel: "International Search Markets",
-    highlights: [
-      "North America, Western Europe, DACH, APAC, LATAM & MEA",
-      "Native ccTLD & server-side hreflang taxonomy",
-      "Multi-platform indexing (Google Global, Bing, Baidu, Amazon)",
-      "Zero fake geographic claims: Pure verified digital infrastructure",
-    ],
-    telemetry: {
-      orbitLayer: "Outer Global Orbital Ring",
-      protocol: "Localized Intent Mapping (ccTLD / Hreflang)",
-      nodesCount: 50,
-      status: "Verified Active Coverage",
-    },
+    name: "MARKETS",
+    category: "50+ Sovereign Regional Catalogs",
+    metric: "50+",
+    metricLabel: "Sovereign Search Catalogs",
+    orbitRadius: 235,
+    angleOffset: 340,
+    geographicIndex: "[NA 40°N] [EU 51°N] [APAC 1°N] [LATAM 23°S]",
+    protocol: "Cross-border search intent extraction across 50+ sovereign markets without fabricated physical presence claims.",
+    deliverables: ["50+ Sovereign Search Catalogs", "Native Linguistic Idiom Mining", "Regional Indexation Routing"],
   },
-  {
-    id: "experience",
-    number: "02",
-    title: "12+ Years Experience",
-    subtitle: "Algorithmic Search Resilience",
-    summary:
-      "Over a decade of engineering compounding organic growth through every major search paradigm shift—from early Panda and Penguin updates to modern AI Overviews and Helpful Content systems.",
-    stat: "12+ Yrs",
-    statLabel: "Continuous Track Record (Est. 2012)",
-    highlights: [
-      "40+ major Google Core updates successfully navigated",
-      "Compounding organic equity that outlasts platform volatility",
-      "Pioneering technical crawl & schema graph engineering",
-      "Enterprise audit frameworks validated across 100+ deployments",
-    ],
-    telemetry: {
-      orbitLayer: "Mid Algorithmic Resilience Ring",
-      protocol: "Compounding Organic Equity (2012 - 2026)",
-      nodesCount: 40,
-      status: "Core Stability High",
-    },
-  },
-  {
-    id: "capabilities",
-    number: "03",
-    title: "Full-Funnel Capabilities",
-    subtitle: "Search, Media & Conversion Engineering",
-    summary:
-      "A complete technical ecosystem connecting crawl architecture, semantic content clustering, programmatic media syndication, and enterprise conversion rate optimization.",
-    stat: "4-Pillar",
-    statLabel: "Unified Growth Infrastructure",
-    highlights: [
-      "Technical SEO: JS rendering, schema graphs, Core Web Vitals",
-      "Programmatic: Google Ads, Taboola, Outbrain, Amazon, CJ, ClickBank",
-      "Content: Semantic intent architectures & entity mapping",
-      "Conversion: User journey instrumentation & checkout CRO",
-    ],
-    telemetry: {
-      orbitLayer: "Core Capability Network Matrix",
-      protocol: "Full-Funnel Technical Architecture",
-      nodesCount: 16,
-      status: "Direct API & Pipeline Ready",
-    },
-  },
-  {
-    id: "operating-model",
-    number: "04",
-    title: "Operating Model",
-    subtitle: "100% Attribution & Senior Direct Access",
-    summary:
-      "We operate as an embedded technical growth partner. You retain 100% administrative ownership of all data assets, tag managers, and ad accounts with zero junior pass-offs.",
-    stat: "100%",
-    statLabel: "Client Data & Asset Ownership",
-    highlights: [
-      "Direct Senior Strategist collaboration on every account",
-      "Zero vanity metrics: KPIs tied directly to pipeline & revenue",
-      "Full administrative ownership of GA4, GSC & Looker dashboards",
-      "Agile two-week sprint cycles with transparent telemetry",
-    ],
-    telemetry: {
-      orbitLayer: "Central Command & Telemetry Core",
-      protocol: "100% Client Ownership Guarantee",
-      nodesCount: 4,
-      status: "Complete Attribution Transparency",
-    },
-  },
+];
+
+const GEO_INDICATORS = [
+  { code: "NA", label: "40.71°N 74.00°W", territory: "North America (Tier 1)" },
+  { code: "EU", label: "51.50°N 0.12°W", territory: "Western Europe & UK" },
+  { code: "APAC", label: "1.35°N 103.81°E", territory: "Asia-Pacific Core" },
+  { code: "LATAM", label: "23.55°S 46.63°W", territory: "Latin America" },
 ];
 
 export default function AboutSection() {
   const [revealRef, isVisible] = useIntersection({ threshold: 0.08 });
-  const [activePillarId, setActivePillarId] = useState<PillarData["id"]>("markets");
+  const [activeNodeId, setActiveNodeId] = useState<OrbitNode["id"]>("seo");
+  const [pulseActive, setPulseActive] = useState<boolean>(false);
 
-  const activePillar = PILLARS.find((p) => p.id === activePillarId) || PILLARS[0];
+  const activeNode = ORBIT_NODES.find((n) => n.id === activeNodeId) || ORBIT_NODES[0];
+
+  const handleSelectNode = (id: OrbitNode["id"]) => {
+    setActiveNodeId(id);
+    setPulseActive(true);
+  };
+
+  useEffect(() => {
+    if (pulseActive) {
+      const timer = setTimeout(() => setPulseActive(false), 800);
+      return () => clearTimeout(timer);
+    }
+  }, [pulseActive]);
 
   return (
-    <section id="about" className="floatingCardSection" ref={revealRef} aria-label="About Adorca 360">
+    <section
+      id="about"
+      className="darkCardSection theme-dark"
+      ref={revealRef}
+      aria-label="Adorca 360 Growth Orbit System"
+    >
       <div className={styles.container}>
-        {/* Section Header */}
-        <div className={styles.header}>
-          <span className="section-subtitle">Verified Infrastructure &amp; Operating Model</span>
-          <h2 className={styles.mainHeading}>
-            Built For <br />
-            <span className={styles.accentText}>Ambitious Growth.</span>
+        {/* Editorial Section Header */}
+        <div className={styles.sectionHeader}>
+          <div className={styles.orbitBadge}>
+            <span className={styles.pulseBeacon} aria-hidden="true" />
+            <span className={styles.badgeText}>System Architecture // Growth Orbit</span>
+          </div>
+          <h2 className={styles.sectionTitle}>
+            The Adorca 360 <br />
+            <span className={styles.accentWord}>Growth Orbit.</span>
           </h2>
-          <p className={styles.leadNarrative}>
-            Adorca 360 operates on a foundational engineering principle: sustainable market leadership requires deep technical infrastructure, transparent data attribution, and localized search intelligence. We partner directly with growth-focused leaders to engineer compounding digital enterprise value.
+          <p className={styles.sectionDesc}>
+            Compounding commercial scale is not achieved through isolated tactics. Seven technical disciplines rotate around a central attribution core—engineered to eliminate fragmentation and generate measurable market dominance.
           </p>
         </div>
 
-        {/* 2-Column Interactive Workspace: Left Narrative & Pillars / Right Growth Orbit Global Visual */}
-        <div className={`${styles.workspaceGrid} ${isVisible ? styles.visible : ""}`}>
-          {/* Left Column: 4 Verified Pillar Selector Cards */}
-          <div className={styles.pillarsCol}>
-            <div className={styles.pillarNav} role="tablist" aria-label="About Adorca 360 Verified Pillars">
-              {PILLARS.map((pillar) => {
-                const isActive = pillar.id === activePillarId;
-                return (
-                  <button
-                    key={pillar.id}
-                    type="button"
-                    role="tab"
-                    id={`pillar-tab-${pillar.id}`}
-                    aria-selected={isActive}
-                    aria-controls={`pillar-panel-${pillar.id}`}
-                    className={`${styles.pillarTab} ${isActive ? styles.pillarTabActive : ""}`}
-                    onClick={() => setActivePillarId(pillar.id)}
-                  >
-                    <div className={styles.tabHeader}>
-                      <span className={styles.tabNum}>{pillar.number}</span>
-                      <span className={styles.tabTitle}>{pillar.title}</span>
-                      <span className={styles.tabStatBadge}>{pillar.stat}</span>
-                    </div>
-                    <p className={styles.tabSubtitle}>{pillar.subtitle}</p>
-                  </button>
-                );
-              })}
+        {/* 2-Column Signature Orbit System: Orbit Canvas Left/Center + Telemetry Intelligence Console Right */}
+        <div className={`${styles.systemGrid} ${isVisible ? styles.visible : ""}`}>
+          {/* Left: The Signature Growth Orbit System Canvas */}
+          <div className={styles.orbitCanvasContainer}>
+            <div className={styles.orbitControlBar}>
+              <div className={styles.terminalSignals}>
+                <span className={styles.terminalDot} />
+                <span className={styles.terminalLabel}>ORBIT TELEMETRY // SYSTEM HARMONIC: NOMINAL</span>
+              </div>
+              <span className={styles.verifiedTag}>Grounded Telemetry</span>
             </div>
 
-            {/* Active Pillar Narrative Detail */}
-            <div
-              id={`pillar-panel-${activePillar.id}`}
-              role="tabpanel"
-              aria-labelledby={`pillar-tab-${activePillar.id}`}
-              className={styles.activePillarDetail}
-            >
-              <div className={styles.detailHeader}>
-                <div className={styles.detailTitleGroup}>
-                  <span className={styles.detailBadge}>Pillar {activePillar.number}</span>
-                  <h3 className={styles.detailTitle}>{activePillar.title}</h3>
+            {/* Orbit SVG Visual Instrument */}
+            <div className={styles.orbitVisualWrap}>
+              <svg
+                className={styles.orbitSvg}
+                viewBox="0 0 540 540"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-label="Interactive Adorca 360 Growth Orbit Diagram"
+              >
+                <defs>
+                  {/* Central Core Gradient */}
+                  <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stopColor="#B7E56B" stopOpacity="0.35" />
+                    <stop offset="60%" stopColor="#0B0D0F" stopOpacity="0.9" />
+                    <stop offset="100%" stopColor="#0B0D0F" stopOpacity="1" />
+                  </radialGradient>
+
+                  <radialGradient id="nodeActiveGlow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stopColor="#B7E56B" stopOpacity="0.8" />
+                    <stop offset="100%" stopColor="#B7E56B" stopOpacity="0" />
+                  </radialGradient>
+
+                  {/* Signal Pulse Filter */}
+                  <filter id="glowFilter" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="3" result="blur" />
+                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                  </filter>
+                </defs>
+
+                {/* Concentric Precision Orbital Rings */}
+                {/* Outer Orbit: R=235 (Markets & Global Reach) */}
+                <circle
+                  cx="270"
+                  cy="270"
+                  r="235"
+                  className={`${styles.orbitalRing} ${activeNode.orbitRadius === 235 ? styles.ringActive : ""}`}
+                  strokeDasharray="4 6"
+                />
+
+                {/* Mid Orbit: R=175 (SEO, Media, App) */}
+                <circle
+                  cx="270"
+                  cy="270"
+                  r="175"
+                  className={`${styles.orbitalRing} ${activeNode.orbitRadius === 175 ? styles.ringActive : ""}`}
+                  strokeDasharray="3 5"
+                />
+
+                {/* Inner Orbit: R=115 (Data, Content, CRO) */}
+                <circle
+                  cx="270"
+                  cy="270"
+                  r="115"
+                  className={`${styles.orbitalRing} ${activeNode.orbitRadius === 115 ? styles.ringActive : ""}`}
+                  strokeDasharray="2 4"
+                />
+
+                {/* Subtle Radial Axis Markers */}
+                <line x1="270" y1="20" x2="270" y2="520" className={styles.axisLine} />
+                <line x1="20" y1="270" x2="520" y2="270" className={styles.axisLine} />
+
+                {/* Dynamic Radiating Signal Beam to Active Node */}
+                {(() => {
+                  const rad = (activeNode.angleOffset * Math.PI) / 180;
+                  const targetX = 270 + activeNode.orbitRadius * Math.cos(rad);
+                  const targetY = 270 + activeNode.orbitRadius * Math.sin(rad);
+                  return (
+                    <line
+                      x1="270"
+                      y1="270"
+                      x2={targetX}
+                      y2={targetY}
+                      className={`${styles.signalBeam} ${pulseActive ? styles.signalPulse : ""}`}
+                    />
+                  );
+                })()}
+
+                {/* Orbit Nodes */}
+                {ORBIT_NODES.map((node) => {
+                  const rad = (node.angleOffset * Math.PI) / 180;
+                  const x = 270 + node.orbitRadius * Math.cos(rad);
+                  const y = 270 + node.orbitRadius * Math.sin(rad);
+                  const isActive = node.id === activeNodeId;
+
+                  return (
+                    <g
+                      key={node.id}
+                      className={`${styles.nodeGroup} ${isActive ? styles.nodeActive : ""}`}
+                      onClick={() => handleSelectNode(node.id)}
+                      role="button"
+                      tabIndex={0}
+                      aria-label={`Inspect ${node.name} orbital discipline`}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          handleSelectNode(node.id);
+                        }
+                      }}
+                    >
+                      {/* Node Halo */}
+                      {isActive && (
+                        <circle
+                          cx={x}
+                          cy={y}
+                          r="22"
+                          fill="url(#nodeActiveGlow)"
+                          className={styles.nodePulseRing}
+                        />
+                      )}
+
+                      {/* Node Circle */}
+                      <circle
+                        cx={x}
+                        cy={y}
+                        r={isActive ? "14" : "10"}
+                        className={styles.nodeBody}
+                      />
+                      <circle
+                        cx={x}
+                        cy={y}
+                        r={isActive ? "5" : "3"}
+                        className={styles.nodeCoreDot}
+                      />
+
+                      {/* Node Monospace Label */}
+                      <text
+                        x={x}
+                        y={y > 270 ? y + 22 : y - 16}
+                        textAnchor="middle"
+                        className={styles.nodeSvgLabel}
+                      >
+                        {node.name}
+                      </text>
+                    </g>
+                  );
+                })}
+
+                {/* CENTER: ADORCA 360 NUCLEUS */}
+                <g className={styles.centerNucleus}>
+                  {/* Central Glow Disc */}
+                  <circle cx="270" cy="270" r="54" fill="url(#coreGlow)" />
+                  <circle cx="270" cy="270" r="54" className={styles.coreBorder} />
+                  <circle cx="270" cy="270" r="48" className={styles.coreInnerRing} strokeDasharray="3 3" />
+
+                  {/* Authoritative Central Typography */}
+                  <text
+                    x="270"
+                    y="262"
+                    textAnchor="middle"
+                    className={styles.coreBrandText}
+                  >
+                    ADORCA
+                  </text>
+                  <text
+                    x="270"
+                    y="284"
+                    textAnchor="middle"
+                    className={styles.coreNumText}
+                  >
+                    360
+                  </text>
+                </g>
+              </svg>
+            </div>
+
+            {/* Geographic Coordinates Telemetry Strip */}
+            <div className={styles.geoStrip} aria-label="Geographic Indicators">
+              {GEO_INDICATORS.map((geo) => (
+                <div key={geo.code} className={styles.geoItem}>
+                  <span className={styles.geoCode}>[{geo.code}]</span>
+                  <span className={styles.geoCoords}>{geo.label}</span>
                 </div>
-                <div className={styles.detailMetricBox}>
-                  <span className={styles.detailMetricVal}>{activePillar.stat}</span>
-                  <span className={styles.detailMetricLabel}>{activePillar.statLabel}</span>
-                </div>
-              </div>
-
-              <p className={styles.detailSummary}>{activePillar.summary}</p>
-
-              <div className={styles.highlightsGrid}>
-                {activePillar.highlights.map((item, idx) => (
-                  <div key={idx} className={styles.highlightItem}>
-                    <svg className={styles.checkIcon} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                    <span className={styles.highlightText}>{item}</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className={styles.actionRow}>
-                <Link href="/#opportunity-tool" className="btn btn-primary">
-                  Explore Growth Diagnostics
-                </Link>
-                <Link href="/case-studies" className="btn btn-secondary">
-                  View Verified Case Studies
-                </Link>
-              </div>
+              ))}
             </div>
           </div>
 
-          {/* Right Column: Signature Growth Orbit Global / Network Visual */}
-          <div className={styles.visualCol}>
-            <div className={styles.orbitCard} aria-label="Growth Orbit Global Network Visualization">
-              {/* Orbit Card Header */}
-              <div className={styles.orbitHeader}>
-                <div className={styles.windowControls}>
-                  <span className={styles.windowDot} />
-                  <span className={styles.windowDot} />
-                  <span className={styles.windowDot} />
-                </div>
-                <div className={styles.orbitBadge}>
-                  <span className={styles.orbitStatusDot} />
-                  <span>Growth Orbit • Global Network</span>
-                </div>
-                <span className={styles.verifiedTag}>Verified System</span>
+          {/* Right: Orbital Telemetry & Discipline Console */}
+          <div className={styles.telemetryConsole}>
+            {/* Console Top Header */}
+            <div className={styles.consoleHeader}>
+              <div className={styles.consoleStatus}>
+                <span className={styles.consoleBeacon} />
+                <span className={styles.consoleProtocolLabel}>SELECTED DISCIPLINE</span>
+              </div>
+              <span className={styles.disciplineId}>DISCIPLINE // {activeNode.id.toUpperCase()}</span>
+            </div>
+
+            {/* Primary Headline & Impact */}
+            <div className={styles.disciplineBanner}>
+              <div className={styles.disciplineTitleRow}>
+                <h3 className={styles.disciplineTitle}>{activeNode.name}</h3>
+                <span className={styles.disciplineCategory}>{activeNode.category}</span>
               </div>
 
-              {/* Interactive SVG Global Orbit Canvas */}
-              <div className={styles.orbitCanvas}>
-                <svg
-                  className={styles.orbitSvg}
-                  viewBox="0 0 500 440"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  aria-hidden="true"
-                >
-                  <defs>
-                    <radialGradient id="hubGradient" cx="50%" cy="50%" r="50%">
-                      <stop offset="0%" stopColor="#1657FF" stopOpacity="0.4" />
-                      <stop offset="100%" stopColor="#081033" stopOpacity="0.95" />
-                    </radialGradient>
-                  </defs>
-
-                  {/* Concentric Orbital Trajectories */}
-                  {/* Outer Orbit: Global Markets (50+ Markets) */}
-                  <ellipse
-                    cx="250"
-                    cy="220"
-                    rx="220"
-                    ry="170"
-                    className={`${styles.orbitPath} ${activePillarId === "markets" ? styles.pathActive : ""}`}
-                    strokeDasharray="4 6"
-                  />
-
-                  {/* Mid-Outer Orbit: Algorithmic Experience (12+ Years) */}
-                  <ellipse
-                    cx="250"
-                    cy="220"
-                    rx="165"
-                    ry="125"
-                    className={`${styles.orbitPath} ${activePillarId === "experience" ? styles.pathActive : ""}`}
-                    strokeDasharray="2 4"
-                  />
-
-                  {/* Mid-Inner Orbit: Full-Funnel Capabilities */}
-                  <ellipse
-                    cx="250"
-                    cy="220"
-                    rx="115"
-                    ry="85"
-                    className={`${styles.orbitPath} ${activePillarId === "capabilities" ? styles.pathActive : ""}`}
-                  />
-
-                  {/* Inner Orbit: Operating Model */}
-                  <ellipse
-                    cx="250"
-                    cy="220"
-                    rx="65"
-                    ry="45"
-                    className={`${styles.orbitPath} ${activePillarId === "operating-model" ? styles.pathActive : ""}`}
-                    strokeDasharray="3 3"
-                  />
-
-                  {/* Radial Network Beams to Active Nodes */}
-                  <line
-                    x1="250"
-                    y1="220"
-                    x2="80"
-                    y2="130"
-                    className={`${styles.networkBeam} ${activePillarId === "markets" ? styles.beamActive : ""}`}
-                  />
-                  <line
-                    x1="250"
-                    y1="220"
-                    x2="420"
-                    y2="130"
-                    className={`${styles.networkBeam} ${activePillarId === "markets" ? styles.beamActive : ""}`}
-                  />
-                  <line
-                    x1="250"
-                    y1="220"
-                    x2="100"
-                    y2="310"
-                    className={`${styles.networkBeam} ${activePillarId === "experience" ? styles.beamActive : ""}`}
-                  />
-                  <line
-                    x1="250"
-                    y1="220"
-                    x2="400"
-                    y2="310"
-                    className={`${styles.networkBeam} ${activePillarId === "capabilities" ? styles.beamActive : ""}`}
-                  />
-
-                  {/* Central Adorca Hub */}
-                  <circle cx="250" cy="220" r="38" fill="url(#hubGradient)" stroke="var(--blue)" strokeWidth="2" />
-                  <circle cx="250" cy="220" r="18" fill="var(--navy)" stroke="var(--lime)" strokeWidth="1.5" />
-                  <circle cx="250" cy="220" r="4" fill="#FFFFFF" />
-
-                  {/* Orbital Nodes - Markets */}
-                  <g
-                    className={`${styles.orbitNodeGroup} ${activePillarId === "markets" ? styles.nodeGroupActive : ""}`}
-                    onClick={() => setActivePillarId("markets")}
-                    style={{ cursor: "pointer" }}
-                  >
-                    <circle cx="80" cy="130" r="14" className={styles.nodeBackdrop} />
-                    <circle cx="80" cy="130" r="8" className={styles.nodeCore} />
-                    <text x="80" y="160" textAnchor="middle" className={styles.nodeLabel}>NA / EU</text>
-                  </g>
-
-                  <g
-                    className={`${styles.orbitNodeGroup} ${activePillarId === "markets" ? styles.nodeGroupActive : ""}`}
-                    onClick={() => setActivePillarId("markets")}
-                    style={{ cursor: "pointer" }}
-                  >
-                    <circle cx="420" cy="130" r="14" className={styles.nodeBackdrop} />
-                    <circle cx="420" cy="130" r="8" className={styles.nodeCore} />
-                    <text x="420" y="160" textAnchor="middle" className={styles.nodeLabel}>APAC / LATAM</text>
-                  </g>
-
-                  {/* Orbital Nodes - Experience */}
-                  <g
-                    className={`${styles.orbitNodeGroup} ${activePillarId === "experience" ? styles.nodeGroupActive : ""}`}
-                    onClick={() => setActivePillarId("experience")}
-                    style={{ cursor: "pointer" }}
-                  >
-                    <circle cx="100" cy="310" r="14" className={styles.nodeBackdrop} />
-                    <circle cx="100" cy="310" r="8" className={styles.nodeCore} />
-                    <text x="100" y="340" textAnchor="middle" className={styles.nodeLabel}>12+ Yrs Core</text>
-                  </g>
-
-                  {/* Orbital Nodes - Capabilities */}
-                  <g
-                    className={`${styles.orbitNodeGroup} ${activePillarId === "capabilities" ? styles.nodeGroupActive : ""}`}
-                    onClick={() => setActivePillarId("capabilities")}
-                    style={{ cursor: "pointer" }}
-                  >
-                    <circle cx="400" cy="310" r="14" className={styles.nodeBackdrop} />
-                    <circle cx="400" cy="310" r="8" className={styles.nodeCore} />
-                    <text x="400" y="340" textAnchor="middle" className={styles.nodeLabel}>Full-Funnel</text>
-                  </g>
-
-                  {/* Orbital Node - Operating Model */}
-                  <g
-                    className={`${styles.orbitNodeGroup} ${activePillarId === "operating-model" ? styles.nodeGroupActive : ""}`}
-                    onClick={() => setActivePillarId("operating-model")}
-                    style={{ cursor: "pointer" }}
-                  >
-                    <circle cx="250" cy="135" r="12" className={styles.nodeBackdrop} />
-                    <circle cx="250" cy="135" r="6" className={styles.nodeCore} />
-                    <text x="250" y="120" textAnchor="middle" className={styles.nodeLabel}>100% Ownership</text>
-                  </g>
-                </svg>
-
-                {/* Central Overlay Badge */}
-                <div className={styles.centerHubBadge} aria-hidden="true">
-                  <span className={styles.hubTitle}>ADORCA 360</span>
-                  <span className={styles.hubSub}>Global Core</span>
+              {/* Anchor Metric */}
+              <div className={styles.metricAnchorBox}>
+                <div className={styles.metricValGroup}>
+                  <span className={styles.metricVal}>{activeNode.metric}</span>
+                  <span className={styles.metricLabel}>{activeNode.metricLabel}</span>
+                </div>
+                <div className={styles.geoTag}>
+                  <span className={styles.geoTagLabel}>LOCALE / ROUTING:</span>
+                  <span className={styles.geoTagValue}>{activeNode.geographicIndex}</span>
                 </div>
               </div>
+            </div>
 
-              {/* Orbit Live Telemetry Card */}
-              <div className={styles.telemetryCard}>
-                <div className={styles.telemetryHeader}>
-                  <span className={styles.telemetryTag}>Active Orbit Telemetry</span>
-                  <span className={styles.telemetryStatus}>{activePillar.telemetry.status}</span>
-                </div>
-                <div className={styles.telemetryGrid}>
-                  <div className={styles.telemetryItem}>
-                    <span className={styles.telemetryLabel}>Orbital Layer</span>
-                    <span className={styles.telemetryVal}>{activePillar.telemetry.orbitLayer}</span>
-                  </div>
-                  <div className={styles.telemetryItem}>
-                    <span className={styles.telemetryLabel}>Telemetry Protocol</span>
-                    <span className={styles.telemetryVal}>{activePillar.telemetry.protocol}</span>
-                  </div>
-                </div>
+            {/* Architecture Protocol Specification */}
+            <div className={styles.protocolBlock}>
+              <h4 className={styles.protocolBlockTitle}>Architecture Specification:</h4>
+              <p className={styles.protocolText}>{activeNode.protocol}</p>
+            </div>
+
+            {/* Core Deliverables */}
+            <div className={styles.deliverablesBlock}>
+              <h4 className={styles.deliverablesBlockTitle}>Core Deliverables:</h4>
+              <ul className={styles.deliverablesList}>
+                {activeNode.deliverables.map((item, idx) => (
+                  <li key={idx} className={styles.deliverableItem}>
+                    <span className={styles.checkMarker}>✓</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* 7-Discipline Quick Selector Bar */}
+            <div className={styles.quickSelectorWrap}>
+              <span className={styles.quickSelectorLabel}>INSPECT ORBITAL DISCIPLINES:</span>
+              <div className={styles.quickPills} role="tablist">
+                {ORBIT_NODES.map((node) => {
+                  const isSelected = node.id === activeNodeId;
+                  return (
+                    <button
+                      key={node.id}
+                      role="tab"
+                      aria-selected={isSelected}
+                      className={`${styles.pillBtn} ${isSelected ? styles.pillSelected : ""}`}
+                      onClick={() => handleSelectNode(node.id)}
+                    >
+                      {node.name}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Strategic Partner Commitment */}
+            <div className={styles.ownershipCard}>
+              <div className={styles.ownershipTop}>
+                <span className={styles.ownershipBadge}>100% ATTRIBUTION GUARANTEE</span>
+                <span className={styles.ownershipTag}>Zero Junior Hand-Offs</span>
+              </div>
+              <p className={styles.ownershipDesc}>
+                You retain full administrative ownership of every Looker dashboard, tag manager, and conversion API. Direct collaboration with senior growth engineers on every sprint.
+              </p>
+              <div className={styles.actionRow}>
+                <Link href="#contact" className="btn btn-primary">
+                  Consult With Senior Strategist →
+                </Link>
+                <Link href="/case-studies" className="btn btn-secondary">
+                  View Case Evidence
+                </Link>
               </div>
             </div>
           </div>

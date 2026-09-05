@@ -2,8 +2,8 @@ import React from "react";
 import Link from "next/link";
 import styles from "./Button.module.css";
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "lime" | "secondary" | "ghost";
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: "primary" | "signal" | "obsidian" | "lime" | "secondary" | "ghost" | "outline";
   size?: "sm" | "md" | "lg";
   href?: string;
   icon?: React.ReactNode;
@@ -20,7 +20,9 @@ export default function Button({
   className = "",
   ...props
 }: ButtonProps) {
-  const combinedClass = `${styles.btn} ${styles[variant]} ${styles[size]} ${className}`.trim();
+  const variantClass = styles[variant] || styles.primary;
+  const sizeClass = styles[size] || styles.md;
+  const combinedClass = `${styles.btn} ${variantClass} ${sizeClass} ${className}`.trim();
 
   if (href) {
     return (

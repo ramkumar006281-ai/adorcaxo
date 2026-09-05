@@ -61,20 +61,25 @@ export function useScrollReveal<T extends HTMLElement = HTMLDivElement>(
   return [ref, prefersReduced || isVisible] as const;
 }
 
-// ─── Legacy alias (used by Hero, WhyChooseUs, CaseStudies) ───────────────────
-// Hook to detect when an element is in the viewport
+// ─── Legacy alias (used by Hero, WhyChooseUs, CaseStudies etc.) ──────────────
+// Hook to detect when an element is in the viewport.
+// Respects prefers-reduced-motion: if the user has requested reduced motion,
+// isIntersecting is immediately true so elements render without animation delays.
 export function useIntersection(options: IntersectionObserverInit = { threshold: 0.1, rootMargin: "0px" }) {
   const ref = useRef<HTMLDivElement>(null);
   const [isIntersecting, setIsIntersecting] = useState(false);
+  const prefersReduced = usePrefersReducedMotion();
 
   useEffect(() => {
+    if (prefersReduced) return;
+
     const currentRef = ref.current;
     if (!currentRef) return;
 
     const observer = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) {
         setIsIntersecting(true);
-        // Stop observing once visible if we only want one-time animation
+        // Stop observing once visible (one-time animation)
         observer.unobserve(currentRef);
       }
     }, options);
@@ -86,9 +91,9 @@ export function useIntersection(options: IntersectionObserverInit = { threshold:
         observer.unobserve(currentRef);
       }
     };
-  }, [options]);
+  }, [options, prefersReduced]);
 
-  return [ref, isIntersecting] as const;
+  return [ref, prefersReduced || isIntersecting] as const;
 }
 
 // Hook to animate count-up from 0 to target.

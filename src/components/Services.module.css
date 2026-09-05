@@ -1,258 +1,589 @@
-.pillarTabs {
+/* ─────────────────────────────────────────────────────────────
+   SERVICES / CAPABILITIES (PHASE 5 TRANSFORMATION)
+   Closed-Loop System Schematic & Editorial Capabilities Ledger
+   ───────────────────────────────────────────────────────────── */
+
+.sectionHeader {
+  max-width: 820px;
+  margin-bottom: clamp(36px, 5vw, 52px);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.headerTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--color-soft-stone);
+  border: 1px solid var(--border);
+  padding: 4px 14px;
+  border-radius: var(--radius-pill);
+  width: max-content;
+}
+
+.tagDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #2D4708;
+  box-shadow: 0 0 6px var(--color-adorca-signal);
+}
+
+.tagText {
+  font-family: var(--font-mono);
+  font-size: var(--text-metadata);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+  color: var(--color-primary-text);
+}
+
+.sectionTitle {
+  font-size: var(--text-section-title);
+  font-weight: 800;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tighter);
+  color: var(--color-primary-text);
+}
+
+.titleSub {
+  color: var(--color-muted-text);
+  font-weight: 700;
+}
+
+.sectionDesc {
+  font-size: var(--text-body-large);
+  line-height: var(--leading-normal);
+  color: var(--color-muted-text);
+  max-width: 720px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   3-PILLAR HAIRLINE NAVIGATION
+   ───────────────────────────────────────────────────────────── */
+
+.pillarNav {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin-bottom: 36px;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: clamp(36px, 5vw, 56px);
 }
 
 .pillarTab {
-  background-color: var(--bg-subtle);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 20px 24px;
+  appearance: none;
+  background: transparent;
+  border: none;
+  border-right: 1px solid var(--border);
+  padding: clamp(16px, 2.5vw, 24px) clamp(16px, 2vw, 28px);
   text-align: left;
   cursor: pointer;
-  /* Scope transition to layout/border only — NOT color/background.
-     This prevents the text color and background from racing each other
-     and creating invisible text during the switch animation. */
-  transition:
-    transform var(--duration-300) var(--ease-out),
-    border-color var(--duration-300) var(--ease-out),
-    box-shadow var(--duration-300) var(--ease-out);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: all var(--duration-200) var(--ease-out);
+  position: relative;
+}
+
+.pillarTab:last-child {
+  border-right: none;
+}
+
+.pillarTab:hover {
+  background-color: rgba(17, 19, 21, 0.02);
+}
+
+.pillarTabActive {
+  background-color: #FFFFFF;
+  box-shadow: inset 0 -3px 0 var(--color-primary-text);
+}
+
+.tabTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tabNum {
+  font-family: var(--font-mono);
+  font-size: var(--text-metadata);
+  font-weight: 700;
+  color: var(--color-muted-text);
+  letter-spacing: var(--tracking-wider);
+}
+
+.pillarTabActive .tabNum {
+  color: var(--color-primary-text);
+}
+
+.tabTitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 1.6vw, 1.4rem);
+  font-weight: 800;
+  color: var(--color-primary-text);
+  letter-spacing: var(--tracking-tight);
+}
+
+.tabSubtitle {
+  font-size: 0.8125rem;
+  color: var(--color-muted-text);
+  line-height: 1.4;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   ASYMMETRIC SYSTEM WORKSPACE
+   Left: 1.15fr (Schematic Engine)
+   Right: 1.55fr (Capabilities Ledger)
+   ───────────────────────────────────────────────────────────── */
+
+.systemWorkspace {
+  display: grid;
+  grid-template-columns: 1.15fr 1.55fr;
+  gap: clamp(32px, 4vw, 56px);
+  align-items: start;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.systemWorkspace.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   LEFT COLUMN: CLOSED-LOOP SCHEMATIC CARD
+   ───────────────────────────────────────────────────────────── */
+
+.schematicCol {
+  width: 100%;
+}
+
+.schematicCard {
+  background-color: #FFFFFF;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: calc(var(--nav-height) + 24px);
+}
+
+.schematicHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.schematicHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.liveIndicator {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #2D4708;
+  box-shadow: 0 0 6px var(--color-adorca-signal);
+}
+
+.schematicTitle {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: var(--tracking-wider);
+  color: var(--color-primary-text);
+}
+
+.schematicLoopTag {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #2D4708;
+  background-color: var(--color-adorca-signal-light);
+  border: 1px solid var(--color-adorca-signal-border);
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+}
+
+.svgCanvasWrapper {
+  width: 100%;
+  height: 480px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-warm-paper);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  position: relative;
+}
+
+.schematicSvg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Traveling Signal Pulse Animation along Return Conduit */
+.pulseConduitBeam {
+  animation: signalConduitLoop 4s linear infinite;
+}
+
+@keyframes signalConduitLoop {
+  0% {
+    stroke-dashoffset: 180;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* SVG Node Interactivity */
+.nodeGroup {
+  cursor: pointer;
+}
+
+.nodeOuterCircle {
+  fill: #FFFFFF;
+  stroke: rgba(17, 19, 21, 0.35);
+  stroke-width: 1.5px;
+  transition: all var(--duration-200) var(--ease-out);
+}
+
+.nodeInnerDot {
+  fill: rgba(17, 19, 21, 0.40);
+  transition: all var(--duration-200) var(--ease-out);
+}
+
+.nodeSvgLabel {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  fill: var(--color-primary-text);
+  user-select: none;
+}
+
+.nodeGroup:hover .nodeOuterCircle {
+  stroke: var(--color-primary-text);
+  stroke-width: 2px;
+  transform: scale(1.1);
+  transform-origin: center;
+}
+
+.nodeGroupPillar .nodeOuterCircle {
+  stroke: var(--color-primary-text);
+  stroke-width: 2px;
+}
+
+.nodeGroupSelected .nodeOuterCircle {
+  stroke: var(--color-primary-text);
+  stroke-width: 2.5px;
+  fill: var(--color-adorca-signal-light);
+}
+
+.nodeGroupSelected .nodeInnerDot {
+  fill: #2D4708;
+  transform: scale(1.3);
+  transform-origin: center;
+}
+
+/* Loop Callout */
+.loopCallout {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background-color: var(--color-soft-stone);
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  border-radius: var(--radius-xs);
+  font-size: 0.75rem;
+  line-height: 1.45;
+  color: var(--color-primary-text);
+}
+
+.loopIcon {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 900;
+  color: var(--color-primary-text);
+  line-height: 1;
+}
+
+.loopText strong {
+  font-family: var(--font-mono);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   RIGHT COLUMN: EDITORIAL CAPABILITIES LEDGER (NO BOX CARDS)
+   ───────────────────────────────────────────────────────────── */
+
+.capabilitiesCol {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  width: 100%;
+}
+
+/* Pillar Header Banner */
+.pillarHeaderBanner {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  padding-bottom: 24px;
+  border-bottom: 2px solid var(--color-primary-text);
+}
+
+.pillarOversizedNumber {
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 5vw, 4.75rem);
+  font-weight: 900;
+  line-height: 0.85;
+  color: var(--color-soft-stone);
+  letter-spacing: var(--tracking-tighter);
+  user-select: none;
+}
+
+.pillarHeadingInfo {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
-.pillarTab:hover {
-  background-color: var(--bg-card);
-  border-color: var(--border-hover);
-  transform: translateY(-2px);
+.pillarCategoryLabel {
+  font-family: var(--font-mono);
+  font-size: var(--text-metadata);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wider);
+  color: var(--color-muted-text);
 }
 
-/* Active state — navy dark card */
-.pillarTabActive {
-  background-color: var(--navy);
-  /* Pin all text to white immediately, no transition lag */
-  color: #FFFFFF;
-  border-color: var(--blue);
-  box-shadow: 0 10px 30px rgba(8, 16, 51, 0.15);
-}
-
-/* Prevent hover from reverting background while text is still white */
-.pillarTabActive:hover {
-  background-color: var(--color-navy-card-hover);
-  border-color: var(--blue);
-  transform: translateY(-2px);
-}
-
-/* Child text — use !important so there's zero delay even with CSS specificity
-   races from the transition engine. */
-.pillarTabActive .tabNum {
-  color: var(--lime) !important;
-  background-color: rgba(152, 242, 42, 0.15) !important;
-}
-
-.pillarTabActive .tabTitle {
-  color: #FFFFFF !important;
-}
-
-.pillarTabActive .tabSubtitle {
-  color: var(--navy-text-secondary) !important;
-}
-
-.tabNum {
+.pillarPrimaryTitle {
   font-family: var(--font-display);
-  font-size: 0.75rem;
+  font-size: clamp(1.5rem, 2vw, 1.9rem);
   font-weight: 800;
-  color: var(--blue);
-  background-color: var(--blue-light);
-  padding: 2px 8px;
-  border-radius: var(--radius-sm);
-  width: max-content;
-  margin-bottom: 4px;
+  color: var(--color-primary-text);
+  letter-spacing: var(--tracking-tight);
 }
 
-.tabTitle {
-  font-family: var(--font-display);
-  font-size: 1.25rem;
-  font-weight: 800;
-  color: var(--text-primary);
-  letter-spacing: 0.02em;
+.pillarSummaryDesc {
+  font-size: 0.95rem;
+  line-height: var(--leading-normal);
+  color: var(--color-muted-text);
+  margin-top: 4px;
 }
 
-.tabSubtitle {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  font-weight: 500;
+/* Unboxed Capabilities Ledger */
+.ledgerList {
+  display: flex;
+  flex-direction: column;
 }
 
-/* ─────────────────────────────────────────────
-   Pillar Editorial Overview
-   ───────────────────────────────────────────── */
-.pillarOverview {
-  background-color: var(--bg-subtle);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 24px 28px;
-  margin-bottom: 28px;
+.ledgerRow {
+  padding: 24px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-radius: var(--radius-xs);
+  transition: all var(--duration-200) var(--ease-out);
+  cursor: pointer;
+}
+
+.ledgerRow:hover {
+  background-color: rgba(17, 19, 21, 0.02);
+}
+
+.ledgerRowHighlighted {
+  background-color: rgba(183, 229, 107, 0.12);
+  border-left: 3px solid #2D4708;
+  padding-left: 20px;
+}
+
+.ledgerRowHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
-.overviewText {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  max-width: 720px;
-}
-
-.overviewBadge {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.overviewNum {
-  font-family: var(--font-display);
-  font-size: 0.75rem;
-  font-weight: 800;
-  color: var(--blue);
-  background-color: var(--blue-light);
-  padding: 2px 8px;
-  border-radius: var(--radius-sm);
-  text-transform: uppercase;
-}
-
-.overviewTitle {
-  font-family: var(--font-display);
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--text-primary);
-}
-
-.overviewSummary {
-  font-size: 0.95rem;
-  line-height: 1.6;
-  color: var(--text-secondary);
-}
-
-.overviewCta {
-  flex-shrink: 0;
-}
-
-/* ─────────────────────────────────────────────
-   Capabilities Grid
-   ───────────────────────────────────────────── */
-.capabilitiesGrid {
-
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
-}
-
-.capabilityCard {
-  background-color: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 28px 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  transition: var(--transition-smooth);
-}
-
-.capabilityCard:hover {
-  border-color: var(--border-hover);
-  box-shadow: var(--shadow-md);
-  transform: translateY(-3px);
-}
-
-.capHeader {
+.capIndexGroup {
   display: flex;
   align-items: baseline;
   gap: 12px;
 }
 
-.capIndex {
-  font-family: var(--font-display);
+.capIndexNumber {
+  font-family: var(--font-mono);
   font-size: 0.85rem;
-  font-weight: 700;
-  color: var(--blue);
+  font-weight: 800;
+  color: var(--color-muted-text);
+}
+
+.ledgerRowHighlighted .capIndexNumber {
+  color: #2D4708;
 }
 
 .capTitle {
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: var(--text-primary);
-}
-
-.capDesc {
-  font-size: 0.92rem;
-  line-height: 1.6;
-  color: var(--text-secondary);
-  flex: 1;
-}
-
-.tagsRow {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 4px;
-}
-
-.deliverableTag {
   font-family: var(--font-display);
-  font-size: 0.72rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  background-color: var(--bg-subtle);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--color-primary-text);
+  letter-spacing: -0.01em;
+}
+
+.nodeTag {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--color-muted-text);
+  background-color: var(--color-soft-stone);
   padding: 3px 8px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border-light);
+  border-radius: var(--radius-xs);
+  letter-spacing: var(--tracking-wider);
 }
 
-.capFooter {
-  padding-top: 14px;
-  border-top: 1px solid var(--border-light);
-  margin-top: auto;
+.ledgerRowHighlighted .nodeTag {
+  color: #2D4708;
+  background-color: var(--color-adorca-signal-light);
+  border: 1px solid var(--color-adorca-signal-border);
 }
 
-.capLink {
-  display: inline-flex;
+.capDescription {
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--color-primary-text);
+}
+
+.systemRoleBox {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 0.78rem;
+  color: var(--color-muted-text);
+  background-color: rgba(17, 19, 21, 0.03);
+  padding: 6px 12px;
+  border-radius: var(--radius-xs);
+}
+
+.systemRoleLabel {
+  font-family: var(--font-mono);
+  font-weight: 800;
+  font-size: 0.68rem;
+  color: var(--color-primary-text);
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+
+.systemRoleText {
+  color: var(--color-primary-text);
+}
+
+.deliverablesRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding-top: 4px;
+}
+
+.delivLabel {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--color-muted-text);
+  letter-spacing: 0.04em;
+}
+
+.delivPills {
+  display: flex;
   align-items: center;
   gap: 6px;
-  font-family: var(--font-display);
-  font-size: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.delivPill {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
   font-weight: 600;
-  color: var(--blue);
+  color: var(--color-primary-text);
+  background-color: var(--color-soft-stone);
+  border: 1px solid var(--border);
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
 }
 
-.capLink:hover {
-  color: var(--blue-hover);
-  gap: 10px;
+/* Ledger Footer */
+.ledgerFooter {
+  padding-top: 16px;
 }
 
-/* ─────────────────────────────────────────────
-   Responsive
-   ───────────────────────────────────────────── */
-@media (max-width: 850px) {
-  .pillarTabs {
+/* ─────────────────────────────────────────────────────────────
+   RESPONSIVE
+   ───────────────────────────────────────────────────────────── */
+
+@media (max-width: 992px) {
+  .pillarNav {
     grid-template-columns: 1fr;
-    gap: 10px;
   }
 
-  .capabilitiesGrid {
+  .pillarTab {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .systemWorkspace {
     grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .schematicCard {
+    position: static;
   }
 }
 
+@media (max-width: 576px) {
+  .svgCanvasWrapper {
+    height: 420px;
+  }
+
+  .ledgerRow {
+    padding: 18px 8px;
+  }
+
+  .ledgerRowHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .pillarHeaderBanner {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+/* Reduced Motion Override */
 @media (prefers-reduced-motion: reduce) {
-  .pillarTab,
-  .capabilityCard,
-  .capLink {
+  .pulseConduitBeam {
+    animation: none !important;
+  }
+
+  .systemWorkspace {
     transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

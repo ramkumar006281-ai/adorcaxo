@@ -40,7 +40,8 @@ export default function Blog() {
   const secondaryArticles = ARTICLES.filter((a) => !a.isFeatured);
 
   return (
-    <section id="insights" className="floatingCardSection" ref={revealRef}>
+    <section id="insights" className="pageSection theme-warm" ref={revealRef}>
+      <div className="container">
       {/* Section Header */}
       <div className="section-header">
         <div className={styles.headerRow}>
@@ -108,6 +109,7 @@ export default function Blog() {
             </article>
           ))}
         </div>
+      </div>
       </div>
     </section>
   );
