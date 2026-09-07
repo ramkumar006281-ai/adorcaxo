@@ -200,7 +200,7 @@ export default function Hero() {
               imageSrc="/images/hero-editorial.jpg"
               imageAlt="Analyst reviewing growth analytics and search performance charts at desk"
               chipLabel="Enterprise Search"
-              href="/services#seo"
+              href="/#services"
               staggerClass={styles.staggerCard1}
             />
 
@@ -212,7 +212,7 @@ export default function Hero() {
               imageSrc="/images/hero-whitelabel.jpg"
               imageAlt="Executive team collaborating on client performance in boardroom"
               chipLabel="Agency Turnkey"
-              href="/services#white-label"
+              href="/#services"
               staggerClass={styles.staggerCard2}
             />
           </div>
