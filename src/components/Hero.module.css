@@ -1,16 +1,15 @@
 /* ─────────────────────────────────────────────────────────────
-   HERO SECTION
-   Layered Architecture:
-   Layer 0: IMAGE A Background (Human/Business Context)
-   Layer 1: Dark / Contrast Gradient Overlay (Guaranteed Legibility)
-   Layer 2: Restored ADORCA Growth Signal SVG (Technical Intelligence)
+   HERO SECTION: 3-WAY PATHWAY ARCHITECTURE
+   Left: Editorial Headline & Brand Proposition
+   Center: Pathway Card - SEO FOR BUSINESSES
+   Right: Pathway Card - WHITE LABEL SEO SERVICES
    ───────────────────────────────────────────────────────────── */
 
 .heroSection {
   background-color: var(--color-obsidian);
   color: var(--color-warm-paper);
-  padding-top: calc(var(--nav-height) + 40px);
-  padding-bottom: clamp(56px, 7vw, 96px);
+  padding-top: calc(var(--nav-height) + 36px);
+  padding-bottom: clamp(48px, 6vw, 84px);
   margin-top: 0;
   position: relative;
   overflow: hidden;
@@ -24,27 +23,28 @@
   right: 0;
   bottom: 0;
   left: 0;
-  background: radial-gradient(ellipse 65% 55% at 80% 35%, rgba(183, 229, 107, 0.04), transparent 70%);
+  background: radial-gradient(ellipse 70% 50% at 85% 25%, rgba(183, 229, 107, 0.04), transparent 75%);
   pointer-events: none;
   z-index: 0;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: 1.22fr 0.98fr;
-  gap: clamp(36px, 5vw, 64px);
-  align-items: center;
+  grid-template-columns: 1.12fr 1.88fr;
+  gap: clamp(32px, 4vw, 56px);
+  align-items: stretch;
   position: relative;
   z-index: 1;
 }
 
 /* ─────────────────────────────────────────────────────────────
-   LEFT COLUMN: HEADLINE & EDITORIAL INFORMATION HIERARCHY
+   COLUMN 1: EDITORIAL HEADLINE & VALUE PROPOSITION
    ───────────────────────────────────────────────────────────── */
 
 .contentCol {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 20px;
 }
 
@@ -110,16 +110,12 @@
   color: var(--color-adorca-signal);
 }
 
-/* ─────────────────────────────────────────────────────────────
-   MASKED LINE REVEAL TYPOGRAPHY
-   (No individual word animation - line-by-line masked ascent)
-   ───────────────────────────────────────────────────────────── */
-
+/* Masked Line Reveal Headline */
 .heroTitle {
   font-family: var(--font-display);
-  font-size: clamp(2.75rem, 5vw + 0.5rem, 5.5rem);
+  font-size: clamp(2.35rem, 4vw + 0.5rem, 4.75rem);
   font-weight: 800;
-  line-height: 1.02;
+  line-height: 1.04;
   letter-spacing: var(--tracking-tighter);
   color: var(--color-warm-paper);
   text-transform: uppercase;
@@ -128,7 +124,7 @@
 .titleMask {
   display: block;
   overflow: hidden;
-  padding-bottom: 0.05em;
+  padding-bottom: 0.04em;
   white-space: nowrap;
 }
 
@@ -162,12 +158,12 @@
   color: var(--color-adorca-signal);
 }
 
-/* Editorial Body Description */
+/* Supporting Copy */
 .heroDesc {
-  font-size: clamp(1.05rem, 1.3vw, 1.25rem);
-  line-height: var(--leading-relaxed);
-  color: #C2C4C1;
-  max-width: 580px;
+  font-size: clamp(1rem, 1.1vw, 1.125rem);
+  line-height: 1.6;
+  color: #A3A6A4;
+  max-width: 500px;
   opacity: 0;
   transform: translateY(16px);
   transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
@@ -179,13 +175,13 @@
   transition-delay: 0.42s;
 }
 
-/* Call-To-Action Group */
+/* CTA Group */
 .ctaGroup {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 14px;
   flex-wrap: wrap;
-  margin-top: 6px;
+  margin-top: 4px;
   opacity: 0;
   transform: translateY(16px);
   transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
@@ -198,59 +194,61 @@
 }
 
 .growthPrimaryBtn {
-  background-color: var(--color-adorca-signal);
-  color: #0E1215;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 0.95rem;
-  letter-spacing: var(--tracking-normal);
-  padding: 14px 28px;
-  border-radius: var(--radius-pill);
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 4px 18px rgba(183, 229, 107, 0.24);
-  text-decoration: none;
+  gap: 10px;
+  background-color: var(--color-adorca-signal);
+  color: var(--color-obsidian);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  padding: 13px 22px;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--color-adorca-signal);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 20px rgba(183, 229, 107, 0.22);
 }
 
 .growthPrimaryBtn:hover {
-  background-color: var(--color-adorca-signal-hover);
+  background-color: #C8F07A;
+  border-color: #C8F07A;
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(183, 229, 107, 0.35);
-  color: #0E1215;
+  box-shadow: 0 8px 26px rgba(183, 229, 107, 0.38);
 }
 
 .growthSecondaryBtn {
-  background-color: rgba(244, 243, 239, 0.08);
-  color: var(--color-warm-paper);
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 0.95rem;
-  padding: 14px 24px;
-  border-radius: var(--radius-pill);
-  border: 1px solid rgba(244, 243, 239, 0.16);
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-  text-decoration: none;
+  background-color: rgba(244, 243, 239, 0.06);
+  color: var(--color-warm-paper);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  padding: 13px 20px;
+  border-radius: var(--radius-xs);
+  border: 1px solid rgba(244, 243, 239, 0.16);
+  transition: all 0.25s var(--ease-out);
 }
 
 .growthSecondaryBtn:hover {
-  background-color: rgba(244, 243, 239, 0.14);
-  border-color: rgba(244, 243, 239, 0.3);
-  color: var(--color-warm-paper);
+  background-color: rgba(244, 243, 239, 0.12);
+  border-color: rgba(244, 243, 239, 0.28);
+  color: #FFFFFF;
 }
 
-/* Telemetry Grounding Row */
+/* Telemetry Row */
 .telemetryRow {
   display: flex;
   align-items: center;
-  gap: 20px;
-  margin-top: 14px;
-  padding-top: 20px;
-  border-top: 1px solid rgba(244, 243, 239, 0.10);
+  gap: 18px;
+  margin-top: 10px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(244, 243, 239, 0.08);
   flex-wrap: wrap;
   opacity: 0;
   transform: translateY(16px);
@@ -260,7 +258,7 @@
 .visible .staggerTelemetry {
   opacity: 1;
   transform: translateY(0);
-  transition-delay: 0.6s;
+  transition-delay: 0.62s;
 }
 
 .telemetryItem {
@@ -279,568 +277,266 @@
 }
 
 .telemetryVal {
-  font-size: 0.8125rem;
+  font-size: 0.8rem;
   color: #A3A6A4;
   font-weight: 500;
 }
 
 .telemetryDivider {
   width: 1px;
-  height: 24px;
+  height: 22px;
   background-color: rgba(244, 243, 239, 0.10);
 }
 
 /* ─────────────────────────────────────────────────────────────
-   RIGHT COLUMN: LAYERED GROWTH SIGNAL COMPOSITION
-   Layer 0: Background IMAGE A (Human / Business Context)
-   Layer 1: Dark Overlay (SVG Contrast & Legibility)
-   Layer 2: Restored SVG Growth Signal & Telemetry (Technical Context)
+   COLUMNS 2 & 3: PATHWAYS CONTAINER & DEDICATED CARDS
    ───────────────────────────────────────────────────────────── */
 
-.visualCol {
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.3s, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
+.pathwaysContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  align-items: stretch;
 }
 
-.visualCol.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Layered Container */
-.signalCard {
-  width: 100%;
-  max-width: 520px;
+.pathwayCard {
   background-color: #0E1114;
-  border: 1px solid rgba(244, 243, 239, 0.12);
+  border: 1px solid rgba(244, 243, 239, 0.10);
   border-radius: var(--radius-card);
-  padding: 24px;
+  padding: 22px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
-  position: relative;
-  overflow: hidden;
-}
-
-/* Layer 0: Background Photo */
-.bgPhotoLayer {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.bgPhotoImage {
-  object-fit: cover;
-  object-position: center 25%;
-  opacity: 0.44;
-  filter: contrast(1.12) brightness(0.92) grayscale(15%);
-  transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.signalCard:hover .bgPhotoImage {
-  opacity: 0.50;
-  transform: scale(1.02);
-}
-
-/* Layer 1: Dark / Contrast Overlay for Guaranteed SVG Legibility */
-.darkContrastOverlay {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background: linear-gradient(
-    180deg,
-    rgba(8, 11, 14, 0.85) 0%,
-    rgba(10, 13, 16, 0.72) 40%,
-    rgba(8, 10, 13, 0.90) 100%
-  );
-  backdrop-filter: blur(1.5px);
-}
-
-/* Layer 2: Foreground Interactive Interface */
-.foregroundContent {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  width: 100%;
-}
-
-.signalHeader {
-  display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding-bottom: 12px;
-  border-bottom: 1px solid rgba(244, 243, 239, 0.10);
+  gap: 16px;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.45);
 }
 
-.signalHeaderLeft {
+.pathwayCard::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-card);
+  border: 1px solid transparent;
+  pointer-events: none;
+  transition: border-color 0.35s ease;
+}
+
+.pathwayCard:hover {
+  transform: translateY(-4px);
+  border-color: rgba(183, 229, 107, 0.35);
+  box-shadow: 0 24px 56px rgba(0, 0, 0, 0.65), 0 0 24px rgba(183, 229, 107, 0.08);
+}
+
+.pathwayCard:hover::after {
+  border-color: rgba(183, 229, 107, 0.25);
+}
+
+/* Card Header */
+.cardHeader {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 8px;
 }
 
-.signalTerminalDot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background-color: var(--color-adorca-signal);
-  box-shadow: 0 0 6px var(--color-adorca-signal);
-}
-
-.signalSystemTitle {
-  font-family: var(--font-mono);
-  font-size: var(--text-metadata);
-  font-weight: 700;
-  letter-spacing: var(--tracking-wider);
-  color: var(--color-warm-paper);
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
-}
-
-.signalStatusBadge {
+.categoryTag {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   font-family: var(--font-mono);
-  font-size: 0.68rem;
-  font-weight: 600;
+  font-size: 0.6875rem;
+  font-weight: 700;
   letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
   color: var(--color-adorca-signal);
-  background: rgba(183, 229, 107, 0.12);
-  border: 1px solid rgba(183, 229, 107, 0.28);
-  padding: 2px 8px;
-  border-radius: var(--radius-pill);
-  backdrop-filter: blur(4px);
 }
 
-.signalPulse {
+.tagDot {
   width: 5px;
   height: 5px;
   border-radius: 50%;
   background-color: var(--color-adorca-signal);
-  animation: pulseBeacon 1.8s infinite ease-in-out;
 }
 
-@keyframes pulseBeacon {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.2;
-    transform: scale(0.6);
-  }
-}
-
-/* ─────────────────────────────────────────────────────────────
-   DIAGRAM WRAPPER & SVG VECTOR SYSTEM
-   ───────────────────────────────────────────────────────────── */
-
-.diagramWrapper {
-  width: 100%;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.signalSvg {
-  width: 100%;
-  height: auto;
-  max-height: 420px;
-  overflow: visible;
-  user-select: none;
-}
-
-/* Ambient Orbit & Flow Axes */
-.ambientOrbit {
-  fill: none;
-  stroke: rgba(244, 243, 239, 0.08);
-  stroke-width: 1;
-  stroke-dasharray: 4 6;
-}
-
-.ambientOrbitInner {
-  fill: none;
-  stroke: rgba(244, 243, 239, 0.05);
-  stroke-width: 1;
-}
-
-.axisLine {
-  stroke: rgba(244, 243, 239, 0.09);
-  stroke-width: 1;
-  stroke-dasharray: 2 4;
-}
-
-/* Network Connection Hairlines */
-.netLine {
-  stroke: rgba(244, 243, 239, 0.22);
-  stroke-width: 1.25;
-}
-
-/* Animated Traveling Signal Beams */
-.activeBeam {
-  fill: none;
-  stroke: var(--color-adorca-signal);
-  stroke-width: 2;
-  stroke-dasharray: 35 240;
-  opacity: 0.95;
-  filter: drop-shadow(0 0 5px rgba(183, 229, 107, 0.7));
-}
-
-.beamLeft {
-  animation: streamPulseLeft 4.2s linear infinite;
-}
-
-.beamRight {
-  animation: streamPulseRight 4.2s linear infinite;
-  animation-delay: 2.1s;
-}
-
-@keyframes streamPulseLeft {
-  0% {
-    stroke-dashoffset: 480;
-  }
-  100% {
-    stroke-dashoffset: 0;
-  }
-}
-
-@keyframes streamPulseRight {
-  0% {
-    stroke-dashoffset: 480;
-  }
-  100% {
-    stroke-dashoffset: 0;
-  }
-}
-
-/* ── Central Hub Rings (Adorca 360) ── */
-.coreHubRing {
-  fill: rgba(14, 18, 22, 0.92);
-  stroke: rgba(244, 243, 239, 0.25);
-  stroke-width: 1.5;
-}
-
-.coreHubInner {
-  fill: #0F1418;
-  stroke: rgba(183, 229, 107, 0.45);
-  stroke-width: 1.2;
-}
-
-/* ── Interactive Nodes ── */
-.nodeGroup {
-  cursor: pointer;
-  outline: none;
-  transition: transform 0.25s var(--ease-out);
-}
-
-.nodeGroup:hover,
-.nodeGroup:focus-visible {
-  transform: scale(1.05);
-}
-
-.nodeOuterRing {
-  fill: #0E1114;
-  stroke: rgba(244, 243, 239, 0.35);
-  stroke-width: 1.5;
-  transition: all 0.25s var(--ease-out);
-}
-
-.nodeInnerDot {
-  fill: rgba(244, 243, 239, 0.65);
-  transition: all 0.25s var(--ease-out);
-}
-
-.nodeActive .nodeOuterRing {
-  stroke: var(--color-adorca-signal);
-  stroke-width: 2.2;
-  box-shadow: 0 0 12px rgba(183, 229, 107, 0.5);
-}
-
-.nodeActive .nodeInnerDot {
-  fill: var(--color-adorca-signal);
-}
-
-.coreRing {
-  fill: none;
-  stroke: rgba(183, 229, 107, 0.55);
-  stroke-width: 1.5;
-  transition: all 0.25s var(--ease-out);
-}
-
-.coreSolidDot {
-  fill: #0A0D10;
-  stroke: rgba(244, 243, 239, 0.22);
-  stroke-width: 1;
-  transition: all 0.25s var(--ease-out);
-}
-
-.nodeActive .coreRing {
-  stroke: var(--color-adorca-signal);
-  stroke-width: 2.5;
-}
-
-.nodeGlowPulse {
-  animation: glowPulse 2.4s infinite ease-in-out;
-}
-
-@keyframes glowPulse {
-  0%, 100% {
-    opacity: 0.7;
-    transform: scale(1);
-    transform-origin: center;
-  }
-  50% {
-    opacity: 0.3;
-    transform: scale(1.18);
-    transform-origin: center;
-  }
-}
-
-/* Node Labels with High Contrast Legibility Backing */
-.nodeLabel {
+.cardTitle {
   font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  fill: #E2E4E1;
-  text-transform: uppercase;
-  transition: fill 0.25s var(--ease-out);
-  filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.9));
-  pointer-events: none;
-}
-
-.nodeActive .nodeLabel,
-.nodeGroup:hover .nodeLabel {
-  fill: #FFFFFF;
-}
-
-.coreTextGroup text {
-  font-family: var(--font-display);
+  font-size: clamp(1.125rem, 1.4vw, 1.35rem);
   font-weight: 800;
-  letter-spacing: 0.06em;
-  fill: var(--color-warm-paper);
-  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.8));
+  letter-spacing: 0.02em;
+  line-height: 1.22;
+  color: var(--color-warm-paper);
+  text-transform: uppercase;
+  margin: 0;
+  transition: color 0.25s ease;
 }
 
-.coreLabelTop {
-  font-size: 9.5px;
+.pathwayCard:hover .cardTitle {
+  color: #FFFFFF;
 }
 
-.coreLabelBottom {
-  font-size: 10px;
-  fill: var(--color-adorca-signal) !important;
-}
-
-/* ─────────────────────────────────────────────────────────────
-   TELEMETRY FOOTER (Active Node Details & Engineered Evidence)
-   ───────────────────────────────────────────────────────────── */
-
-.telemetryFooter {
-  background-color: rgba(14, 18, 22, 0.85);
-  border: 1px solid rgba(244, 243, 239, 0.10);
-  border-radius: var(--radius-sm);
-  padding: 14px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 2px;
-  backdrop-filter: blur(6px);
-}
-
-.telemetryHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.telemetryHeaderLeft {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.telemetryActiveStage {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: var(--tracking-wider);
-  color: var(--color-adorca-signal);
-}
-
-.telemetrySublabel {
-  font-size: 0.72rem;
-  color: #A3A6A4;
-}
-
-.telemetryChip {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: var(--color-adorca-signal);
-  background-color: rgba(183, 229, 107, 0.12);
-  border: 1px solid rgba(183, 229, 107, 0.3);
-  padding: 4px 10px;
-  border-radius: var(--radius-xs);
-  white-space: nowrap;
-}
-
-.chipVal {
-  color: var(--color-adorca-signal);
-}
-
-.telemetryDescription {
-  font-size: 0.8rem;
-  line-height: 1.45;
-  color: #C2C4C1;
+.cardDesc {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: #929593;
   margin: 0;
 }
 
-.telemetryDeliverables {
+/* Image Frame */
+.imageFrame {
+  position: relative;
+  width: 100%;
+  flex: 1 1 auto;
+  min-height: 210px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid rgba(244, 243, 239, 0.08);
+  background-color: #080A0C;
+}
+
+.cardImage {
+  object-fit: cover;
+  object-position: center 25%;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+  filter: brightness(0.92) contrast(1.08) grayscale(10%);
+}
+
+.pathwayCard:hover .cardImage {
+  transform: scale(1.05);
+  filter: brightness(1) contrast(1.12) grayscale(0%);
+}
+
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(8, 11, 14, 0.15) 0%,
+    rgba(8, 11, 14, 0.4) 60%,
+    rgba(8, 11, 14, 0.85) 100%
+  );
+  pointer-events: none;
+}
+
+.imageChip {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-warm-paper);
+  background: rgba(14, 17, 20, 0.78);
+  border: 1px solid rgba(244, 243, 239, 0.14);
+  padding: 3px 8px;
+  border-radius: var(--radius-xs);
+  backdrop-filter: blur(4px);
+}
+
+/* Card Footer with EXPLORE Action */
+.cardFooter {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
+  padding-top: 4px;
+}
+
+.exploreAction {
+  display: inline-flex;
+  align-items: center;
   gap: 8px;
-  padding-top: 6px;
-  border-top: 1px solid rgba(244, 243, 239, 0.08);
-  font-size: 0.72rem;
-}
-
-.deliverablesLabel {
   font-family: var(--font-mono);
+  font-size: 0.8125rem;
   font-weight: 700;
-  color: var(--color-adorca-signal);
   letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-adorca-signal);
+  transition: gap 0.25s var(--ease-out), color 0.25s var(--ease-out);
 }
 
-.deliverablesText {
-  color: #A3A6A4;
-  font-family: var(--font-mono);
+.exploreArrow {
+  transition: transform 0.25s var(--ease-out);
+}
+
+.pathwayCard:hover .exploreAction {
+  color: #C8F07A;
+  gap: 12px;
+}
+
+.pathwayCard:hover .exploreArrow {
+  transform: translateX(4px);
+}
+
+/* Entrance Animations */
+.staggerCard1,
+.staggerCard2 {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.visible .staggerCard1 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.3s;
+}
+
+.visible .staggerCard2 {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.45s;
 }
 
 /* ─────────────────────────────────────────────────────────────
-   RESPONSIVE DESIGN (375px to 1920px)
+   RESPONSIVE LAYOUT BREAKPOINTS
    ───────────────────────────────────────────────────────────── */
 
-@media (max-width: 1024px) {
+@media (max-width: 1180px) {
   .grid {
     grid-template-columns: 1fr;
-    gap: 48px;
+    gap: 40px;
   }
 
-  .visualCol {
-    justify-content: center;
+  .contentCol {
+    max-width: 720px;
   }
 
-  .signalCard {
-    max-width: 580px;
-  }
-
-  .heroTitle {
-    font-size: clamp(2.5rem, 6.5vw, 4rem);
+  .pathwaysContainer {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
   }
 }
 
-@media (max-width: 576px) {
-  .heroSection {
-    padding-top: calc(var(--nav-height) + 20px);
-    padding-bottom: 48px;
+@media (max-width: 680px) {
+  .pathwaysContainer {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .pathwayCard {
+    padding: 18px;
+  }
+
+  .imageFrame {
+    aspect-ratio: 16 / 9;
   }
 
   .heroTitle {
-    font-size: clamp(2.1rem, 9.5vw, 3rem);
-  }
-
-  .titleMask {
-    white-space: normal;
+    font-size: clamp(2rem, 9vw, 2.75rem);
   }
 
   .ctaGroup {
     flex-direction: column;
     align-items: stretch;
-    gap: 12px;
   }
 
   .growthPrimaryBtn,
   .growthSecondaryBtn {
     justify-content: center;
-    width: 100%;
-  }
-
-  .telemetryRow {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
-
-  .telemetryDivider {
-    display: none;
-  }
-
-  .signalCard {
-    padding: 16px 12px;
-    max-width: 100%;
-  }
-
-  .signalSvg {
-    max-height: 340px;
-  }
-
-  .nodeLabel {
-    font-size: 10px;
-  }
-
-  .telemetryFooter {
-    padding: 12px;
-  }
-
-  .telemetryDeliverables {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 2px;
-  }
-}
-
-/* ─────────────────────────────────────────────────────────────
-   REDUCED MOTION OVERRIDE
-   ───────────────────────────────────────────────────────────── */
-
-@media (prefers-reduced-motion: reduce) {
-  .titleLine,
-  .staggerBadge,
-  .staggerDesc,
-  .staggerCta,
-  .staggerTelemetry,
-  .visualCol {
-    transform: none !important;
-    opacity: 1 !important;
-    transition: none !important;
-  }
-
-  .activeBeam,
-  .beamLeft,
-  .beamRight {
-    animation: none !important;
-    stroke-dasharray: none !important;
-    opacity: 0.4 !important;
-  }
-
-  .studioDot,
-  .signalPulse,
-  .nodeGlowPulse {
-    animation: none !important;
-  }
-
-  .nodeGroup {
-    transition: none !important;
   }
 }
