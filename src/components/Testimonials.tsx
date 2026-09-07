@@ -118,10 +118,15 @@ export default function Testimonials() {
             {/* Bottom Meta & Attribution Row */}
             <div className={styles.cardBottomRow}>
               <div className={styles.authorBlock}>
-                <h3 className={styles.authorName}>{activeTestimonial.name}</h3>
-                <p className={styles.authorRole}>
-                  {activeTestimonial.role} &bull; <span className={styles.authorCompany}>{activeTestimonial.company}</span>
-                </p>
+                <div className={styles.authorMonogram} aria-hidden="true">
+                  {activeTestimonial.name.split(" ").map((n) => n[0]).join("")}
+                </div>
+                <div className={styles.authorMeta}>
+                  <h3 className={styles.authorName}>{activeTestimonial.name}</h3>
+                  <p className={styles.authorRole}>
+                    {activeTestimonial.role} &bull; <span className={styles.authorCompany}>{activeTestimonial.company}</span>
+                  </p>
+                </div>
               </div>
 
               {/* Step Controls & Counter */}

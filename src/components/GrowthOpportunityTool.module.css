@@ -340,6 +340,153 @@
 }
 
 /* ─────────────────────────────────────────────
+   System Check Readiness Protocol (Section 17)
+   ───────────────────────────────────────────── */
+.systemCheckBlock {
+  background: #0E1216;
+  border: 1px solid rgba(244, 243, 239, 0.08);
+  border-radius: var(--radius-sm);
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.systemCheckHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(244, 243, 239, 0.06);
+  padding-bottom: 12px;
+}
+
+.systemCheckTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.systemCheckDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-adorca-signal);
+  box-shadow: 0 0 8px var(--color-adorca-signal);
+}
+
+.systemCheckTitle {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-warm-paper);
+}
+
+.systemCheckStatusBadge {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.65rem;
+  color: var(--color-adorca-signal);
+  background: rgba(183, 229, 107, 0.1);
+  padding: 2px 8px;
+  border-radius: 2px;
+}
+
+.systemCheckMatrix {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.vectorReadoutRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  background: #14181D;
+  border: 1px solid rgba(244, 243, 239, 0.05);
+  padding: 12px 16px;
+  border-radius: var(--radius-xs);
+}
+
+.readoutItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.readoutLabel {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.62rem;
+  color: #6E716F;
+  letter-spacing: 0.06em;
+}
+
+.readoutValue {
+  font-family: var(--font-display, sans-serif);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-warm-paper);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.checksList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.checkItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 10px;
+  border-bottom: 1px solid rgba(244, 243, 239, 0.04);
+}
+
+.checkName {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.7rem;
+  color: #A3A6A4;
+  letter-spacing: 0.04em;
+}
+
+.checkStatus {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.checkReady {
+  color: var(--color-adorca-signal);
+}
+
+.checkRunning {
+  color: #FCD34D;
+  animation: pulseReady 1s infinite alternate;
+}
+
+@keyframes pulseReady {
+  from { opacity: 0.6; }
+  to { opacity: 1; }
+}
+
+.checkActive {
+  color: #93C5FD;
+}
+
+.checkPending {
+  color: #6E716F;
+}
+
+@media (max-width: 768px) {
+  .vectorReadoutRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ─────────────────────────────────────────────
    Submit Deck
    ───────────────────────────────────────────── */
 .submitDeck {

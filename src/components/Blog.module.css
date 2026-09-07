@@ -1,15 +1,50 @@
+/* ─────────────────────────────────────────────────────────────
+   INSIGHTS / STRATEGIC INTELLIGENCE (SECTION 20)
+   Asymmetric Editorial Grid with Architecture Aperture & Data Motifs
+   ───────────────────────────────────────────────────────────── */
+
 .headerRow {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
   gap: 20px;
   flex-wrap: wrap;
+  margin-bottom: clamp(28px, 4vw, 40px);
+}
+
+.headerTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--color-soft-stone);
+  border: 1px solid var(--border);
+  padding: 4px 14px;
+  border-radius: var(--radius-pill);
+  width: max-content;
+  margin-bottom: 12px;
+}
+
+.tagDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #2D4708;
+  box-shadow: 0 0 6px var(--color-adorca-signal);
+}
+
+.tagText {
+  font-family: var(--font-mono);
+  font-size: var(--text-metadata);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+  color: var(--color-primary-text);
 }
 
 .articlesGrid {
   display: grid;
-  grid-template-columns: 1.25fr 1fr;
-  gap: 28px;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 32px;
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
@@ -21,24 +56,75 @@
 }
 
 /* ─────────────────────────────────────────────
-   Featured Article Card
+   Featured Article Card with Aperture
    ───────────────────────────────────────────── */
 .featuredCard {
-  background-color: var(--bg-surface);
+  background-color: var(--color-pure-canvas);
   border: 1px solid var(--border);
-  border-radius: var(--radius-card);
-  padding: 36px 32px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  transition: var(--transition-smooth);
-  box-shadow: var(--shadow-xs);
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.25s ease, transform 0.25s ease;
 }
 
 .featuredCard:hover {
   border-color: var(--border-strong);
-  box-shadow: var(--shadow-md);
   transform: translateY(-2px);
+}
+
+.featuredImgWrap {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  background: #111315;
+  overflow: hidden;
+}
+
+.featuredImg {
+  object-fit: cover;
+  filter: grayscale(85%) contrast(1.1);
+  transition: filter 0.4s ease, transform 0.4s ease;
+}
+
+.featuredCard:hover .featuredImg {
+  filter: grayscale(35%) contrast(1.15);
+  transform: scale(1.03);
+}
+
+.featuredOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(17, 19, 21, 0.15) 0%, rgba(17, 19, 21, 0.8) 100%);
+  pointer-events: none;
+}
+
+.featuredImgBadge {
+  position: absolute;
+  bottom: 10px;
+  left: 12px;
+  right: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: #E2E4E1;
+  letter-spacing: 0.05em;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.featuredImgBadge code {
+  color: var(--color-adorca-signal);
+}
+
+.featuredContent {
+  padding: clamp(24px, 3.5vw, 36px);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
 }
 
 .metaRow {
@@ -51,42 +137,48 @@
 .tagBadge {
   font-family: var(--font-mono);
   font-size: var(--text-metadata);
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: var(--tracking-wide);
-  color: var(--color-primary-text);
-  background-color: var(--color-soft-stone);
+  color: #2D4708;
+  background-color: rgba(183, 229, 107, 0.15);
   padding: 3px 10px;
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-xs);
 }
 
 .metaDot {
-  color: var(--text-muted);
+  color: var(--color-muted-text);
   font-size: 0.75rem;
 }
 
 .metaText {
   font-size: 0.78rem;
-  color: var(--text-muted);
+  color: var(--color-muted-text);
   font-weight: 500;
 }
 
 .featuredTitle {
-  font-size: clamp(1.3rem, 1.8vw + 0.3rem, 1.7rem);
+  font-size: clamp(1.4rem, 2vw + 0.3rem, 1.85rem);
   font-weight: 800;
-  color: var(--text-primary);
+  color: var(--color-primary-text);
   line-height: 1.25;
-  letter-spacing: -0.02em;
+  letter-spacing: var(--tracking-tighter);
+}
+
+.featuredTitle a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
 }
 
 .featuredTitle a:hover {
-  color: var(--blue);
+  color: #2D4708;
 }
 
 .featuredDesc {
   font-size: 0.95rem;
-  line-height: 1.6;
-  color: var(--text-secondary);
+  line-height: var(--leading-relaxed);
+  color: var(--color-muted-text);
   flex: 1;
 }
 
@@ -95,14 +187,15 @@
   align-items: center;
   gap: 8px;
   font-family: var(--font-display);
-  font-size: 0.88rem;
+  font-size: 0.9rem;
   font-weight: 700;
-  color: var(--blue);
+  color: #2D4708;
+  text-decoration: none;
   margin-top: 8px;
+  transition: gap 0.2s ease;
 }
 
 .readMoreBtn:hover {
-  color: var(--blue-hover);
   gap: 12px;
 }
 
@@ -116,65 +209,91 @@
 }
 
 .secondaryCard {
-  background-color: var(--bg-card);
+  background-color: var(--color-pure-canvas);
   border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 24px 20px;
+  border-radius: var(--radius-sm);
+  padding: clamp(20px, 3vw, 28px);
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  transition: var(--transition-smooth);
+  gap: 12px;
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.25s ease, transform 0.25s ease;
 }
 
 .secondaryCard:hover {
-  border-color: var(--border-hover);
-  box-shadow: var(--shadow-sm);
+  border-color: var(--border-strong);
   transform: translateY(-2px);
 }
 
-.secondaryTitle {
-  font-size: 1.08rem;
+.secondaryTopRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.refBadge {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--color-muted-text);
+  letter-spacing: 0.08em;
+}
+
+.motifBadge {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #2D4708;
+  background: rgba(183, 229, 107, 0.12);
+  padding: 2px 8px;
+  border-radius: 2px;
+}
+
+.secondaryTitle {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--color-primary-text);
   line-height: 1.35;
+  letter-spacing: var(--tracking-tight);
+}
+
+.secondaryTitle a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
 }
 
 .secondaryTitle a:hover {
-  color: var(--blue);
+  color: #2D4708;
 }
 
 .secondaryDesc {
-  font-size: 0.85rem;
-  line-height: 1.5;
-  color: var(--text-secondary);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--color-muted-text);
 }
 
 .readLink {
-  font-family: var(--font-display);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   font-size: 0.82rem;
   font-weight: 700;
-  color: var(--blue);
+  color: #2D4708;
+  text-decoration: none;
   margin-top: 4px;
 }
 
 .readLink:hover {
-  color: var(--blue-hover);
   text-decoration: underline;
 }
 
 /* ─────────────────────────────────────────────
    Responsive
    ───────────────────────────────────────────── */
-@media (max-width: 992px) {
+@media (max-width: 900px) {
   .articlesGrid {
     grid-template-columns: 1fr;
-    gap: 20px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .featuredCard,
-  .secondaryCard {
-    transition: none !important;
+    gap: 24px;
   }
 }

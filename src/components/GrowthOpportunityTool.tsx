@@ -537,6 +537,69 @@ export default function GrowthOpportunityTool() {
                 </div>
               </div>
 
+              {/* System Check Readiness Protocol */}
+              <div className={styles.systemCheckBlock}>
+                <div className={styles.systemCheckHeader}>
+                  <div className={styles.systemCheckTitleRow}>
+                    <span className={styles.systemCheckDot} />
+                    <span className={styles.systemCheckTitle}>GROWTH DIAGNOSTIC // SYSTEM PRE-FLIGHT CHECK</span>
+                  </div>
+                  <span className={styles.systemCheckStatusBadge}>
+                    {status === "loading" ? "EVALUATING PROTOCOLS..." : "CONFIGURED TELEMETRY"}
+                  </span>
+                </div>
+
+                <div className={styles.systemCheckMatrix}>
+                  <div className={styles.vectorReadoutRow}>
+                    <div className={styles.readoutItem}>
+                      <span className={styles.readoutLabel}>DOMAIN</span>
+                      <span className={styles.readoutValue}>{params.website.trim() || "Awaiting target input..."}</span>
+                    </div>
+                    <div className={styles.readoutItem}>
+                      <span className={styles.readoutLabel}>MARKET</span>
+                      <span className={styles.readoutValue}>{params.market}</span>
+                    </div>
+                    <div className={styles.readoutItem}>
+                      <span className={styles.readoutLabel}>OBJECTIVE</span>
+                      <span className={styles.readoutValue}>{params.objective}</span>
+                    </div>
+                  </div>
+
+                  <div className={styles.checksList}>
+                    <div className={styles.checkItem}>
+                      <span className={styles.checkName}>TECHNICAL HEALTH &amp; LOG AUDIT</span>
+                      <span className={`${styles.checkStatus} ${status === "loading" ? styles.checkRunning : styles.checkReady}`}>
+                        {status === "loading" ? "ANALYZING CRAWL..." : "✓ READY"}
+                      </span>
+                    </div>
+                    <div className={styles.checkItem}>
+                      <span className={styles.checkName}>SEARCH DEMAND &amp; REGIONAL CRAWL</span>
+                      <span className={`${styles.checkStatus} ${status === "loading" ? styles.checkRunning : styles.checkReady}`}>
+                        {status === "loading" ? "INDEXING TAXONOMY..." : "✓ READY"}
+                      </span>
+                    </div>
+                    <div className={styles.checkItem}>
+                      <span className={styles.checkName}>COMPETITIVE BOTTLENECK ANALYSIS</span>
+                      <span className={`${styles.checkStatus} ${status === "loading" ? styles.checkActive : styles.checkPending}`}>
+                        {status === "loading" ? "CALCULATING GAP..." : "… PENDING RUN"}
+                      </span>
+                    </div>
+                    <div className={styles.checkItem}>
+                      <span className={styles.checkName}>CONVERSION PATH &amp; CRO PROTOCOL</span>
+                      <span className={`${styles.checkStatus} ${status === "loading" ? styles.checkActive : styles.checkPending}`}>
+                        {status === "loading" ? "MODELING FUNNEL..." : "… PENDING RUN"}
+                      </span>
+                    </div>
+                    <div className={styles.checkItem}>
+                      <span className={styles.checkName}>FIRST-PARTY ATTRIBUTION PIPELINE</span>
+                      <span className={`${styles.checkStatus} ${status === "loading" ? styles.checkActive : styles.checkPending}`}>
+                        {status === "loading" ? "VERIFYING ATTRIBUTION..." : "… PENDING RUN"}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               {/* Execution Action Deck */}
               <div className={styles.submitDeck}>
                 <div className={styles.summaryBrief}>

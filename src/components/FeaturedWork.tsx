@@ -11,6 +11,7 @@ interface EvidenceCase {
   category: string;
   clientTitle: string;
   marketScope: string;
+  metricLabel: string;
   baselineVal: string;
   baselineLabel: string;
   intervention: string;
@@ -22,9 +23,13 @@ interface EvidenceCase {
   slug: string;
   graphData: {
     type: "organic" | "cpa" | "rank";
-    baselineCoord: string;
-    peakCoord: string;
+    yTop: string;
+    yBottom: string;
+    startY: number;
+    endY: number;
     path: string;
+    beforeLabel: string;
+    afterLabel: string;
   };
 }
 
@@ -35,6 +40,7 @@ const EVIDENCE_CASES: EvidenceCase[] = [
     category: "E-COMMERCE & CROSS-BORDER RETAIL",
     clientTitle: "Scaling Cross-Border Organic Traffic Across European & LATAM Markets",
     marketScope: "50+ Regional Search Catalogs",
+    metricLabel: "ORGANIC SEARCH VISIBILITY",
     baselineVal: "12,000 / mo",
     baselineLabel: "Organic Search Baseline",
     intervention: "Technical Hreflang Architecture & Native Linguistic Intent Extraction",
@@ -47,9 +53,13 @@ const EVIDENCE_CASES: EvidenceCase[] = [
     slug: "ecomart-international-growth",
     graphData: {
       type: "organic",
-      baselineCoord: "12K",
-      peakCoord: "28.8K",
-      path: "M 15 85 Q 90 80, 160 55 T 260 25 T 315 12",
+      yTop: "28.8K",
+      yBottom: "12.0K",
+      startY: 88,
+      endY: 20,
+      path: "M 90 88 C 150 85, 215 32, 285 20",
+      beforeLabel: "BEFORE (BASELINE)",
+      afterLabel: "AFTER (SCALE)",
     },
   },
   {
@@ -58,6 +68,7 @@ const EVIDENCE_CASES: EvidenceCase[] = [
     category: "B2B FINTECH & ENTERPRISE SAAS",
     clientTitle: "Slashing Cost-Per-Acquisition via Algorithmic Real-Time Bid Rules",
     marketScope: "North America & UK Enterprise Market",
+    metricLabel: "COST-PER-ACQUISITION (CPA)",
     baselineVal: "$78 CPA",
     baselineLabel: "Manual Broad-Match Baseline",
     intervention: "Algorithmic Real-Time Bidding & High-Intent Audience Retargeting",
@@ -70,9 +81,13 @@ const EVIDENCE_CASES: EvidenceCase[] = [
     slug: "finflow-programmatic-cpa",
     graphData: {
       type: "cpa",
-      baselineCoord: "$78",
-      peakCoord: "$45",
-      path: "M 15 20 Q 80 25, 150 50 T 240 75 T 315 85",
+      yTop: "$78",
+      yBottom: "$45",
+      startY: 20,
+      endY: 88,
+      path: "M 90 20 C 150 25, 215 75, 285 88",
+      beforeLabel: "BEFORE (MANUAL)",
+      afterLabel: "AFTER (ALGO)",
     },
   },
   {
@@ -81,6 +96,7 @@ const EVIDENCE_CASES: EvidenceCase[] = [
     category: "MOBILE GAMING & APP STORE OPTIMIZATION",
     clientTitle: "Pushing Flagship Game to Top 5 Category Ranking Across 14 App Stores",
     marketScope: "Global App Store & Google Play (14 Stores)",
+    metricLabel: "APP STORE CATEGORY RANK",
     baselineVal: "Pos #34",
     baselineLabel: "Category Store Rank Baseline",
     intervention: "ASO Keyword Velocity Acceleration & Multivariate Listing CRO",
@@ -93,9 +109,13 @@ const EVIDENCE_CASES: EvidenceCase[] = [
     slug: "playsphere-app-store-ranking",
     graphData: {
       type: "rank",
-      baselineCoord: "#34",
-      peakCoord: "#4",
-      path: "M 15 80 Q 80 75, 150 45 T 240 20 T 315 10",
+      yTop: "Pos #4",
+      yBottom: "Pos #34",
+      startY: 88,
+      endY: 20,
+      path: "M 90 88 C 150 80, 215 30, 285 20",
+      beforeLabel: "BEFORE (ASO AUDIT)",
+      afterLabel: "AFTER (TOP 5)",
     },
   },
 ];
@@ -221,20 +241,20 @@ export default function FeaturedWork() {
               </div>
             </div>
 
-            {/* Right: Impact Anchor Display + Genuine Animated Trajectory Graph */}
+            {/* Right: Impact Anchor Display + Forensic Trajectory Graph */}
             <div className={styles.impactAnchorCol}>
               <div className={styles.impactAnchorCard}>
-                {/* Proof Anchor: 12K -> 28.8K (+140% ORGANIC GROWTH) */}
+                {/* Proof Delta Banner */}
                 <div className={styles.deltaAnchorBox}>
                   <div className={styles.deltaFlowRow}>
                     <div className={styles.deltaMetric}>
                       <span className={styles.deltaLabel}>BASELINE</span>
-                      <span className={styles.deltaVal}>{activeCase.graphData.baselineCoord}</span>
+                      <span className={styles.deltaVal}>{activeCase.baselineVal}</span>
                     </div>
-                    <span className={styles.deltaArrow} aria-hidden="true">&darr;</span>
+                    <span className={styles.deltaArrow} aria-hidden="true">&rarr;</span>
                     <div className={styles.deltaMetric}>
-                      <span className={styles.deltaLabel}>RESULT</span>
-                      <span className={styles.deltaValHighlight}>{activeCase.graphData.peakCoord}</span>
+                      <span className={styles.deltaLabel}>VERIFIED RESULT</span>
+                      <span className={styles.deltaValHighlight}>{activeCase.resultVal}</span>
                     </div>
                   </div>
 
@@ -244,39 +264,77 @@ export default function FeaturedWork() {
                   </div>
                 </div>
 
-                {/* Animated Trajectory Graph */}
+                {/* Forensic Axis-Calibrated SVG Graph (Section 14) */}
                 <div className={styles.graphContainer} aria-label={`${activeCase.kpiDescriptor} Trajectory Chart`}>
-                  <svg viewBox="0 0 330 100" className={styles.evidenceSvg} fill="none">
-                    <line x1="15" y1="88" x2="315" y2="88" stroke="rgba(17, 19, 21, 0.12)" strokeDasharray="3 3" />
-                    <line x1="15" y1="50" x2="315" y2="50" stroke="rgba(17, 19, 21, 0.12)" strokeDasharray="3 3" />
-                    <line x1="15" y1="15" x2="315" y2="15" stroke="rgba(17, 19, 21, 0.12)" strokeDasharray="3 3" />
+                  <div className={styles.graphHeaderRow}>
+                    <span className={styles.graphHeaderTitle}>
+                      FORENSIC METRIC // {activeCase.metricLabel}
+                    </span>
+                    <span className={styles.graphHeaderBadge}>VERIFIED CLIENT EVIDENCE</span>
+                  </div>
 
-                    {/* Animated Trajectory Curve */}
-                    <path
-                      key={activeCase.id}
-                      d={activeCase.graphData.path}
-                      stroke={activeCase.graphData.type === "cpa" ? "#111315" : "#1B4D08"}
-                      strokeWidth="3.5"
-                      strokeLinecap="round"
-                      className={styles.animatedDrawPath}
-                    />
+                  <div className={styles.svgFrame}>
+                    <svg viewBox="0 0 350 140" className={styles.evidenceSvg} fill="none" aria-hidden="true">
+                      {/* Hairline Grid Reference Lines */}
+                      <line x1="55" y1="20" x2="320" y2="20" stroke="rgba(17, 19, 21, 0.10)" strokeDasharray="3 3" />
+                      <line x1="55" y1="88" x2="320" y2="88" stroke="rgba(17, 19, 21, 0.10)" strokeDasharray="3 3" />
 
-                    {/* Start Node */}
-                    <circle cx="15" cy={activeCase.graphData.type === "cpa" ? "20" : "85"} r="4" fill="#111315" />
-                    {/* End / Peak Node */}
-                    <circle
-                      cx="315"
-                      cy={activeCase.graphData.type === "cpa" ? "85" : "12"}
-                      r="6"
-                      fill="#2D4708"
-                      stroke="#B7E56B"
-                      strokeWidth="2.5"
-                    />
-                  </svg>
+                      {/* Y-Axis Line */}
+                      <line x1="55" y1="12" x2="55" y2="105" stroke="var(--color-primary-text)" strokeWidth="1.5" />
+
+                      {/* Y-Axis Ticks (Top & Bottom) */}
+                      <line x1="49" y1="20" x2="55" y2="20" stroke="var(--color-primary-text)" strokeWidth="1.5" />
+                      <text x="44" y="24" textAnchor="end" className={styles.axisTickText}>
+                        {activeCase.graphData.yTop}
+                      </text>
+
+                      <line x1="49" y1="88" x2="55" y2="88" stroke="var(--color-primary-text)" strokeWidth="1.5" />
+                      <text x="44" y="92" textAnchor="end" className={styles.axisTickText}>
+                        {activeCase.graphData.yBottom}
+                      </text>
+
+                      {/* X-Axis Baseline */}
+                      <line x1="55" y1="105" x2="320" y2="105" stroke="var(--color-primary-text)" strokeWidth="1.5" />
+
+                      {/* X-Axis Ticks & Labels */}
+                      <line x1="90" y1="105" x2="90" y2="111" stroke="var(--color-primary-text)" strokeWidth="1.5" />
+                      <text x="90" y="125" textAnchor="middle" className={styles.axisLabelText}>
+                        BEFORE
+                      </text>
+
+                      <line x1="285" y1="105" x2="285" y2="111" stroke="var(--color-primary-text)" strokeWidth="1.5" />
+                      <text x="285" y="125" textAnchor="middle" className={styles.axisLabelText}>
+                        AFTER
+                      </text>
+
+                      {/* Animated Trajectory Curve */}
+                      <path
+                        key={activeCase.id}
+                        d={activeCase.graphData.path}
+                        stroke={activeCase.graphData.type === "cpa" ? "#111315" : "#1B4D08"}
+                        strokeWidth="3"
+                        strokeLinecap="round"
+                        className={styles.animatedDrawPath}
+                      />
+
+                      {/* Baseline Start Node */}
+                      <circle cx="90" cy={activeCase.graphData.startY} r="4.5" fill="#111315" />
+
+                      {/* Result End Node */}
+                      <circle
+                        cx="285"
+                        cy={activeCase.graphData.endY}
+                        r="6.5"
+                        fill="#2D4708"
+                        stroke="#B7E56B"
+                        strokeWidth="2.5"
+                      />
+                    </svg>
+                  </div>
+
                   <div className={styles.graphLegenda}>
-                    <span>BASELINE AUDIT</span>
-                    <span>INTERVENTION &amp; DEPLOYMENT</span>
-                    <span>COMPOUNDING OUTCOME</span>
+                    <span>STRICT 2-POINT FORENSIC EVIDENCE</span>
+                    <span className={styles.legendaHighlight}>ZERO INTERMEDIATE ESTIMATION</span>
                   </div>
                 </div>
 

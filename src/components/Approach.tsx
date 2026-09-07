@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useIntersection } from "./utils";
 import styles from "./Approach.module.css";
@@ -59,7 +60,6 @@ export default function Approach() {
   const [revealRef, isVisible] = useIntersection({ threshold: 0.08 });
 
   const activeStage = PROCESS_STAGES[activeIdx];
-  const progressPercent = ((activeIdx + 1) / PROCESS_STAGES.length) * 100;
 
   return (
     <section id="approach" className="pageSection theme-warm" ref={revealRef} aria-label="Execution Methodology Timeline">
@@ -79,124 +79,170 @@ export default function Approach() {
           </p>
         </div>
 
-        {/* Sophisticated Timeline Bar */}
-        <div className={`${styles.timelineWrapper} ${isVisible ? styles.visible : ""}`}>
-          {/* Progress Connecting Line */}
-          <div className={styles.timelineTrack} aria-hidden="true">
-            <div className={styles.timelineBaseLine} />
-            <div className={styles.timelineFilledLine} style={{ width: `${progressPercent}%` }} />
+        {/* Editorial Timeline & Dossier Layout */}
+        <div className={`${styles.timelineContainer} ${isVisible ? styles.visible : ""}`}>
+          {/* Left Column: Vertical Editorial Timeline + Architectural Aperture */}
+          <div className={styles.leftColumn}>
+            <div className={styles.verticalTimelineSpine} role="tablist" aria-label="Methodology Stages">
+              {PROCESS_STAGES.map((st, idx) => {
+                const isActive = idx === activeIdx;
+                const isCompleted = idx < activeIdx;
+
+                return (
+                  <div key={st.step} className={styles.timelineNodeWrapper}>
+                    <button
+                      type="button"
+                      role="tab"
+                      id={`methodology-step-${st.step}`}
+                      aria-selected={isActive}
+                      aria-controls="methodology-panel"
+                      className={`${styles.stageTabButton} ${isActive ? styles.stageTabActive : ""} ${isCompleted ? styles.stageTabCompleted : ""}`}
+                      onClick={() => setActiveIdx(idx)}
+                    >
+                      <div className={styles.stageIndicatorCol}>
+                        <div className={styles.stepDotOuter}>
+                          {isCompleted ? (
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                              <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                          ) : (
+                            <span className={styles.stepDotInner} />
+                          )}
+                        </div>
+                        {idx < PROCESS_STAGES.length - 1 && (
+                          <div className={styles.verticalLineSegment}>
+                            <svg width="10" height="24" viewBox="0 0 10 24" fill="none" className={styles.spineArrowSvg} aria-hidden="true">
+                              <line x1="5" y1="0" x2="5" y2="18" stroke="currentColor" strokeWidth="1.5" />
+                              <polyline points="2,14 5,19 8,14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                            </svg>
+                          </div>
+                        )}
+                      </div>
+
+                      <div className={styles.stageTabInfo}>
+                        <div className={styles.stageMetaRow}>
+                          <span className={styles.stageStepNum}>{st.step}</span>
+                          <span className={styles.stageTabName}>{st.name}</span>
+                        </div>
+                        <span className={styles.stageTabTag}>{st.tag}</span>
+                      </div>
+                    </button>
+                  </div>
+                );
+              })}
+
+              {/* Compounding Return Loop Indicator: 04 OPTIMIZE -> 01 DISCOVER */}
+              <div className={styles.returnLoopIndicator} aria-label="Compounding retention and re-indexing loop">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={styles.loopIcon} aria-hidden="true">
+                  <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67" />
+                </svg>
+                <div className={styles.returnLoopText}>
+                  <span className={styles.returnLoopTitle}>CONTINUOUS RE-INDEXING LOOP</span>
+                  <span className={styles.returnLoopSub}>04 OPTIMIZE feeds back into 01 DISCOVER</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Brutalist Architecture Aperture (Asset 03: Concrete Precision) */}
+            <div className={styles.architectureAperture}>
+              <div className={styles.archImgWrap}>
+                <Image
+                  src="/images/methodology-architecture.jpg"
+                  alt="Brutalist architectural concrete facade representing structural engineering discipline"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 420px"
+                  className={styles.archImg}
+                />
+                <div className={styles.archOverlay} />
+                <div className={styles.archBadge}>
+                  <span>ENGINEERING DISCIPLINE</span>
+                  <code>LAT 52.5200° N</code>
+                </div>
+              </div>
+              <div className={styles.archCaption}>
+                <span>Rigorous systems architecture — eliminating agency churn through repeatable technical execution.</span>
+              </div>
+            </div>
           </div>
 
-          {/* 4 Stage Nodes */}
-          <div className={styles.timelineStagesRow} role="tablist" aria-label="Methodology Process Stages">
-            {PROCESS_STAGES.map((st, idx) => {
-              const isActive = idx === activeIdx;
-              const isSubdued = idx < activeIdx;
-              const isPending = idx > activeIdx;
+          {/* Right Column: Active Stage Dossier Presentation Panel */}
+          <div className={styles.rightColumn}>
+            <div id="methodology-panel" role="tabpanel" aria-labelledby={`methodology-step-${activeStage.step}`} className={styles.stageDossierCard}>
+              {/* Top Stage Header Row */}
+              <div className={styles.stageHeaderRow}>
+                <div className={styles.stageTitleGroup}>
+                  <span className={styles.stageTagBadge}>
+                    STAGE {activeStage.step} • {activeStage.tag}
+                  </span>
+                  <h3 className={styles.stageNameHeading}>{activeStage.name}</h3>
+                  <p className={styles.stageOneLiner}>{activeStage.oneLiner}</p>
+                </div>
 
-              return (
-                <button
-                  key={st.step}
-                  type="button"
-                  role="tab"
-                  id={`methodology-step-${st.step}`}
-                  aria-selected={isActive}
-                  aria-controls="methodology-panel"
-                  className={`${styles.timelineNodeBtn} ${isActive ? styles.nodeActive : ""} ${isSubdued ? styles.nodeSubdued : ""} ${isPending ? styles.nodePending : ""}`}
-                  onClick={() => setActiveIdx(idx)}
-                >
-                  <div className={styles.nodeIconIndicator}>
-                    {isSubdued ? (
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                {/* Big Watermark Stage Number */}
+                <div className={styles.stageOversizedNumber} aria-hidden="true">
+                  {activeStage.step}
+                </div>
+              </div>
+
+              {/* Middle Grid: Detailed Description & System Role */}
+              <div className={styles.stageGrid}>
+                <div className={styles.stageDescCol}>
+                  <span className={styles.descLabel}>ENGINEERING PROTOCOL</span>
+                  <p className={styles.stageFullDesc}>{activeStage.desc}</p>
+                </div>
+
+                <div className={styles.systemRoleCol}>
+                  <span className={styles.descLabel}>SYSTEM ROLE IN COMPOUNDING</span>
+                  <p className={styles.stageRoleText}>{activeStage.systemRole}</p>
+                </div>
+              </div>
+
+              {/* Deliverables Row */}
+              <div className={styles.deliverablesSection}>
+                <span className={styles.delivHeaderLabel}>VALIDATED DELIVERABLES:</span>
+                <div className={styles.delivPillsList}>
+                  {activeStage.deliverables.map((item, dIdx) => (
+                    <div key={dIdx} className={styles.delivChip}>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                         <polyline points="20 6 9 17 4 12" />
                       </svg>
-                    ) : (
-                      <span className={styles.nodeDot} />
-                    )}
-                  </div>
-                  <span className={styles.nodeStepNum}>{st.step}</span>
-                  <span className={styles.nodeName}>{st.name}</span>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Active Stage Detailed Presentation Panel */}
-          <div id="methodology-panel" role="tabpanel" aria-labelledby={`methodology-step-${activeStage.step}`} className={styles.stageDossierCard}>
-            {/* Top Stage Header Row */}
-            <div className={styles.stageHeaderRow}>
-              <div className={styles.stageTitleGroup}>
-                <span className={styles.stageTagBadge}>
-                  STAGE {activeStage.step} • {activeStage.tag}
-                </span>
-                <h3 className={styles.stageNameHeading}>{activeStage.name}</h3>
-                <p className={styles.stageOneLiner}>{activeStage.oneLiner}</p>
+                      <span>{item}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
 
-              {/* Big Stage Number */}
-              <div className={styles.stageOversizedNumber} aria-hidden="true">
-                {activeStage.step}
-              </div>
-            </div>
+              {/* Footer Step Navigation & CTA */}
+              <div className={styles.stageFooterRow}>
+                <div className={styles.progressCounter}>
+                  <span>STAGE {activeIdx + 1} OF {PROCESS_STAGES.length}</span>
+                </div>
 
-            {/* Middle Grid: Detailed Description & System Role */}
-            <div className={styles.stageGrid}>
-              <div className={styles.stageDescCol}>
-                <span className={styles.descLabel}>ENGINEERING PROTOCOL</span>
-                <p className={styles.stageFullDesc}>{activeStage.desc}</p>
-              </div>
+                <div className={styles.stageBtnGroup}>
+                  {activeIdx > 0 && (
+                    <button
+                      type="button"
+                      className="btn btn-secondary"
+                      onClick={() => setActiveIdx((prev) => prev - 1)}
+                    >
+                      &larr; Previous Stage
+                    </button>
+                  )}
 
-              <div className={styles.systemRoleCol}>
-                <span className={styles.descLabel}>SYSTEM ROLE IN COMPOUNDING</span>
-                <p className={styles.stageRoleText}>{activeStage.systemRole}</p>
-              </div>
-            </div>
-
-            {/* Deliverables Row */}
-            <div className={styles.deliverablesSection}>
-              <span className={styles.delivHeaderLabel}>VALIDATED DELIVERABLES:</span>
-              <div className={styles.delivPillsList}>
-                {activeStage.deliverables.map((item, dIdx) => (
-                  <div key={dIdx} className={styles.delivChip}>
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                    <span>{item}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Footer Step Navigation & CTA */}
-            <div className={styles.stageFooterRow}>
-              <div className={styles.progressCounter}>
-                <span>STAGE {activeIdx + 1} OF {PROCESS_STAGES.length}</span>
-              </div>
-
-              <div className={styles.stageBtnGroup}>
-                {activeIdx > 0 && (
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    onClick={() => setActiveIdx((prev) => prev - 1)}
-                  >
-                    &larr; Previous Stage
-                  </button>
-                )}
-
-                {activeIdx < PROCESS_STAGES.length - 1 ? (
-                  <button
-                    type="button"
-                    className="btn btn-obsidian"
-                    onClick={() => setActiveIdx((prev) => prev + 1)}
-                  >
-                    Next Stage &rarr;
-                  </button>
-                ) : (
-                  <Link href="/#opportunity-tool" className="btn btn-obsidian">
-                    Deploy 4-Stage Methodology &rarr;
-                  </Link>
-                )}
+                  {activeIdx < PROCESS_STAGES.length - 1 ? (
+                    <button
+                      type="button"
+                      className="btn btn-obsidian"
+                      onClick={() => setActiveIdx((prev) => prev + 1)}
+                    >
+                      Next Stage &rarr;
+                    </button>
+                  ) : (
+                    <Link href="/#opportunity-tool" className="btn btn-obsidian">
+                      Deploy 4-Stage Methodology &rarr;
+                    </Link>
+                  )}
+                </div>
               </div>
             </div>
           </div>

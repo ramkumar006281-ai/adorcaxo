@@ -295,9 +295,9 @@
   transform: translateY(0);
 }
 
-.engineCard {
+.signalCard {
   width: 100%;
-  max-width: 480px;
+  max-width: 520px;
   background-color: #0E1114;
   border: 1px solid rgba(244, 243, 239, 0.10);
   border-radius: var(--radius-card);
@@ -305,11 +305,11 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
   position: relative;
 }
 
-.engineHeader {
+.signalHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -317,13 +317,13 @@
   border-bottom: 1px solid rgba(244, 243, 239, 0.08);
 }
 
-.engineHeaderLeft {
+.signalHeaderLeft {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.engineTerminalDot {
+.signalTerminalDot {
   width: 7px;
   height: 7px;
   border-radius: 50%;
@@ -331,7 +331,7 @@
   box-shadow: 0 0 6px var(--color-adorca-signal);
 }
 
-.engineSystemTitle {
+.signalSystemTitle {
   font-family: var(--font-mono);
   font-size: var(--text-metadata);
   font-weight: 700;
@@ -339,7 +339,7 @@
   color: var(--color-warm-paper);
 }
 
-.engineStatusBadge {
+.signalStatusBadge {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -354,7 +354,7 @@
   border-radius: var(--radius-pill);
 }
 
-.enginePulse {
+.signalPulse {
   width: 5px;
   height: 5px;
   border-radius: 50%;
@@ -363,200 +363,217 @@
   animation: pulseDot 1.8s infinite ease-in-out;
 }
 
-/* Pipeline Body & Vertical Spine */
-.pipelineBody {
-  display: flex;
-  position: relative;
-  gap: 12px;
-}
+/* ─────────────────────────────────────────────────────────────
+   DIAGRAM WRAPPER & SVG VECTOR SYSTEM
+   ───────────────────────────────────────────────────────────── */
 
-.spineWrapper {
-  position: absolute;
-  top: 14px;
-  left: 12px;
-  width: 24px;
-  height: calc(100% - 28px);
-  pointer-events: none;
-  z-index: 0;
-}
-
-.spineSvg {
+.diagramWrapper {
   width: 100%;
-  height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.signalSvg {
+  width: 100%;
+  height: auto;
+  max-height: 420px;
   overflow: visible;
+  user-select: none;
 }
 
-.signalTravelingBeam {
-  animation: signalPropagation 3.5s linear infinite;
+/* Ambient Orbit & Flow Axes */
+.ambientOrbit {
+  fill: none;
+  stroke: rgba(244, 243, 239, 0.04);
+  stroke-width: 1;
+  stroke-dasharray: 4 6;
 }
 
-@keyframes signalPropagation {
+.ambientOrbitInner {
+  fill: none;
+  stroke: rgba(244, 243, 239, 0.03);
+  stroke-width: 1;
+}
+
+.axisLine {
+  stroke: rgba(244, 243, 239, 0.06);
+  stroke-width: 1;
+  stroke-dasharray: 2 4;
+}
+
+/* Network Connection Hairlines */
+.netLine {
+  stroke: rgba(244, 243, 239, 0.14);
+  stroke-width: 1.25;
+}
+
+/* Animated Traveling Signal Beams */
+.activeBeam {
+  fill: none;
+  stroke: var(--color-adorca-signal);
+  stroke-width: 1.8;
+  stroke-dasharray: 35 240;
+  opacity: 0.9;
+  filter: drop-shadow(0 0 4px rgba(183, 229, 107, 0.6));
+}
+
+.beamLeft {
+  animation: streamPulseLeft 4.2s linear infinite;
+}
+
+.beamRight {
+  animation: streamPulseRight 4.2s linear infinite;
+  animation-delay: 2.1s;
+}
+
+@keyframes streamPulseLeft {
   0% {
-    stroke-dashoffset: 200;
+    stroke-dashoffset: 480;
   }
   100% {
     stroke-dashoffset: 0;
   }
 }
 
-/* Nodes List */
-.nodesList {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  width: 100%;
-  position: relative;
-  z-index: 1;
+@keyframes streamPulseRight {
+  0% {
+    stroke-dashoffset: 480;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
 }
 
-.nodeRow {
-  appearance: none;
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: var(--radius-sm);
-  padding: 8px 12px;
-  display: grid;
-  grid-template-columns: 24px 1fr auto;
-  align-items: center;
-  gap: 14px;
-  text-align: left;
+/* ── Central Hub Rings (Adorca 360) ── */
+.coreHubRing {
+  fill: rgba(24, 28, 32, 0.85);
+  stroke: rgba(244, 243, 239, 0.18);
+  stroke-width: 1.5;
+}
+
+.coreHubInner {
+  fill: #12161A;
+  stroke: rgba(183, 229, 107, 0.3);
+  stroke-width: 1;
+}
+
+/* ── Interactive Nodes ── */
+.nodeGroup {
   cursor: pointer;
-  transition: all var(--duration-200) var(--ease-out);
-  position: relative;
-  width: 100%;
+  outline: none;
+  transition: transform 0.25s var(--ease-out);
 }
 
-.nodeRow:hover {
-  background-color: rgba(244, 243, 239, 0.03);
-  border-color: rgba(244, 243, 239, 0.08);
+.nodeGroup:hover,
+.nodeGroup:focus-visible {
+  transform: scale(1.04);
 }
 
-.nodeRowActive {
-  background-color: rgba(183, 229, 107, 0.06);
-  border-color: rgba(183, 229, 107, 0.25);
+.nodeOuterRing {
+  fill: #0E1114;
+  stroke: rgba(244, 243, 239, 0.28);
+  stroke-width: 1.5;
+  transition: all 0.25s var(--ease-out);
 }
 
-/* Technical Node Indicator */
-.nodeIndicator {
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
+.nodeInnerDot {
+  fill: rgba(244, 243, 239, 0.45);
+  transition: all 0.25s var(--ease-out);
 }
 
-.nodeRing {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(244, 243, 239, 0.25);
-  background-color: #0E1114;
-  transition: all var(--duration-200) var(--ease-out);
+.nodeActive .nodeOuterRing {
+  stroke: var(--color-adorca-signal);
+  stroke-width: 2;
+  box-shadow: 0 0 12px rgba(183, 229, 107, 0.4);
 }
 
-.nodeCore {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background-color: rgba(244, 243, 239, 0.35);
-  position: absolute;
-  transition: all var(--duration-200) var(--ease-out);
+.nodeActive .nodeInnerDot {
+  fill: var(--color-adorca-signal);
 }
 
-.nodeRowActive .nodeRing {
-  border-color: var(--color-adorca-signal);
-  transform: scale(1.15);
-  box-shadow: 0 0 10px rgba(183, 229, 107, 0.30);
+.coreRing {
+  fill: none;
+  stroke: rgba(183, 229, 107, 0.45);
+  stroke-width: 1.5;
+  transition: all 0.25s var(--ease-out);
 }
 
-.nodeRowActive .nodeCore {
-  background-color: var(--color-adorca-signal);
-  box-shadow: 0 0 6px var(--color-adorca-signal);
+.coreSolidDot {
+  fill: #0A0D10;
+  stroke: rgba(244, 243, 239, 0.15);
+  stroke-width: 1;
+  transition: all 0.25s var(--ease-out);
 }
 
-/* Node Info */
-.nodeInfo {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+.nodeActive .coreRing {
+  stroke: var(--color-adorca-signal);
+  stroke-width: 2.5;
 }
 
-.nodeMetaRow {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.nodeGlowPulse {
+  animation: glowPulse 2.4s infinite ease-in-out;
 }
 
-.nodeStep {
+@keyframes glowPulse {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+    transform-origin: center;
+  }
+  50% {
+    opacity: 0.25;
+    transform: scale(1.18);
+    transform-origin: center;
+  }
+}
+
+/* Node Labels */
+.nodeLabel {
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 11px;
   font-weight: 700;
-  color: var(--color-adorca-signal);
+  letter-spacing: 0.08em;
+  fill: #A3A6A4;
+  text-transform: uppercase;
+  transition: fill 0.25s var(--ease-out);
 }
 
-.nodeName {
+.nodeActive .nodeLabel,
+.nodeGroup:hover .nodeLabel {
+  fill: #FFFFFF;
+}
+
+.coreTextGroup text {
   font-family: var(--font-display);
-  font-size: 0.85rem;
-  font-weight: 700;
-  letter-spacing: var(--tracking-wide);
-  color: var(--color-warm-paper);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  fill: var(--color-warm-paper);
 }
 
-.nodeRowActive .nodeName {
-  color: #FFFFFF;
+.coreLabelTop {
+  font-size: 9.5px;
 }
 
-.nodeSublabel {
-  font-size: 0.72rem;
-  color: #8C8F8D;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 240px;
-}
-
-/* Node Metric Chip */
-.nodeMetricChip {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: #A3A6A4;
-  background-color: rgba(244, 243, 239, 0.05);
-  border: 1px solid rgba(244, 243, 239, 0.08);
-  padding: 3px 8px;
-  border-radius: var(--radius-xs);
-  transition: all var(--duration-200) var(--ease-out);
-}
-
-.nodeRowActive .nodeMetricChip {
-  color: var(--color-adorca-signal);
-  background-color: rgba(183, 229, 107, 0.12);
-  border-color: rgba(183, 229, 107, 0.30);
-}
-
-.downConnector {
-  position: absolute;
-  left: 20px;
-  bottom: -9px;
-  font-size: 0.65rem;
-  color: rgba(244, 243, 239, 0.20);
-  pointer-events: none;
+.coreLabelBottom {
+  font-size: 10px;
+  fill: var(--color-adorca-signal) !important;
 }
 
 /* ─────────────────────────────────────────────────────────────
-   TELEMETRY FOOTER (Active Stage Details & Engineered Deliverables)
+   TELEMETRY FOOTER (Active Node Details & Engineered Evidence)
    ───────────────────────────────────────────────────────────── */
 
 .telemetryFooter {
-  background-color: rgba(24, 28, 32, 0.65);
+  background-color: rgba(20, 24, 28, 0.7);
   border: 1px solid rgba(244, 243, 239, 0.08);
   border-radius: var(--radius-sm);
-  padding: 14px;
+  padding: 14px 16px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  margin-top: 4px;
+  gap: 8px;
+  margin-top: 2px;
 }
 
 .telemetryHeader {
@@ -566,33 +583,55 @@
   gap: 12px;
 }
 
+.telemetryHeaderLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
 .telemetryActiveStage {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: var(--tracking-wider);
   color: var(--color-adorca-signal);
 }
 
-.telemetryMetricTag {
+.telemetrySublabel {
+  font-size: 0.72rem;
+  color: #8C8F8D;
+}
+
+.telemetryChip {
   font-family: var(--font-mono);
-  font-size: 0.68rem;
-  color: #A3A6A4;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-adorca-signal);
+  background-color: rgba(183, 229, 107, 0.10);
+  border: 1px solid rgba(183, 229, 107, 0.25);
+  padding: 4px 10px;
+  border-radius: var(--radius-xs);
+  white-space: nowrap;
+}
+
+.chipVal {
+  color: var(--color-adorca-signal);
 }
 
 .telemetryDescription {
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   line-height: 1.45;
   color: #C2C4C1;
+  margin: 0;
 }
 
 .telemetryDeliverables {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   padding-top: 6px;
   border-top: 1px solid rgba(244, 243, 239, 0.06);
-  font-size: 0.7rem;
+  font-size: 0.72rem;
 }
 
 .deliverablesLabel {
@@ -603,30 +642,30 @@
 }
 
 .deliverablesText {
-  color: #8C8F8D;
+  color: #A3A6A4;
   font-family: var(--font-mono);
 }
 
 /* ─────────────────────────────────────────────────────────────
-   RESPONSIVE
+   RESPONSIVE DESIGN (375px to 1920px)
    ───────────────────────────────────────────────────────────── */
 
-@media (max-width: 992px) {
+@media (max-width: 1024px) {
   .grid {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 48px;
   }
 
   .visualCol {
     justify-content: center;
   }
 
-  .engineCard {
-    max-width: 100%;
+  .signalCard {
+    max-width: 580px;
   }
 
   .heroTitle {
-    font-size: clamp(2.4rem, 6.5vw, 3.75rem);
+    font-size: clamp(2.5rem, 6.5vw, 4rem);
   }
 }
 
@@ -637,7 +676,7 @@
   }
 
   .heroTitle {
-    font-size: clamp(2.0rem, 9vw, 2.75rem);
+    font-size: clamp(2.1rem, 9.5vw, 3rem);
   }
 
   .titleMask {
@@ -666,27 +705,34 @@
     display: none;
   }
 
-  .engineCard {
-    padding: 16px 14px;
+  .signalCard {
+    padding: 16px 12px;
     max-width: 100%;
   }
 
-  .nodeRow {
-    padding: 8px 10px;
-    gap: 10px;
-    grid-template-columns: 20px 1fr auto;
+  .signalSvg {
+    max-height: 340px;
   }
 
-  .nodeSublabel {
-    display: none;
+  .nodeLabel {
+    font-size: 10px;
   }
 
-  .downConnector {
-    display: none;
+  .telemetryFooter {
+    padding: 12px;
+  }
+
+  .telemetryDeliverables {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
   }
 }
 
-/* Reduced Motion Override */
+/* ─────────────────────────────────────────────────────────────
+   REDUCED MOTION OVERRIDE
+   ───────────────────────────────────────────────────────────── */
+
 @media (prefers-reduced-motion: reduce) {
   .titleLine,
   .staggerBadge,
@@ -699,12 +745,22 @@
     transition: none !important;
   }
 
-  .signalTravelingBeam {
+  .activeBeam,
+  .beamLeft,
+  .beamRight {
     animation: none !important;
+    stroke-dasharray: none !important;
+    opacity: 0.4 !important;
   }
 
   .studioDot,
-  .enginePulse {
+  .signalPulse,
+  .nodeGlowPulse {
     animation: none !important;
   }
+
+  .nodeGroup {
+    transition: none !important;
+  }
 }
+

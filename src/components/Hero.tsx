@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useIntersection } from "./utils";
 import styles from "./Hero.module.css";
 
-interface PipelineStage {
+interface SignalNode {
   id: string;
   step: string;
   name: string;
@@ -14,81 +14,117 @@ interface PipelineStage {
   metricLabel: string;
   desc: string;
   deliverables: string;
+  x: number;
+  y: number;
 }
 
-const PIPELINE_STAGES: PipelineStage[] = [
+const SIGNAL_NODES: SignalNode[] = [
   {
-    id: "signal",
+    id: "search",
     step: "01",
-    name: "SEARCH SIGNAL",
+    name: "SEARCH",
     sublabel: "Algorithmic Crawl & Multi-Region Indexing",
     metric: "50+ Markets",
     metricLabel: "Active Global Indexation",
     desc: "Detecting raw organic and transactional search demand across international ccTLD search engines.",
-    deliverables: "Technical Crawl Audit • Hreflang Tags",
+    deliverables: "Technical Crawl Audit • Global Hreflang",
+    x: 220,
+    y: 52,
   },
   {
-    id: "intent",
-    step: "02",
-    name: "INTENT",
-    sublabel: "Semantic Entity Clustering",
+    id: "content",
+    step: "02A",
+    name: "CONTENT",
+    sublabel: "Semantic Authority & Entity Clustering",
     metric: "+140%",
     metricLabel: "Organic Visibility Uplift",
-    desc: "Filtering high-intent, transactional buyer queries from low-intent informational noise.",
-    deliverables: "Keyword Intent Architecture • Topic Graphs",
+    desc: "Establishing structural search authority through programmatic entity graphs and authoritative content.",
+    deliverables: "Keyword Architecture • Topic Graphs",
+    x: 82,
+    y: 142,
   },
   {
-    id: "acquisition",
-    step: "03",
-    name: "ACQUISITION",
-    sublabel: "Algorithmic Real-Time Syndication",
+    id: "paid",
+    step: "02B",
+    name: "PAID",
+    sublabel: "High-Intent Real-Time Syndication",
     metric: "-42% CPA",
     metricLabel: "Cost-Per-Acquisition Drop",
-    desc: "Deploying automated real-time bidding and organic search domination to capture in-market buyers.",
-    deliverables: "Programmatic Media • Search Arbitrage",
+    desc: "Deploying automated real-time bidding and precision search arbitrage to capture in-market buyers.",
+    deliverables: "Google Ads • Amazon Partner • Programmatic",
+    x: 358,
+    y: 142,
   },
   {
-    id: "conversion",
-    step: "04",
-    name: "CONVERSION",
+    id: "core",
+    step: "CORE",
+    name: "ADORCA 360",
+    sublabel: "Growth Infrastructure Engine",
+    metric: "12+ Yrs",
+    metricLabel: "Algorithmic Track Record",
+    desc: "The central intelligence hub unifying acquisition signals, behavioral telemetry, and compounding growth systems.",
+    deliverables: "Unified Architecture • Cross-Pillar Telemetry",
+    x: 220,
+    y: 230,
+  },
+  {
+    id: "data",
+    step: "03A",
+    name: "DATA",
+    sublabel: "Server-Side Attribution & Analytics",
+    metric: "100%",
+    metricLabel: "Client Data Ownership",
+    desc: "First-party measurement infrastructure ensuring un-sampled conversion telemetry and transparent equity.",
+    deliverables: "Server-Side GA4 • First-Party Warehouses",
+    x: 82,
+    y: 318,
+  },
+  {
+    id: "cro",
+    step: "03B",
+    name: "CRO",
     sublabel: "High-Velocity Edge Platform",
     metric: "2.4x",
     metricLabel: "Funnel Conversion Lift",
     desc: "Directing acquired traffic into blazing-fast Next.js funnels and frictionless checkout flows.",
-    deliverables: "Next.js Web Systems • CRO Testing",
+    deliverables: "Next.js Web Systems • Edge Middleware",
+    x: 358,
+    y: 318,
   },
   {
     id: "revenue",
-    step: "05",
+    step: "04",
     name: "REVENUE",
-    sublabel: "Compounding First-Party Equity",
+    sublabel: "Compounding Enterprise Equity",
     metric: "100%",
     metricLabel: "Client Asset Ownership",
-    desc: "Delivering sustainable, measurable enterprise revenue with transparent server-side attribution.",
-    deliverables: "First-Party GA4 • Compounding Equity",
+    desc: "Delivering sustainable, measurable enterprise revenue compounding through integrated search, media, and owned data.",
+    deliverables: "First-Party Equity • Compounding ARR",
+    x: 220,
+    y: 408,
   },
 ];
 
 export default function Hero() {
   const [revealRef, isVisible] = useIntersection({ threshold: 0.08 });
-  const [activeStageId, setActiveStageId] = useState<string>("signal");
+  const [activeNodeId, setActiveNodeId] = useState<string>("search");
   const [isHovered, setIsHovered] = useState<boolean>(false);
 
-  // Auto-cycle through pipeline stages slowly unless hovered
+  // Auto-cycle through nodes slowly unless hovered
   useEffect(() => {
     if (isHovered) return;
     const interval = setInterval(() => {
-      setActiveStageId((curr) => {
-        const idx = PIPELINE_STAGES.findIndex((s) => s.id === curr);
-        const nextIdx = (idx + 1) % PIPELINE_STAGES.length;
-        return PIPELINE_STAGES[nextIdx].id;
+      setActiveNodeId((curr) => {
+        const idx = SIGNAL_NODES.findIndex((n) => n.id === curr);
+        const nextIdx = (idx + 1) % SIGNAL_NODES.length;
+        return SIGNAL_NODES[nextIdx].id;
       });
     }, 4500);
     return () => clearInterval(interval);
   }, [isHovered]);
 
-  const activeStage =
-    PIPELINE_STAGES.find((s) => s.id === activeStageId) || PIPELINE_STAGES[0];
+  const activeNode =
+    SIGNAL_NODES.find((n) => n.id === activeNodeId) || SIGNAL_NODES[0];
 
   return (
     <section className={styles.heroSection} ref={revealRef} aria-label="Hero Introduction">
@@ -166,101 +202,192 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Right Column: Custom Restrained Visual System (Search Signal -> Intent -> Acquisition -> Conversion -> Revenue) */}
+          {/* Right Column: Signature ADORCA GROWTH SIGNAL Visual Network */}
           <div
             className={`${styles.visualCol} ${isVisible ? styles.visible : ""}`}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
-            <div className={styles.engineCard} aria-label="Signal to Revenue Architecture">
+            <div className={styles.signalCard} aria-label="Adorca Growth Signal Network">
               {/* Technical Window Header */}
-              <div className={styles.engineHeader}>
-                <div className={styles.engineHeaderLeft}>
-                  <span className={styles.engineTerminalDot} />
-                  <span className={styles.engineSystemTitle}>SIGNAL ARCHITECTURE</span>
+              <div className={styles.signalHeader}>
+                <div className={styles.signalHeaderLeft}>
+                  <span className={styles.signalTerminalDot} />
+                  <span className={styles.signalSystemTitle}>ADORCA GROWTH SIGNAL</span>
                 </div>
-                <span className={styles.engineStatusBadge}>
-                  <span className={styles.enginePulse} aria-hidden="true" />
+                <span className={styles.signalStatusBadge}>
+                  <span className={styles.signalPulse} aria-hidden="true" />
                   FLOW ACTIVE
                 </span>
               </div>
 
-              {/* Sequential 5-Stage Propagation Pipeline */}
-              <div className={styles.pipelineBody}>
-                {/* SVG Connecting Spine with Signal Pulse */}
-                <div className={styles.spineWrapper} aria-hidden="true">
-                  <svg className={styles.spineSvg} viewBox="0 0 24 280" fill="none">
-                    {/* Background hairline spine */}
-                    <line x1="12" y1="14" x2="12" y2="266" stroke="rgba(244, 243, 239, 0.14)" strokeWidth="1.5" />
-                    {/* Animated traveling signal packet */}
-                    <line x1="12" y1="14" x2="12" y2="266" stroke="var(--color-adorca-signal)" strokeWidth="2" strokeDasharray="20 180" className={styles.signalTravelingBeam} />
-                  </svg>
-                </div>
+              {/* Interactive Vector Network Diagram */}
+              <div className={styles.diagramWrapper}>
+                <svg
+                  className={styles.signalSvg}
+                  viewBox="0 0 440 460"
+                  fill="none"
+                  aria-label="Interactive Growth Signal Network Diagram"
+                >
+                  <defs>
+                    {/* Radial Glow Filter for active node */}
+                    <radialGradient id="signalGlow" cx="50%" cy="50%" r="50%">
+                      <stop offset="0%" stopColor="var(--color-adorca-signal)" stopOpacity="0.35" />
+                      <stop offset="100%" stopColor="var(--color-adorca-signal)" stopOpacity="0" />
+                    </radialGradient>
+                    <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+                      <stop offset="0%" stopColor="var(--color-adorca-signal)" stopOpacity="0.22" />
+                      <stop offset="100%" stopColor="var(--color-adorca-signal)" stopOpacity="0" />
+                    </radialGradient>
+                  </defs>
 
-                {/* Vertical Nodes List */}
-                <div className={styles.nodesList} role="tablist" aria-label="Growth Engine Stages">
-                  {PIPELINE_STAGES.map((stage, idx) => {
-                    const isActive = stage.id === activeStage.id;
+                  {/* Concentric / Perimeter faint ambient orbit */}
+                  <ellipse cx="220" cy="230" rx="195" ry="195" className={styles.ambientOrbit} />
+                  <ellipse cx="220" cy="230" rx="120" ry="120" className={styles.ambientOrbitInner} />
+
+                  {/* Central Faint Flow Axis */}
+                  <line x1="220" y1="52" x2="220" y2="408" className={styles.axisLine} />
+
+                  {/* ── Network Vector Connection Hairlines ── */}
+                  {/* Upper Loop */}
+                  <line x1="220" y1="52" x2="82" y2="142" className={styles.netLine} />
+                  <line x1="220" y1="52" x2="358" y2="142" className={styles.netLine} />
+                  <line x1="82" y1="142" x2="220" y2="230" className={styles.netLine} />
+                  <line x1="358" y1="142" x2="220" y2="230" className={styles.netLine} />
+
+                  {/* Lower Loop */}
+                  <line x1="220" y1="230" x2="82" y2="318" className={styles.netLine} />
+                  <line x1="220" y1="230" x2="358" y2="318" className={styles.netLine} />
+                  <line x1="82" y1="318" x2="220" y2="408" className={styles.netLine} />
+                  <line x1="358" y1="318" x2="220" y2="408" className={styles.netLine} />
+
+                  {/* ── Traveling Animated Signal Beams ── */}
+                  {/* Left Stream: SEARCH -> CONTENT -> ADORCA 360 -> DATA -> REVENUE */}
+                  <polyline
+                    points="220,52 82,142 220,230 82,318 220,408"
+                    className={`${styles.activeBeam} ${styles.beamLeft}`}
+                  />
+
+                  {/* Right Stream: SEARCH -> PAID -> ADORCA 360 -> CRO -> REVENUE */}
+                  <polyline
+                    points="220,52 358,142 220,230 358,318 220,408"
+                    className={`${styles.activeBeam} ${styles.beamRight}`}
+                  />
+
+                  {/* ── Center Core Aura (ADORCA 360) ── */}
+                  <circle cx="220" cy="230" r="48" fill="url(#coreGlow)" />
+                  <circle cx="220" cy="230" r="32" className={styles.coreHubRing} />
+                  <circle cx="220" cy="230" r="28" className={styles.coreHubInner} />
+
+                  {/* ── Render Interactive Nodes ── */}
+                  {SIGNAL_NODES.map((node) => {
+                    const isActive = node.id === activeNode.id;
+                    const isCore = node.id === "core";
+
                     return (
-                      <button
-                        key={stage.id}
-                        type="button"
-                        role="tab"
-                        id={`hero-stage-${stage.id}`}
-                        aria-selected={isActive}
-                        aria-controls={`hero-panel-${stage.id}`}
-                        className={`${styles.nodeRow} ${isActive ? styles.nodeRowActive : ""}`}
-                        onClick={() => setActiveStageId(stage.id)}
+                      <g
+                        key={node.id}
+                        className={`${styles.nodeGroup} ${isActive ? styles.nodeActive : ""}`}
+                        onClick={() => setActiveNodeId(node.id)}
+                        role="button"
+                        tabIndex={0}
+                        aria-pressed={isActive}
+                        aria-label={`Node ${node.name}: ${node.sublabel}`}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            setActiveNodeId(node.id);
+                          }
+                        }}
                       >
-                        {/* Technical Node Indicator */}
-                        <div className={styles.nodeIndicator}>
-                          <span className={styles.nodeRing} />
-                          <span className={styles.nodeCore} />
-                        </div>
-
-                        {/* Node Label & Sublabel */}
-                        <div className={styles.nodeInfo}>
-                          <div className={styles.nodeMetaRow}>
-                            <span className={styles.nodeStep}>{stage.step}</span>
-                            <span className={styles.nodeName}>{stage.name}</span>
-                          </div>
-                          <span className={styles.nodeSublabel}>{stage.sublabel}</span>
-                        </div>
-
-                        {/* Stage Anchor Metric */}
-                        <div className={styles.nodeMetricChip}>
-                          <span className={styles.nodeMetricVal}>{stage.metric}</span>
-                        </div>
-
-                        {/* Hairline Arrow to next stage */}
-                        {idx < PIPELINE_STAGES.length - 1 && (
-                          <div className={styles.downConnector} aria-hidden="true">
-                            &darr;
-                          </div>
+                        {/* Active Selection Glow Ring */}
+                        {isActive && (
+                          <circle
+                            cx={node.x}
+                            cy={node.y}
+                            r={isCore ? 38 : 26}
+                            fill="url(#signalGlow)"
+                            className={styles.nodeGlowPulse}
+                          />
                         )}
-                      </button>
+
+                        {/* Outer Precision Ring */}
+                        <circle
+                          cx={node.x}
+                          cy={node.y}
+                          r={isCore ? 28 : 15}
+                          className={isCore ? styles.coreRing : styles.nodeOuterRing}
+                        />
+
+                        {/* Inner Solid Core */}
+                        <circle
+                          cx={node.x}
+                          cy={node.y}
+                          r={isCore ? 14 : 5}
+                          className={isCore ? styles.coreSolidDot : styles.nodeInnerDot}
+                        />
+
+                        {/* Label Placements */}
+                        {isCore ? (
+                          <g className={styles.coreTextGroup}>
+                            <text x={node.x} y={node.y - 3} textAnchor="middle" className={styles.coreLabelTop}>
+                              ADORCA
+                            </text>
+                            <text x={node.x} y={node.y + 9} textAnchor="middle" className={styles.coreLabelBottom}>
+                              360
+                            </text>
+                          </g>
+                        ) : node.y < 100 ? (
+                          // Top Apex (SEARCH): Label above node
+                          <text x={node.x} y={node.y - 20} textAnchor="middle" className={styles.nodeLabel}>
+                            {node.name}
+                          </text>
+                        ) : node.y > 380 ? (
+                          // Bottom Apex (REVENUE): Label below node
+                          <text x={node.x} y={node.y + 26} textAnchor="middle" className={styles.nodeLabel}>
+                            {node.name}
+                          </text>
+                        ) : node.x < 150 ? (
+                          // Left nodes (CONTENT, DATA): Label anchored to the left
+                          <text x={node.x - 22} y={node.y + 4} textAnchor="end" className={styles.nodeLabel}>
+                            {node.name}
+                          </text>
+                        ) : (
+                          // Right nodes (PAID, CRO): Label anchored to the right
+                          <text x={node.x + 22} y={node.y + 4} textAnchor="start" className={styles.nodeLabel}>
+                            {node.name}
+                          </text>
+                        )}
+                      </g>
                     );
                   })}
-                </div>
+                </svg>
               </div>
 
-              {/* Active Stage Telemetry Telemetry Readout */}
+              {/* Active Node Telemetry Readout (Grounded Evidence) */}
               <div
-                id={`hero-panel-${activeStage.id}`}
-                role="tabpanel"
-                aria-labelledby={`hero-stage-${activeStage.id}`}
+                id={`hero-panel-${activeNode.id}`}
+                role="region"
+                aria-live="polite"
                 className={styles.telemetryFooter}
               >
                 <div className={styles.telemetryHeader}>
-                  <span className={styles.telemetryActiveStage}>
-                    STAGE {activeStage.step} &bull; {activeStage.name}
-                  </span>
-                  <span className={styles.telemetryMetricTag}>{activeStage.metricLabel}</span>
+                  <div className={styles.telemetryHeaderLeft}>
+                    <span className={styles.telemetryActiveStage}>
+                      NODE {activeNode.step} &bull; {activeNode.name}
+                    </span>
+                    <span className={styles.telemetrySublabel}>{activeNode.sublabel}</span>
+                  </div>
+                  <div className={styles.telemetryChip}>
+                    <span className={styles.chipVal}>{activeNode.metric}</span>
+                  </div>
                 </div>
-                <p className={styles.telemetryDescription}>{activeStage.desc}</p>
+
+                <p className={styles.telemetryDescription}>{activeNode.desc}</p>
+
                 <div className={styles.telemetryDeliverables}>
-                  <span className={styles.deliverablesLabel}>ENGINEERED:</span>
-                  <span className={styles.deliverablesText}>{activeStage.deliverables}</span>
+                  <span className={styles.deliverablesLabel}>EVIDENCE:</span>
+                  <span className={styles.deliverablesText}>{activeNode.deliverables}</span>
                 </div>
               </div>
             </div>
@@ -270,3 +397,4 @@ export default function Hero() {
     </section>
   );
 }
+

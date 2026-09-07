@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useIntersection } from "./utils";
 import styles from "./GrowthSystem.module.css";
@@ -100,12 +101,75 @@ const PIPELINE_FLOW = [
   { id: "REVENUE", step: "05", label: "REVENUE", detail: "Server-Side Multi-Touch Attribution" },
 ];
 
-const GEOGRAPHIC_NODES = [
-  { id: "na", name: "North America", sub: "US • CA", coords: "x: 22%, y: 32%", active: true },
-  { id: "emea", name: "Western Europe", sub: "UK • FR • ES", coords: "x: 52%, y: 28%", active: true },
-  { id: "dach", name: "DACH Region", sub: "DE • AT • CH", coords: "x: 58%, y: 24%", active: true },
-  { id: "latam", name: "LATAM Growth", sub: "BR • MX • CL", coords: "x: 32%, y: 68%", active: true },
-  { id: "apac", name: "Asia-Pacific", sub: "JP • SG • AU", coords: "x: 82%, y: 55%", active: true },
+interface MarketHub {
+  id: string;
+  city: string;
+  region: string;
+  ccTld: string;
+  role: string;
+  x: number;
+  y: number;
+}
+
+const MARKET_HUBS: MarketHub[] = [
+  {
+    id: "tokyo",
+    city: "TOKYO",
+    region: "APAC SEARCH HUB",
+    ccTld: ".co.jp • .sg • .com.au",
+    role: "Multilingual Japanese & East-Asian Query Routing",
+    x: 345,
+    y: 45,
+  },
+  {
+    id: "bengaluru",
+    city: "BENGALURU",
+    region: "INDIA & SOUTH ASIA HUB",
+    ccTld: ".in • .co.in • .asia",
+    role: "Engineering Core & High-Velocity Outbound Scaling",
+    x: 48,
+    y: 110,
+  },
+  {
+    id: "london",
+    city: "LONDON",
+    region: "EMEA & DACH GATEWAY",
+    ccTld: ".co.uk • .de • .fr • .es",
+    role: "Cross-Border European ccTLD & Hreflang Indexation",
+    x: 412,
+    y: 110,
+  },
+  {
+    id: "dubai",
+    city: "DUBAI",
+    region: "MENA & GCC EXPANSION",
+    ccTld: ".ae • .sa • .qa",
+    role: "High-Intent Middle Eastern Commercial Intent",
+    x: 345,
+    y: 175,
+  },
+  {
+    id: "newyork",
+    city: "NEW YORK",
+    region: "NORTH AMERICAN CORE",
+    ccTld: ".com • .ca • .us",
+    role: "High-LTV Enterprise B2B & Programmatic Liquidity",
+    x: 115,
+    y: 45,
+  },
+];
+
+const PERIPHERAL_CCTLDS = [
+  { tld: ".de", x: 250, y: 24 },
+  { tld: ".fr", x: 395, y: 72 },
+  { tld: ".ca", x: 80, y: 24 },
+  { tld: ".com.au", x: 420, y: 155 },
+  { tld: ".sg", x: 405, y: 32 },
+  { tld: ".ae", x: 390, y: 195 },
+  { tld: ".br", x: 50, y: 170 },
+  { tld: ".mx", x: 105, y: 192 },
+  { tld: ".nl", x: 230, y: 195 },
+  { tld: ".co.in", x: 22, y: 75 },
 ];
 
 const TIMELINE_MILESTONES = [
@@ -119,11 +183,13 @@ const TIMELINE_MILESTONES = [
 export default function GrowthSystem() {
   const [revealRef, isVisible] = useIntersection({ threshold: 0.12 });
   const [activeTab, setActiveTab] = useState<IntelligenceTab>("organic");
+  const [selectedHubId, setSelectedHubId] = useState<string>("tokyo");
   const [countValue, setCountValue] = useState<number>(0);
   const [isSettled, setIsSettled] = useState<boolean>(false);
   const animationRef = useRef<number | null>(null);
 
   const currentEngine = ENGINES.find((e) => e.id === activeTab) || ENGINES[0];
+  const activeHub = MARKET_HUBS.find((h) => h.id === selectedHubId) || MARKET_HUBS[0];
 
   // Count-up animation with signal pulse on settle
   useEffect(() => {
@@ -279,30 +345,198 @@ export default function GrowthSystem() {
                   </div>
                 )}
 
-                {/* 2. If 50+ Markets: Geographic Nodes Activation */}
+                {/* 2. If 50+ Markets: Radial Network Topology & Sovereign Apertures */}
                 {activeTab === "markets" && (
                   <div className={styles.marketsCanvas} aria-label="50+ Markets Geographic Activation">
                     <div className={styles.graphTopRow}>
-                      <span className={styles.graphLabel}>GLOBAL CRAWL TAXONOMY & REGIONAL CLUSTERS</span>
+                      <span className={styles.graphLabel}>SOVEREIGN CRAWL NETWORK & MULTILINGUAL TAXONOMY</span>
                       <span className={styles.graphDeltaBadge}>50+ MARKETS ACTIVE</span>
                     </div>
-                    <div className={styles.geoGrid}>
-                      {GEOGRAPHIC_NODES.map((node, i) => (
-                        <div key={node.id} className={styles.geoNodeCard} style={{ animationDelay: `${i * 0.1}s` }}>
-                          <div className={styles.geoNodeHeader}>
-                            <span className={styles.geoNodeDot} />
-                            <span className={styles.geoNodeTitle}>{node.name}</span>
-                          </div>
-                          <span className={styles.geoNodeSub}>{node.sub}</span>
-                          <span className={styles.geoCoords}>ccTLD &bull; Server-Side Hreflang</span>
-                        </div>
-                      ))}
+
+                    {/* Radial SVG Network Topology */}
+                    <div className={styles.networkTopologyWrapper}>
+                      <svg viewBox="0 0 460 220" className={styles.networkSvg} aria-hidden="true">
+                        <defs>
+                          <radialGradient id="centralPulseGrad" cx="50%" cy="50%" r="50%">
+                            <stop offset="0%" stopColor="var(--color-adorca-signal)" stopOpacity="0.4" />
+                            <stop offset="100%" stopColor="var(--color-adorca-signal)" stopOpacity="0" />
+                          </radialGradient>
+                        </defs>
+
+                        {/* Radial Conduits from ADORCA 360 (cx=230, cy=110) to 5 Hubs */}
+                        {MARKET_HUBS.map((hub) => {
+                          const isCurrent = hub.id === selectedHubId;
+                          return (
+                            <g key={`conduit-${hub.id}`}>
+                              <line
+                                x1="230"
+                                y1="110"
+                                x2={hub.x}
+                                y2={hub.y}
+                                stroke={isCurrent ? "var(--color-adorca-signal)" : "rgba(244, 243, 239, 0.16)"}
+                                strokeWidth={isCurrent ? "1.75" : "1"}
+                                strokeDasharray={isCurrent ? "none" : "3 3"}
+                              />
+                              {isCurrent && (
+                                <circle
+                                  cx={(230 + hub.x) / 2}
+                                  cy={(110 + hub.y) / 2}
+                                  r="2"
+                                  fill="var(--color-adorca-signal)"
+                                  className={styles.packetPulse}
+                                />
+                              )}
+                            </g>
+                          );
+                        })}
+
+                        {/* Peripheral sovereign ccTLDs */}
+                        {PERIPHERAL_CCTLDS.map((item) => (
+                          <g key={item.tld}>
+                            <circle cx={item.x} cy={item.y} r="1.5" fill="rgba(183, 229, 107, 0.4)" />
+                            <text
+                              x={item.x + 4}
+                              y={item.y + 3}
+                              className={styles.peripheralTldText}
+                            >
+                              {item.tld}
+                            </text>
+                          </g>
+                        ))}
+
+                        {/* Central Hub: ADORCA 360 */}
+                        <circle cx="230" cy="110" r="28" fill="url(#centralPulseGrad)" className={styles.centralPulseRing} />
+                        <circle cx="230" cy="110" r="14" fill="#0C1013" stroke="var(--color-adorca-signal)" strokeWidth="1.5" />
+                        <circle cx="230" cy="110" r="4" fill="var(--color-adorca-signal)" />
+                        <text x="230" y="90" textAnchor="middle" className={styles.centralHubLabel}>
+                          ADORCA 360
+                        </text>
+                        <text x="230" y="132" textAnchor="middle" className={styles.centralHubSub}>
+                          CRAWL ENGINE
+                        </text>
+
+                        {/* 5 Major Market Nodes */}
+                        {MARKET_HUBS.map((hub) => {
+                          const isCurrent = hub.id === selectedHubId;
+                          return (
+                            <g
+                              key={hub.id}
+                              className={styles.hubInteractiveNode}
+                              onClick={() => setSelectedHubId(hub.id)}
+                              onMouseEnter={() => setSelectedHubId(hub.id)}
+                              role="button"
+                              tabIndex={0}
+                              aria-label={`Select ${hub.city} market hub`}
+                            >
+                              <circle
+                                cx={hub.x}
+                                cy={hub.y}
+                                r={isCurrent ? "9" : "6"}
+                                fill={isCurrent ? "var(--color-adorca-signal)" : "#181C20"}
+                                stroke={isCurrent ? "#0C1013" : "rgba(244, 243, 239, 0.3)"}
+                                strokeWidth="2"
+                              />
+                              {isCurrent && (
+                                <circle
+                                  cx={hub.x}
+                                  cy={hub.y}
+                                  r="15"
+                                  fill="none"
+                                  stroke="var(--color-adorca-signal)"
+                                  strokeWidth="1"
+                                  opacity="0.6"
+                                  className={styles.activeHubRing}
+                                />
+                              )}
+                              <text
+                                x={hub.x}
+                                y={hub.y > 110 ? hub.y + 16 : hub.y - 10}
+                                textAnchor="middle"
+                                className={`${styles.hubCityText} ${isCurrent ? styles.hubCityTextActive : ""}`}
+                              >
+                                {hub.city}
+                              </text>
+                            </g>
+                          );
+                        })}
+                      </svg>
                     </div>
+
+                    {/* Photographic City Apertures Row (Tokyo & Bengaluru) */}
+                    <div className={styles.cityAperturesRow}>
+                      <div
+                        className={`${styles.cityApertureCard} ${selectedHubId === "tokyo" ? styles.cityApertureCardActive : ""}`}
+                        onClick={() => setSelectedHubId("tokyo")}
+                        role="button"
+                        tabIndex={0}
+                        aria-label="Tokyo APAC Hub"
+                      >
+                        <div className={styles.cityImgWrap}>
+                          <Image
+                            src="/images/market-tokyo.jpg"
+                            alt="Tokyo urban infrastructure at night representing APAC search routing"
+                            fill
+                            sizes="(max-width: 768px) 50vw, 220px"
+                            className={styles.cityImg}
+                          />
+                          <div className={styles.cityImgOverlay} />
+                          <div className={styles.cityCoordsBadge}>LAT 35.6762° N / LON 139.6503° E</div>
+                        </div>
+                        <div className={styles.cityMeta}>
+                          <div className={styles.cityHeadlineRow}>
+                            <span className={styles.cityName}>TOKYO</span>
+                            <span className={styles.cityCcTldBadge}>.co.jp</span>
+                          </div>
+                          <span className={styles.cityRole}>APAC High-Intent Query Routing</span>
+                        </div>
+                      </div>
+
+                      <div
+                        className={`${styles.cityApertureCard} ${selectedHubId === "bengaluru" ? styles.cityApertureCardActive : ""}`}
+                        onClick={() => setSelectedHubId("bengaluru")}
+                        role="button"
+                        tabIndex={0}
+                        aria-label="Bengaluru South Asia Core"
+                      >
+                        <div className={styles.cityImgWrap}>
+                          <Image
+                            src="/images/market-bengaluru.jpg"
+                            alt="Bengaluru skyline at night representing South Asian search infrastructure"
+                            fill
+                            sizes="(max-width: 768px) 50vw, 220px"
+                            className={styles.cityImg}
+                          />
+                          <div className={styles.cityImgOverlay} />
+                          <div className={styles.cityCoordsBadge}>LAT 12.9716° N / LON 77.5946° E</div>
+                        </div>
+                        <div className={styles.cityMeta}>
+                          <div className={styles.cityHeadlineRow}>
+                            <span className={styles.cityName}>BENGALURU</span>
+                            <span className={styles.cityCcTldBadge}>.in / .co.in</span>
+                          </div>
+                          <span className={styles.cityRole}>Engineering Core & Outbound Scaling</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Active Hub Telemetry Box */}
+                    <div className={styles.activeHubTelemetry}>
+                      <div className={styles.activeHubIndicator}>
+                        <span className={styles.activeHubDot} />
+                        <span className={styles.activeHubName}>{activeHub.city} NODE</span>
+                        <span className={styles.activeHubRegion}>[{activeHub.region}]</span>
+                      </div>
+                      <div className={styles.activeHubDetails}>
+                        <div className={styles.activeHubRole}>{activeHub.role}</div>
+                        <div className={styles.activeHubRouting}>ccTLD Taxonomy: <code>{activeHub.ccTld}</code></div>
+                      </div>
+                    </div>
+
                     <div className={styles.geoClaimGrounded}>
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                         <polyline points="20 6 9 17 4 12" />
                       </svg>
-                      <span>100% verified digital search infrastructure — zero fabricated physical office claims.</span>
+                      <span>100% sovereign digital search infrastructure — native ccTLDs & server-side hreflang taxonomy across 50+ global territories.</span>
                     </div>
                   </div>
                 )}

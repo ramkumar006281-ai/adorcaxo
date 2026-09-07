@@ -9,79 +9,77 @@ export default function FinalCTA() {
 
   return (
     <section id="contact" className="darkCardSection theme-dark" ref={revealRef} aria-label="Final Call to Action">
-      {/* Signature Ambient Growth Orbit Background */}
-      <div className={styles.ambientOrbit} aria-hidden="true">
+      {/* Converging Signal Visualization: 5 Systems Flowing into Central Opportunity */}
+      <div className={styles.convergingCanvas} aria-hidden="true">
         <svg
-          className={styles.orbitSvg}
-          viewBox="0 0 800 500"
+          className={styles.convergingSvg}
+          viewBox="0 0 900 480"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
           <defs>
-            <radialGradient id="ctaGlow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stopColor="#B7E56B" stopOpacity="0.16" />
-              <stop offset="70%" stopColor="#0B0D0F" stopOpacity="0.02" />
+            <radialGradient id="centralOpportunityGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="var(--color-adorca-signal)" stopOpacity="0.3" />
+              <stop offset="60%" stopColor="#0B0D0F" stopOpacity="0.05" />
               <stop offset="100%" stopColor="#0B0D0F" stopOpacity="0" />
             </radialGradient>
           </defs>
 
-          {/* Ambient Glow Aura */}
-          <ellipse cx="400" cy="250" rx="360" ry="200" fill="url(#ctaGlow)" />
+          {/* Central Halo */}
+          <ellipse cx="450" cy="240" rx="380" ry="200" fill="url(#centralOpportunityGlow)" />
 
-          {/* Outer Orbital Ring */}
-          <ellipse
-            cx="400"
-            cy="250"
-            rx="340"
-            ry="180"
-            className={`${styles.orbitRing} ${styles.orbitOuter}`}
-            strokeDasharray="8 8"
-          />
+          {/* 5 Converging Conduits to Nucleus (cx=450, cy=240) */}
+          {/* Conduit 01: Hero Signal (from 80, 80) */}
+          <line x1="80" y1="80" x2="450" y2="240" stroke="rgba(183, 229, 107, 0.25)" strokeWidth="1.2" strokeDasharray="4 4" />
+          <circle cx="80" cy="80" r="4" fill="var(--color-adorca-signal)" />
+          <text x="85" y="70" className={styles.conduitLabel}>01 HERO SIGNAL</text>
 
-          {/* Mid Orbital Ring */}
-          <ellipse
-            cx="400"
-            cy="250"
-            rx="240"
-            ry="120"
-            className={`${styles.orbitRing} ${styles.orbitMid}`}
-            strokeDasharray="4 6"
-          />
+          {/* Conduit 02: Intelligence Intent (from 820, 80) */}
+          <line x1="820" y1="80" x2="450" y2="240" stroke="rgba(183, 229, 107, 0.25)" strokeWidth="1.2" strokeDasharray="4 4" />
+          <circle cx="820" cy="80" r="4" fill="var(--color-adorca-signal)" />
+          <text x="710" y="70" className={styles.conduitLabel}>02 INTELLIGENCE</text>
 
-          {/* Inner Orbital Ring */}
-          <ellipse
-            cx="400"
-            cy="250"
-            rx="140"
-            ry="70"
-            className={`${styles.orbitRing} ${styles.orbitInner}`}
-          />
+          {/* Conduit 03: Infrastructure Device (from 60, 380) */}
+          <line x1="60" y1="380" x2="450" y2="240" stroke="rgba(183, 229, 107, 0.2)" strokeWidth="1.2" strokeDasharray="4 4" />
+          <circle cx="60" cy="380" r="4" fill="#3B82F6" />
+          <text x="65" y="405" className={styles.conduitLabel}>03 INFRASTRUCTURE</text>
 
-          {/* Glowing Orbit Nodes */}
-          <circle cx="160" cy="140" r="6" className={`${styles.orbitNode} ${styles.nodeLime}`} />
-          <circle cx="640" cy="360" r="5" className={`${styles.orbitNode} ${styles.nodeBlue}`} />
-          <circle cx="260" cy="340" r="4" className={`${styles.orbitNode} ${styles.nodeLime}`} />
-          <circle cx="540" cy="160" r="5" className={`${styles.orbitNode} ${styles.nodeBlue}`} />
+          {/* Conduit 04: 50+ Markets (from 840, 380) */}
+          <line x1="840" y1="380" x2="450" y2="240" stroke="rgba(183, 229, 107, 0.2)" strokeWidth="1.2" strokeDasharray="4 4" />
+          <circle cx="840" cy="380" r="4" fill="var(--color-adorca-signal)" />
+          <text x="735" y="405" className={styles.conduitLabel}>04 50+ MARKETS</text>
+
+          {/* Conduit 05: Orbit Attribution (from 450, 440) */}
+          <line x1="450" y1="440" x2="450" y2="240" stroke="rgba(183, 229, 107, 0.3)" strokeWidth="1.5" />
+          <circle cx="450" cy="440" r="4" fill="var(--color-adorca-signal)" />
+          <text x="450" y="465" textAnchor="middle" className={styles.conduitLabel}>05 ATTRIBUTION ORBIT</text>
+
+          {/* Central Nucleus Concentric Rings */}
+          <circle cx="450" cy="240" r="56" fill="#0C1013" stroke="rgba(183, 229, 107, 0.3)" strokeWidth="1" strokeDasharray="3 3" />
+          <circle cx="450" cy="240" r="28" fill="#12161A" stroke="var(--color-adorca-signal)" strokeWidth="1.5" />
+          <circle cx="450" cy="240" r="6" fill="var(--color-adorca-signal)" className={styles.pulsingCore} />
         </svg>
       </div>
 
       {/* Content Wrapper */}
       <div className={`${styles.contentWrapper} ${isVisible ? styles.visible : ""}`}>
-        <span className="section-subtitle">Start Your Expansion</span>
+        <div className={styles.sectionBadge}>
+          <span className={styles.badgeDot} />
+          <span className={styles.badgeText}>SYSTEM CONVERGENCE // FINAL SYNTHESIS</span>
+        </div>
 
         <h2 className={styles.title}>
-          Ready To Build <br />
-          <span className={styles.highlightText}>What&apos;s Next?</span>
+          FIND YOUR <br />
+          <span className={styles.highlightText}>GROWTH CONSTRAINT.</span>
         </h2>
 
         <p className={styles.desc}>
-          Tell us where you are. <br className={styles.breakOnDesktop} />
-          We&apos;ll show you where the next opportunity is.
+          Where organic search architecture, sovereign market routing, and first-party attribution converge into measurable commercial dominance.
         </p>
 
         <div className={styles.actionsRow}>
-          <Link href="/#opportunity-tool" className="btn btn-lime" id="final-cta-btn">
-            Talk to a Strategist &rarr;
+          <Link href="/#opportunity-tool" className="btn btn-primary" id="final-cta-btn">
+            RUN GROWTH DIAGNOSTIC &rarr;
           </Link>
           <a href="mailto:contact@adorca360.com" className="btn btn-secondary">
             contact@adorca360.com
@@ -100,7 +98,7 @@ export default function FinalCTA() {
           </div>
           <div className={styles.guaranteeItem}>
             <span className={styles.guaranteeDot} />
-            <span>50+ Global Markets Supported</span>
+            <span>Senior Growth Engineers On Every Sprint</span>
           </div>
         </div>
       </div>

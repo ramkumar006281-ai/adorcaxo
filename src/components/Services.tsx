@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useIntersection } from "./utils";
 import styles from "./Services.module.css";
 
-type SystemNodeId = "search" | "discovery" | "content" | "media" | "conversion" | "revenue" | "data";
+export type SystemNodeId = "search" | "discovery" | "content" | "media" | "conversion" | "revenue" | "data";
 
 interface ServiceCapability {
   id: string;
@@ -134,14 +135,104 @@ const SERVICE_PILLARS: ServicePillar[] = [
   },
 ];
 
-const SYSTEM_NODES = [
-  { id: "search", label: "SEARCH", subtitle: "Technical Crawl & Indexation", x: 180, y: 38 },
-  { id: "discovery", label: "DISCOVERY", subtitle: "Regional Intent & Taxonomy", x: 180, y: 108 },
-  { id: "content", label: "CONTENT", subtitle: "Semantic Entity Hubs", x: 95, y: 185 },
-  { id: "media", label: "MEDIA", subtitle: "Programmatic Bidding", x: 265, y: 185 },
-  { id: "conversion", label: "CONVERSION", subtitle: "High-Velocity Edge Funnels", x: 180, y: 275 },
-  { id: "revenue", label: "REVENUE", subtitle: "Compounding Growth", x: 180, y: 350 },
-  { id: "data", label: "DATA", subtitle: "Server-Side GA4 Attribution", x: 180, y: 425 },
+interface SystemNodeData {
+  id: SystemNodeId;
+  label: string;
+  subtitle: string;
+  lifecycleStage: string;
+  stageNum: string;
+  metric: string;
+  spec: string;
+  x: number;
+  y: number;
+}
+
+const SYSTEM_NODES: SystemNodeData[] = [
+  {
+    id: "search",
+    label: "SEARCH",
+    subtitle: "Technical Crawl & Indexation",
+    lifecycleStage: "DISCOVER",
+    stageNum: "01",
+    metric: "+140% Crawl Yield",
+    spec: "Core Web Vitals LCP < 1.1s // Hreflang Canonical Routing & Entity Schema",
+    x: 180,
+    y: 38,
+  },
+  {
+    id: "discovery",
+    label: "DISCOVERY",
+    subtitle: "Regional Intent & Taxonomy",
+    lifecycleStage: "DISCOVER",
+    stageNum: "01",
+    metric: "50+ Global Markets",
+    spec: "Regional Intent Clustering & ccTLD Multi-Jurisdiction Indexation",
+    x: 180,
+    y: 108,
+  },
+  {
+    id: "content",
+    label: "CONTENT",
+    subtitle: "Semantic Entity Hubs",
+    lifecycleStage: "ATTRACT",
+    stageNum: "02",
+    metric: "99.4% Topic Authority",
+    spec: "Semantic Knowledge Graphs // Elimination of Keyword Cannibalization",
+    x: 95,
+    y: 185,
+  },
+  {
+    id: "media",
+    label: "MEDIA",
+    subtitle: "Programmatic Bidding",
+    lifecycleStage: "ATTRACT",
+    stageNum: "02",
+    metric: "12ms Bid Latency",
+    spec: "Algorithmic ROAS Optimization Across Top Direct Advertising Exchanges",
+    x: 265,
+    y: 185,
+  },
+  {
+    id: "conversion",
+    label: "CONVERSION",
+    subtitle: "High-Velocity Edge Funnels",
+    lifecycleStage: "CONVERT",
+    stageNum: "03",
+    metric: "2.4x Funnel Velocity",
+    spec: "Sub-Second Next.js Edge SSR // Systematic Micro-Friction Elimination",
+    x: 180,
+    y: 275,
+  },
+  {
+    id: "revenue",
+    label: "REVENUE",
+    subtitle: "Compounding Growth & Retention",
+    lifecycleStage: "RETAIN",
+    stageNum: "04",
+    metric: "+38% LTV Compounding",
+    spec: "In-App Subscription Velocity // Multi-Channel Retention Loops",
+    x: 180,
+    y: 350,
+  },
+  {
+    id: "data",
+    label: "DATA",
+    subtitle: "Server-Side GA4 Attribution",
+    lifecycleStage: "SCALE",
+    stageNum: "05",
+    metric: "100% 1st-Party Equity",
+    spec: "Server-Side Direct Telemetry Feeds First-Party Signals Back into Search",
+    x: 180,
+    y: 425,
+  },
+];
+
+const LIFECYCLE_STAGES = [
+  { id: "discover", num: "01", label: "DISCOVER", nodeIds: ["search", "discovery"] as SystemNodeId[] },
+  { id: "attract", num: "02", label: "ATTRACT", nodeIds: ["content", "media"] as SystemNodeId[] },
+  { id: "convert", num: "03", label: "CONVERT", nodeIds: ["conversion"] as SystemNodeId[] },
+  { id: "retain", num: "04", label: "RETAIN", nodeIds: ["revenue"] as SystemNodeId[] },
+  { id: "scale", num: "05", label: "SCALE", nodeIds: ["data"] as SystemNodeId[] },
 ];
 
 export default function Services() {
@@ -152,10 +243,12 @@ export default function Services() {
   const activePillar =
     SERVICE_PILLARS.find((p) => p.id === activePillarId) || SERVICE_PILLARS[0];
 
-  // Handle clicking a node in the schematic
+  const currentNode =
+    SYSTEM_NODES.find((n) => n.id === activeNodeId) || SYSTEM_NODES[0];
+
+  // Handle clicking a node in the schematic or continuum
   const handleNodeClick = (nodeId: SystemNodeId) => {
     setActiveNodeId(nodeId);
-    // Auto-select corresponding pillar
     const parentPillar = SERVICE_PILLARS.find((p) => p.nodeIds.includes(nodeId));
     if (parentPillar && parentPillar.id !== activePillarId) {
       setActivePillarId(parentPillar.id);
@@ -211,9 +304,72 @@ export default function Services() {
 
         {/* Asymmetric System Console: Left Schematic Engine / Right Capabilities Ledger */}
         <div className={`${styles.systemWorkspace} ${isVisible ? styles.visible : ""}`}>
-          {/* Left Column: Interactive Closed-Loop System Schematic */}
+          {/* Left Column: Interactive Closed-Loop System Schematic with Photographic Asset */}
           <div className={styles.schematicCol}>
             <div className={styles.schematicCard} aria-label="Closed-Loop Growth Infrastructure Diagram">
+              
+              {/* Approved Photographic Moment 1: Precision Hardware Transceiver */}
+              <div className={styles.hardwareAperture}>
+                <div className={styles.hardwareMediaWrap}>
+                  <Image
+                    src="/images/infrastructure-device.jpg"
+                    alt="Physical Optical Infrastructure Transceiver - Coiled Fiber Optic Closed-Loop Bus"
+                    width={560}
+                    height={240}
+                    className={styles.hardwareImg}
+                    priority={false}
+                  />
+                  <div className={styles.hardwareOverlay}>
+                    <div className={styles.hardwareHeader}>
+                      <div className={styles.hardwareStatusTag}>
+                        <span className={styles.hardwareDot} aria-hidden="true" />
+                        <span className={styles.hardwareLabel}>PHYSICAL CARRIER LAYER</span>
+                      </div>
+                      <span className={styles.hardwareFreq}>1550nm OPTICAL BUS</span>
+                    </div>
+                    <div className={styles.hardwareFooter}>
+                      <span className={styles.hardwareSpec}>ASSET 08 // SINGLE-MODE FIBER TRANSCEIVER</span>
+                      <span className={styles.hardwarePing}>SYNC: 1.2ms</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Physical-to-Logical Signal Coupling Conduit */}
+              <div className={styles.conduitCoupling} aria-hidden="true">
+                <div className={styles.couplerLine} />
+                <span className={styles.couplerTag}>LOGICAL CLOSED-LOOP BUS</span>
+                <div className={styles.couplerLine} />
+              </div>
+
+              {/* Lifecycle Continuum Ribbon: DISCOVER -> ATTRACT -> CONVERT -> RETAIN -> SCALE */}
+              <div className={styles.continuumSection} aria-label="Lifecycle Continuum">
+                <div className={styles.continuumLabelRow}>
+                  <span className={styles.continuumMeta}>LIFECYCLE CONTINUUM</span>
+                  <span className={styles.continuumActiveStage}>
+                    STAGE {currentNode.stageNum} // {currentNode.lifecycleStage}
+                  </span>
+                </div>
+                <div className={styles.continuumRibbon} role="tablist" aria-label="Growth Lifecycle Stages">
+                  {LIFECYCLE_STAGES.map((stage) => {
+                    const isStageActive = stage.nodeIds.includes(activeNodeId);
+                    return (
+                      <button
+                        key={stage.id}
+                        type="button"
+                        className={`${styles.continuumStep} ${isStageActive ? styles.continuumStepActive : ""}`}
+                        onClick={() => handleNodeClick(stage.nodeIds[0])}
+                        aria-label={`Jump to stage ${stage.num}: ${stage.label}`}
+                      >
+                        <span className={styles.continuumNum}>{stage.num}</span>
+                        <span className={styles.continuumTitle}>{stage.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Schematic Header */}
               <div className={styles.schematicHeader}>
                 <div className={styles.schematicHeaderLeft}>
                   <span className={styles.liveIndicator} />
@@ -224,7 +380,7 @@ export default function Services() {
 
               {/* SVG Schematic Canvas */}
               <div className={styles.svgCanvasWrapper}>
-                <svg viewBox="0 0 360 480" className={styles.schematicSvg} fill="none">
+                <svg viewBox="0 0 360 480" className={styles.schematicSvg} fill="none" aria-label="Interactive Node Circuit Diagram">
                   <defs>
                     <linearGradient id="returnConduitGrad" x1="0" y1="1" x2="0" y2="0">
                       <stop offset="0%" stopColor="var(--color-primary-text)" stopOpacity="0.4" />
@@ -268,7 +424,6 @@ export default function Services() {
                   <polyline points="177 406, 180 412, 183 406" stroke="rgba(17, 19, 21, 0.40)" strokeWidth="1.5" strokeLinecap="round" />
 
                   {/* 6. CLOSED LOOP CONDUIT: DATA -> SEARCH */}
-                  {/* Curves left from DATA, runs up left margin, curves back into SEARCH */}
                   <path
                     d="M 180 440 C 180 468, 24 468, 24 430 L 24 65 C 24 25, 140 25, 160 36"
                     stroke="url(#returnConduitGrad)"
@@ -291,16 +446,22 @@ export default function Services() {
                   {/* Schematic Nodes */}
                   {SYSTEM_NODES.map((node) => {
                     const isSelected = activeNodeId === node.id;
-                    const isBelongingToPillar = activePillar.nodeIds.includes(node.id as SystemNodeId);
+                    const isBelongingToPillar = activePillar.nodeIds.includes(node.id);
 
                     return (
                       <g
                         key={node.id}
                         className={`${styles.nodeGroup} ${isSelected ? styles.nodeGroupSelected : ""} ${isBelongingToPillar ? styles.nodeGroupPillar : ""}`}
-                        onClick={() => handleNodeClick(node.id as SystemNodeId)}
+                        onClick={() => handleNodeClick(node.id)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            handleNodeClick(node.id);
+                          }
+                        }}
                         role="button"
                         tabIndex={0}
-                        aria-label={`Select ${node.label} System Node`}
+                        aria-label={`Select ${node.label} System Node - ${node.subtitle}`}
                       >
                         {/* Node Outer Ring */}
                         <circle
@@ -331,9 +492,22 @@ export default function Services() {
                 </svg>
               </div>
 
-              {/* Return Loop Explanation Label */}
+              {/* Active Node Telemetry HUD */}
+              <div className={styles.nodeTelemetryHud} aria-live="polite">
+                <div className={styles.hudTop}>
+                  <span className={styles.hudStageTag}>STAGE {currentNode.stageNum} // {currentNode.lifecycleStage}</span>
+                  <span className={styles.hudMetricBadge}>{currentNode.metric}</span>
+                </div>
+                <div className={styles.hudTitleRow}>
+                  <span className={styles.hudNodeName}>NODE // {currentNode.label}</span>
+                  <span className={styles.hudNodeSub}>{currentNode.subtitle}</span>
+                </div>
+                <p className={styles.hudSpecText}>{currentNode.spec}</p>
+              </div>
+
+              {/* Return Loop Explanation Callout */}
               <div className={styles.loopCallout}>
-                <span className={styles.loopIcon}>&larr;</span>
+                <span className={styles.loopIcon} aria-hidden="true">&larr;</span>
                 <span className={styles.loopText}>
                   <strong>CLOSED-LOOP FEEDBACK:</strong> First-party conversion &amp; app retention signals feed directly back into continuous search crawl optimization.
                 </span>
