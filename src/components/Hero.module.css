@@ -1,6 +1,9 @@
 /* ─────────────────────────────────────────────────────────────
    HERO SECTION
-   Editorial Consultancy Cadence & Image A (Performance Intelligence Focus)
+   Layered Architecture:
+   Layer 0: IMAGE A Background (Human/Business Context)
+   Layer 1: Dark / Contrast Gradient Overlay (Guaranteed Legibility)
+   Layer 2: Restored ADORCA Growth Signal SVG (Technical Intelligence)
    ───────────────────────────────────────────────────────────── */
 
 .heroSection {
@@ -28,7 +31,7 @@
 
 .grid {
   display: grid;
-  grid-template-columns: 1.18fr 0.96fr;
+  grid-template-columns: 1.22fr 0.98fr;
   gap: clamp(36px, 5vw, 64px);
   align-items: center;
   position: relative;
@@ -288,9 +291,10 @@
 }
 
 /* ─────────────────────────────────────────────────────────────
-   RIGHT COLUMN: EDITORIAL PERFORMANCE & INTELLIGENCE PHOTOGRAPHY
-   (Image A: Modern Office Desk / Data Reviewing Focus)
-   Substantial, restrained, publication-grade editorial framing.
+   RIGHT COLUMN: LAYERED GROWTH SIGNAL COMPOSITION
+   Layer 0: Background IMAGE A (Human / Business Context)
+   Layer 1: Dark Overlay (SVG Contrast & Legibility)
+   Layer 2: Restored SVG Growth Signal & Telemetry (Technical Context)
    ───────────────────────────────────────────────────────────── */
 
 .visualCol {
@@ -307,153 +311,420 @@
   transform: translateY(0);
 }
 
-.editorialFrame {
+/* Layered Container */
+.signalCard {
   width: 100%;
   max-width: 520px;
-  background-color: #0B0E11;
+  background-color: #0E1114;
   border: 1px solid rgba(244, 243, 239, 0.12);
-  border-radius: var(--radius-xs);
+  border-radius: var(--radius-card);
+  padding: 24px;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.45);
+  gap: 16px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
   position: relative;
-  transition: border-color 0.3s ease;
+  overflow: hidden;
 }
 
-.editorialFrame:hover {
-  border-color: rgba(183, 229, 107, 0.3);
+/* Layer 0: Background Photo */
+.bgPhotoLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
 }
 
-.editorialMetaHeader {
+.bgPhotoImage {
+  object-fit: cover;
+  object-position: center 25%;
+  opacity: 0.44;
+  filter: contrast(1.12) brightness(0.92) grayscale(15%);
+  transition: opacity 0.4s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.signalCard:hover .bgPhotoImage {
+  opacity: 0.50;
+  transform: scale(1.02);
+}
+
+/* Layer 1: Dark / Contrast Overlay for Guaranteed SVG Legibility */
+.darkContrastOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(8, 11, 14, 0.85) 0%,
+    rgba(10, 13, 16, 0.72) 40%,
+    rgba(8, 10, 13, 0.90) 100%
+  );
+  backdrop-filter: blur(1.5px);
+}
+
+/* Layer 2: Foreground Interactive Interface */
+.foregroundContent {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.signalHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 16px;
-  background: #080A0C;
-  border-bottom: 1px solid rgba(244, 243, 239, 0.08);
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(244, 243, 239, 0.10);
 }
 
-.editorialMetaLeft {
+.signalHeaderLeft {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.metaDot {
-  width: 6px;
-  height: 6px;
+.signalTerminalDot {
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background-color: var(--color-adorca-signal);
   box-shadow: 0 0 6px var(--color-adorca-signal);
 }
 
-.metaCode {
+.signalSystemTitle {
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: var(--text-metadata);
   font-weight: 700;
-  letter-spacing: 0.09em;
-  color: #A3A6A4;
-  text-transform: uppercase;
-}
-
-.metaBadge {
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: var(--color-adorca-signal);
-  background: rgba(183, 229, 107, 0.1);
-  padding: 2px 7px;
-  border-radius: 2px;
-  border: 1px solid rgba(183, 229, 107, 0.2);
-}
-
-.imageContainer {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 4 / 3.4;
-  background-color: #07090B;
-  overflow: hidden;
-}
-
-.editorialImage {
-  object-fit: cover;
-  object-position: center 25%;
-  filter: contrast(1.05) brightness(0.96);
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
-}
-
-.editorialFrame:hover .editorialImage {
-  transform: scale(1.02);
-  filter: contrast(1.08) brightness(1);
-}
-
-.imageOverlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(11, 14, 17, 0.15) 0%,
-    transparent 35%,
-    rgba(11, 14, 17, 0.4) 100%
-  );
-  pointer-events: none;
-}
-
-.editorialMetaFooter {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 11px 16px;
-  background: #080A0C;
-  border-top: 1px solid rgba(244, 243, 239, 0.08);
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.vectorTelemetry {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.vectorLabel {
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  font-weight: 600;
-  color: #6E716F;
-  letter-spacing: 0.08em;
-}
-
-.vectorValue {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  font-weight: 700;
+  letter-spacing: var(--tracking-wider);
   color: var(--color-warm-paper);
-  letter-spacing: 0.06em;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
 }
 
-.attributionStamp {
-  display: flex;
+.signalStatusBadge {
+  display: inline-flex;
   align-items: center;
   gap: 6px;
   font-family: var(--font-mono);
-  font-size: 0.64rem;
-  color: #8C908E;
-}
-
-.stampCoord {
-  letter-spacing: 0.04em;
-}
-
-.stampDivider {
-  color: rgba(244, 243, 239, 0.2);
-}
-
-.stampStatus {
-  color: var(--color-adorca-signal);
+  font-size: 0.68rem;
   font-weight: 600;
+  letter-spacing: var(--tracking-wider);
+  color: var(--color-adorca-signal);
+  background: rgba(183, 229, 107, 0.12);
+  border: 1px solid rgba(183, 229, 107, 0.28);
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  backdrop-filter: blur(4px);
+}
+
+.signalPulse {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--color-adorca-signal);
+  animation: pulseBeacon 1.8s infinite ease-in-out;
+}
+
+@keyframes pulseBeacon {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.2;
+    transform: scale(0.6);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   DIAGRAM WRAPPER & SVG VECTOR SYSTEM
+   ───────────────────────────────────────────────────────────── */
+
+.diagramWrapper {
+  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.signalSvg {
+  width: 100%;
+  height: auto;
+  max-height: 420px;
+  overflow: visible;
+  user-select: none;
+}
+
+/* Ambient Orbit & Flow Axes */
+.ambientOrbit {
+  fill: none;
+  stroke: rgba(244, 243, 239, 0.08);
+  stroke-width: 1;
+  stroke-dasharray: 4 6;
+}
+
+.ambientOrbitInner {
+  fill: none;
+  stroke: rgba(244, 243, 239, 0.05);
+  stroke-width: 1;
+}
+
+.axisLine {
+  stroke: rgba(244, 243, 239, 0.09);
+  stroke-width: 1;
+  stroke-dasharray: 2 4;
+}
+
+/* Network Connection Hairlines */
+.netLine {
+  stroke: rgba(244, 243, 239, 0.22);
+  stroke-width: 1.25;
+}
+
+/* Animated Traveling Signal Beams */
+.activeBeam {
+  fill: none;
+  stroke: var(--color-adorca-signal);
+  stroke-width: 2;
+  stroke-dasharray: 35 240;
+  opacity: 0.95;
+  filter: drop-shadow(0 0 5px rgba(183, 229, 107, 0.7));
+}
+
+.beamLeft {
+  animation: streamPulseLeft 4.2s linear infinite;
+}
+
+.beamRight {
+  animation: streamPulseRight 4.2s linear infinite;
+  animation-delay: 2.1s;
+}
+
+@keyframes streamPulseLeft {
+  0% {
+    stroke-dashoffset: 480;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes streamPulseRight {
+  0% {
+    stroke-dashoffset: 480;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ── Central Hub Rings (Adorca 360) ── */
+.coreHubRing {
+  fill: rgba(14, 18, 22, 0.92);
+  stroke: rgba(244, 243, 239, 0.25);
+  stroke-width: 1.5;
+}
+
+.coreHubInner {
+  fill: #0F1418;
+  stroke: rgba(183, 229, 107, 0.45);
+  stroke-width: 1.2;
+}
+
+/* ── Interactive Nodes ── */
+.nodeGroup {
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.25s var(--ease-out);
+}
+
+.nodeGroup:hover,
+.nodeGroup:focus-visible {
+  transform: scale(1.05);
+}
+
+.nodeOuterRing {
+  fill: #0E1114;
+  stroke: rgba(244, 243, 239, 0.35);
+  stroke-width: 1.5;
+  transition: all 0.25s var(--ease-out);
+}
+
+.nodeInnerDot {
+  fill: rgba(244, 243, 239, 0.65);
+  transition: all 0.25s var(--ease-out);
+}
+
+.nodeActive .nodeOuterRing {
+  stroke: var(--color-adorca-signal);
+  stroke-width: 2.2;
+  box-shadow: 0 0 12px rgba(183, 229, 107, 0.5);
+}
+
+.nodeActive .nodeInnerDot {
+  fill: var(--color-adorca-signal);
+}
+
+.coreRing {
+  fill: none;
+  stroke: rgba(183, 229, 107, 0.55);
+  stroke-width: 1.5;
+  transition: all 0.25s var(--ease-out);
+}
+
+.coreSolidDot {
+  fill: #0A0D10;
+  stroke: rgba(244, 243, 239, 0.22);
+  stroke-width: 1;
+  transition: all 0.25s var(--ease-out);
+}
+
+.nodeActive .coreRing {
+  stroke: var(--color-adorca-signal);
+  stroke-width: 2.5;
+}
+
+.nodeGlowPulse {
+  animation: glowPulse 2.4s infinite ease-in-out;
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    opacity: 0.7;
+    transform: scale(1);
+    transform-origin: center;
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(1.18);
+    transform-origin: center;
+  }
+}
+
+/* Node Labels with High Contrast Legibility Backing */
+.nodeLabel {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  fill: #E2E4E1;
+  text-transform: uppercase;
+  transition: fill 0.25s var(--ease-out);
+  filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.9));
+  pointer-events: none;
+}
+
+.nodeActive .nodeLabel,
+.nodeGroup:hover .nodeLabel {
+  fill: #FFFFFF;
+}
+
+.coreTextGroup text {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  fill: var(--color-warm-paper);
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.8));
+}
+
+.coreLabelTop {
+  font-size: 9.5px;
+}
+
+.coreLabelBottom {
+  font-size: 10px;
+  fill: var(--color-adorca-signal) !important;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   TELEMETRY FOOTER (Active Node Details & Engineered Evidence)
+   ───────────────────────────────────────────────────────────── */
+
+.telemetryFooter {
+  background-color: rgba(14, 18, 22, 0.85);
+  border: 1px solid rgba(244, 243, 239, 0.10);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 2px;
+  backdrop-filter: blur(6px);
+}
+
+.telemetryHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.telemetryHeaderLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.telemetryActiveStage {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: var(--tracking-wider);
+  color: var(--color-adorca-signal);
+}
+
+.telemetrySublabel {
+  font-size: 0.72rem;
+  color: #A3A6A4;
+}
+
+.telemetryChip {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-adorca-signal);
+  background-color: rgba(183, 229, 107, 0.12);
+  border: 1px solid rgba(183, 229, 107, 0.3);
+  padding: 4px 10px;
+  border-radius: var(--radius-xs);
+  white-space: nowrap;
+}
+
+.chipVal {
+  color: var(--color-adorca-signal);
+}
+
+.telemetryDescription {
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: #C2C4C1;
+  margin: 0;
+}
+
+.telemetryDeliverables {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(244, 243, 239, 0.08);
+  font-size: 0.72rem;
+}
+
+.deliverablesLabel {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--color-adorca-signal);
+  letter-spacing: var(--tracking-wider);
+}
+
+.deliverablesText {
+  color: #A3A6A4;
+  font-family: var(--font-mono);
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -463,15 +734,15 @@
 @media (max-width: 1024px) {
   .grid {
     grid-template-columns: 1fr;
-    gap: 44px;
+    gap: 48px;
   }
 
   .visualCol {
     justify-content: center;
   }
 
-  .editorialFrame {
-    max-width: 560px;
+  .signalCard {
+    max-width: 580px;
   }
 
   .heroTitle {
@@ -515,18 +786,27 @@
     display: none;
   }
 
-  .editorialFrame {
+  .signalCard {
+    padding: 16px 12px;
     max-width: 100%;
   }
 
-  .imageContainer {
-    aspect-ratio: 16 / 11;
+  .signalSvg {
+    max-height: 340px;
   }
 
-  .editorialMetaFooter {
+  .nodeLabel {
+    font-size: 10px;
+  }
+
+  .telemetryFooter {
+    padding: 12px;
+  }
+
+  .telemetryDeliverables {
     flex-direction: column;
     align-items: flex-start;
-    gap: 6px;
+    gap: 2px;
   }
 }
 
@@ -546,11 +826,21 @@
     transition: none !important;
   }
 
-  .studioDot {
+  .activeBeam,
+  .beamLeft,
+  .beamRight {
+    animation: none !important;
+    stroke-dasharray: none !important;
+    opacity: 0.4 !important;
+  }
+
+  .studioDot,
+  .signalPulse,
+  .nodeGlowPulse {
     animation: none !important;
   }
 
-  .editorialImage {
+  .nodeGroup {
     transition: none !important;
   }
 }
